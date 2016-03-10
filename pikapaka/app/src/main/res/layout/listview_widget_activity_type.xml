@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="63dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:orientation="vertical"
+
+        >
+
+        <LinearLayout
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"
+                android:background="#999999" />
+
+            <TextView
+                android:id="@+id/tv_activity"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/background2"
+                android:gravity="center"
+                android:lineSpacingExtra="5dp"
+                android:text="Grab a drink"
+                android:textColor="@color/text4"
+                android:textSize="13sp"
+
+                android:typeface="serif" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

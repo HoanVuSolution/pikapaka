@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="63dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_1"
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="3dp"
+                    android:background="#999999" />
+
+                <TextView
+                    android:id="@+id/tv_activity"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/background2"
+                    android:gravity="center"
+                    android:lineSpacingExtra="5dp"
+                    android:text="Grab a drink"
+                    android:textColor="@color/text4"
+                    android:textSize="13sp"
+
+                    android:typeface="serif" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="fill_parent" />
+
+        <LinearLayout
+            android:id="@+id/ll_2"
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="3dp"
+                    android:background="#999999" />
+
+                <TextView
+                    android:id="@+id/tv_activity1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/background2"
+                    android:gravity="center"
+                    android:lineSpacingExtra="5dp"
+                    android:text="Grab a drink"
+                    android:textColor="@color/text4"
+                    android:textSize="13sp"
+
+                    android:typeface="serif" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="fill_parent" />
+
+        <LinearLayout
+            android:id="@+id/ll_3"
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="3dp"
+                    android:background="#999999" />
+
+                <TextView
+                    android:id="@+id/tv_activity2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/background2"
+                    android:gravity="center"
+                    android:lineSpacingExtra="5dp"
+                    android:text="Grab a drink"
+                    android:textColor="@color/text4"
+                    android:textSize="13sp"
+
+                    android:typeface="serif" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="fill_parent" />
+
+        <LinearLayout
+            android:id="@+id/ll_4"
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="3dp"
+                    android:background="#999999" />
+
+                <TextView
+                    android:id="@+id/tv_activity3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/background2"
+                    android:gravity="center"
+                    android:lineSpacingExtra="5dp"
+                    android:text="Grab a drink"
+                    android:textColor="@color/text4"
+                    android:textSize="13sp"
+
+                    android:typeface="serif" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"/>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="63dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_5"
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="3dp"
+                    android:background="#999999" />
+
+                <TextView
+                    android:id="@+id/tv_activity4"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/background2"
+                    android:gravity="center"
+                    android:lineSpacingExtra="5dp"
+                    android:text="Grab a drink"
+                    android:textColor="@color/text4"
+                    android:textSize="13sp"
+
+                    android:typeface="serif" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="fill_parent" />
+
+        <LinearLayout
+            android:id="@+id/ll_6"
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="3dp"
+                    android:background="#999999" />
+
+                <TextView
+                    android:id="@+id/tv_activity5"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/background2"
+                    android:gravity="center"
+                    android:lineSpacingExtra="5dp"
+                    android:text="Grab a drink"
+                    android:textColor="@color/text4"
+                    android:textSize="13sp"
+
+                    android:typeface="serif" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="fill_parent" />
+
+        <LinearLayout
+            android:id="@+id/ll_7"
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="3dp"
+                    android:background="#999999" />
+
+                <TextView
+                    android:id="@+id/tv_activity6"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/background2"
+                    android:gravity="center"
+                    android:lineSpacingExtra="5dp"
+                    android:text="Grab a drink"
+                    android:textColor="@color/text4"
+                    android:textSize="13sp"
+
+                    android:typeface="serif" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="fill_parent" />
+
+        <LinearLayout
+            android:id="@+id/ll_8"
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="3dp"
+                    android:background="#999999" />
+
+                <TextView
+                    android:id="@+id/tv_activity7"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/background2"
+                    android:gravity="center"
+                    android:lineSpacingExtra="5dp"
+                    android:text="Grab a drink"
+                    android:textColor="@color/text4"
+                    android:textSize="13sp"
+
+                    android:typeface="serif" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

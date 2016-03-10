@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+
+        >
+        <LinearLayout
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:orientation="horizontal"
+            android:background="@drawable/background_3"
+            >
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:src="@drawable/male"
+                />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+
+            android:padding="5dp"
+            >
+            <TextView
+                android:id="@+id/tv_name_sender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Daniel:"
+                android:textSize="15sp"
+                android:textColor="@color/text4"
+                />
+            <TextView
+                android:id="@+id/tv_msg"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="I'd rather play 2x2, I don't mide the effort."
+                android:textSize="14sp"
+                android:layout_toRightOf="@+id/tv_name_sender"
+                android:textColor="@color/text3"
+                android:layout_marginLeft="5dp"
+                android:typeface="serif"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
