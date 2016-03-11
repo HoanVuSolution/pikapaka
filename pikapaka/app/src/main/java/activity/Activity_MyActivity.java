@@ -250,7 +250,6 @@ private void get_myactivity()throws Exception{
     }
 }
 
-
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         getWindow().setSoftInputMode(

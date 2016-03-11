@@ -32,8 +32,11 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
@@ -53,6 +56,7 @@ import hoanvusolution.pikapaka.R;
 import internet.CheckWifi3G;
 import loading.lib_dialog;
 import loading.lib_loading;
+import multipart.AndroidMultiPartEntity;
 
 /**
  * Created by MrThanhPhong on 2/19/2016.
@@ -124,6 +128,7 @@ public class Activity_Profile extends AppCompatActivity{
     private String file_path="";
     private String TAG_PHONE="";
     private File TAG_FILE;
+    long totalSize=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -929,7 +934,9 @@ private void Save_Change(){
 
                 TAG_PHONE=ed_phome.getText().toString();
                // uploadProfilePhoto(TAG_PHONE, TAG_FILE);
-                doFileUpload();
+              //  doFileUpload();
+                //uploadProfilePhoto(TAG_PHONE, TAG_FILE);
+                upload(TAG_PHONE, file_path);
                 dialog.dismiss();
                 //uploadFile(file_path);
             }
@@ -1031,55 +1038,134 @@ private void Save_Change(){
 
 
 
-//    public static String uploadProfilePhoto(String phone_number, File file) {
-//
-//
-//
-//        String response = "";
-//        try {
-//            FileBody bin1 = new FileBody(file);
-//            HttpClient httpclient = new DefaultHttpClient();
-//            HttpPost httppost = new HttpPost(HTTP_API.USER_IDENTITY);
-//
-//            MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-//           // entity.addPart("file", new FileBody(file));
-//            entity.addPart("file",bin1);
-//            entity.addPart("phoneNumber", new StringBody(phone_number));
-//
-//            httppost.setEntity(entity);
-//            HttpResponse response_ = httpclient.execute(httppost);
-//            response = EntityUtils.toString(response_.getEntity(), "UTF-8");
-//            Log.e("response",response);
-//        } catch (ClientProtocolException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return response;
-//    }
+    private void upload(String userName, final String file_){
 
-    private void doFileUpload(){
-//        try{
-//            String url_upload_image = "http://52.26.102.232:3000/users/upload-user-identity";
-//            HttpClient client = new DefaultHttpClient();
-//            HttpPost post = new HttpPost(url_upload_image);
-//            MultipartEntity multipartEntity =new MultipartEntity() ;
-//            //multipartEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-//            multipartEntity.addPart("file", new FileBody(new File(file_path)));
-//            multipartEntity.addPart("phoneNumber", new StringBody("0986474491"));
-//            // post.addHeader("id", id);//id is anything as you may need
-//            // post.setEntity(multipartEntity.build());
-//            HttpResponse response = client.execute(post);
-//            HttpEntity entity = response.getEntity();
-//
-//            String  response_ = EntityUtils.toString(response.getEntity(), "UTF-8");
-//
-//            Log.e("response_", response_);
-//
-//        }catch(Exception e){
-//
-//        }
 
+        class UploadFileToServer extends AsyncTask<Void, Integer, String> {
+            ProgressDialog progressDialog;
+            String STATUS="";
+            String MESSAGE="";
+            @Override
+            protected void onPreExecute() {
+                // setting progress bar to zero
+                // progressBar.setProgress(0);
+                //super.onPreExecute();
+
+                progressDialog = lib_loading.f_init(activity);
+            }
+
+            @Override
+            protected void onProgressUpdate(Integer... progress) {
+                // Making progress bar visible
+                //progressBar.setVisibility(View.VISIBLE);
+
+                // updating progress bar value
+                //i progressBar.setProgress(progress[0]);
+
+                // updating percentage value
+                //  txtPercentage.setText(String.valueOf(progress[0]) + "%");
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                return uploadFile();
+            }
+
+            @SuppressWarnings("deprecation")
+            private String uploadFile() {
+                String responseString = "";
+
+                try {
+
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost("http://52.26.102.232:3000/users/upload-user-identity");
+
+                    AndroidMultiPartEntity entity;
+                    entity = new AndroidMultiPartEntity(
+                            new AndroidMultiPartEntity.ProgressListener() {
+
+                                @Override
+                                public void transferred(long num) {
+                                    publishProgress((int) ((num / (float) totalSize) * 100));
+                                }
+                            });
+
+                    File sourceFile;
+                    sourceFile = new File(file_);
+
+                    // Log.i("UploadApp", "file path: " + filePath);
+
+                    // Adding file data to http body
+                    entity.addPart("file", new FileBody(sourceFile));
+
+                    // Extra parameters if you want to pass to server
+                    entity.addPart("phoneNumber",new StringBody("0986474491"));
+
+                    totalSize = entity.getContentLength();
+                    httppost.addHeader("X-User-Id", "vPh2JvSf3Fqs9PxoN");
+                    httppost.addHeader("X-Auth-Token", "sbnCTMQnfdwZTcEU-choAecDhS4w8zCIlQ4DoCgV3aG");
+                    httppost.setEntity(entity);
+
+                    // Making server call
+                    HttpResponse response = httpclient.execute(httppost);
+                    HttpEntity r_entity = response.getEntity();
+
+                    int statusCode = response.getStatusLine().getStatusCode();
+                    if (statusCode == 200) {
+                        // Server response
+                        responseString = EntityUtils.toString(r_entity);
+                      //  String msg =EntityUtils.toString(r_entity);
+                        JSONObject jsonObject = new JSONObject(responseString);
+                        STATUS=jsonObject.getString("status");
+                        MESSAGE=jsonObject.getString("message");
+                    } else {
+                        responseString = "Error occurred! Http Status Code: "
+                                + statusCode;
+                    }
+
+                } catch (Exception e){
+                    progressDialog.dismiss();
+                    Log.e("Error", "Error");
+                }catch (Throwable t) {
+                    progressDialog.dismiss();
+                    Log.e("Error1", "Error1");
+
+                }
+//              catch (ClientProtocolException e) {
+//                    responseString = e.toString();
+//                    Log.e("UploadApp", "exception: " + responseString);
+//                    progressDialog.dismiss();
+//                } catch (IOException e) {
+//                    responseString = e.toString();
+//                    Log.e("UploadApp", "exception: " + responseString);
+//                    progressDialog.dismiss();
+//                }
+
+                return responseString;
+
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                Log.e("---", "Response from server: " + result);
+                progressDialog.dismiss();
+                // showing the server response in an alert dialog
+                // showAlert(result);
+
+                Toast.makeText(Activity_Profile.this, MESSAGE, Toast.LENGTH_SHORT).show();
+                Log.e("STATUS---------------",STATUS);
+
+                super.onPostExecute(result);
+
+            }
+
+        }
+        if(CheckWifi3G.isConnected(activity)){
+            new UploadFileToServer().execute();
+        }
+        else{
+            Toast.makeText(Activity_Profile.this, "Error: Check Connect internet!", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

@@ -35,29 +35,20 @@ public class GcmIntentService extends IntentService {
 		// TODO Auto-generated method stub
 		//Log.d(TAG,intent.getDataString());
 		Bundle extras = intent.getExtras();
-//		String msg = intent.getStringExtra("message");
-//		String title = intent.getStringExtra("title");
-		Log.e("extras--------",extras.toString());
-		Log.e("extras--------",extras.get("message").toString());
-//		Log.e("title-------",title);
-        String msg = "";
-        String title = "";
-        //Log.e("msg--------",msg);
 
-       // Log.e("title-------",title);
 		GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
 		String messageType = gcm.getMessageType(intent);
-        Log.e("messageType",messageType);
+		Log.e("messageType", messageType);
 
 		if (!extras.isEmpty()) {
 
 			if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR
 					.equals(messageType)) {
-				sendNotification("Send error: " + extras.toString());
+				sendNotification("Send error: " + extras.toString(),"");
 			} else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED
 					.equals(messageType)) {
 				sendNotification("Deleted messages on server: "
-						+ extras.toString());
+						+ extras.toString(),"");
 				// If it's a regular GCM message, do some work.
 			} else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE
 					.equals(messageType)) {
@@ -75,15 +66,21 @@ public class GcmIntentService extends IntentService {
 
 				//f_add_notification_statusbar(msg);
 
-				sendNotification(msg);
-				Log.e(TAG, "Received: " + extras.toString());
+				Log.e("extras--------", extras.toString());
+				Log.e(TAG, "Received-Title: " + extras.getString("gcm.notification.title"));
+				Log.e(TAG, "Received-Mesage: " + extras.getString("gcm.notification.message"));
+
+				String title=extras.getString("gcm.notification.title");
+				String message=extras.getString("gcm.notification.message");
+
+				sendNotification(title,message);
 			}
+			GcmBroadcastReceiver.completeWakefulIntent(intent);
 		}
-		GcmBroadcastReceiver.completeWakefulIntent(intent);
 	}
 
 	@SuppressWarnings("deprecation")
-	private void sendNotification(String message) {
+	private void sendNotification(String title,String message) {
 		mNotificationManager = (NotificationManager) this
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -99,7 +96,7 @@ public class GcmIntentService extends IntentService {
 
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
 				this).setSmallIcon(R.mipmap.ic_launcher)
-				.setContentTitle("Pika Paka")
+				.setContentTitle(title)
 				.setStyle(new NotificationCompat.BigTextStyle().bigText(message))
 				.setContentText(message).setSound(uri)
 				.setAutoCancel(true)
@@ -114,7 +111,7 @@ public class GcmIntentService extends IntentService {
 		
 	}
 
-	
+	// APA91bH65Vy1QMcoe-nv71D0crhKFCVQQhcYPIpy_ZrzPwhqObix7wA3JqE6d213WPeYV99LXlY0lhjlaH5lq1kSGHaEpyjF1tyqy9leNZCzwSY0BBJ6IKeef5aW4FUcAd_yBhdlwhW0
 
 
 }
