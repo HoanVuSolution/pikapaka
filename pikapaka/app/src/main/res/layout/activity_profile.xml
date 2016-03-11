@@ -60,6 +60,7 @@
 
 
                     <TextView
+                        android:id="@+id/tv_count_friend"
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:layout_alignParentBottom="true"
@@ -90,6 +91,7 @@
                         android:src="@drawable/ic_email1" />
 
                     <TextView
+                        android:id="@+id/tv_count_mail"
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:layout_alignParentBottom="true"
@@ -179,6 +181,7 @@
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:layout_marginLeft="15dp"
+                            android:scaleType="fitXY"
                             android:src="@drawable/ic_avata_" />
                         <!--<ImageView-->
                         <!--android:layout_width="100dp"-->

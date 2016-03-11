@@ -31,11 +31,13 @@ import activity.Activity_YourActivity;
 import adapter.adapter_activity_type;
 import api.HTTP_API;
 import hoanvusolution.pikapaka.R;
+import image.lib_image_save_original;
 import internet.CheckWifi3G;
 import item.item_activity_types;
 import item.item_categories;
 import lib_wheelmenu.WheelMenu;
 import loading.lib_loading;
+import util.dataString;
 
 /**
  * Created by Admin on 04-06-2015.
@@ -100,7 +102,11 @@ public class Home_Fragment extends Fragment {
         ic_favorites = (ImageView) v.findViewById(R.id.ic_favorites);
         ic_popular = (ImageView) v.findViewById(R.id.ic_popular);
         ic_surprise = (ImageView) v.findViewById(R.id.ic_surprise);
+        if(dataString.TAG_IMAGE_URL.length()>0){
 
+            new lib_image_save_original(getActivity(),dataString.TAG_IMAGE_URL,img_profile);
+
+        }
     }
 
 
@@ -261,8 +267,8 @@ public class Home_Fragment extends Fragment {
                                             String defaultValue = jsonaTypes.getJSONObject(j).getString("defaultValue");
                                             String customField = jsonaTypes.getJSONObject(j).getString("customFields");
                                             String color_ = jsonaTypes.getJSONObject(j).getString("color");
-                                            String updatedAt = jsonaTypes.getJSONObject(j).getString("updatedAt");
-
+                                          //  String updatedAt = jsonaTypes.getJSONObject(j).getString("updatedAt");
+                                            String updatedAt="";
 
                                             //
                                             item_activity_types item1 = new item_activity_types(_id1, nane, description1, categoryId,

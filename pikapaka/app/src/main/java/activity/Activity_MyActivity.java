@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
@@ -51,10 +52,11 @@ public class Activity_MyActivity extends AppCompatActivity implements
     private String TAG_MESSAGE="";
 
     private ImageView img_home;
+    private TextView tv_count_msg,tv_count_f;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_review);
+        setContentView(R.layout.activity_myactivity);
         try {
             init();
         } catch (Exception e) {
@@ -80,6 +82,13 @@ public class Activity_MyActivity extends AppCompatActivity implements
     private void get_resource()throws Exception{
 
         activity =this;
+        //private TextView tv_count_msg,tv_count_f;
+        tv_count_msg=(TextView) findViewById(R.id.tv_count_msg);
+        tv_count_msg.setVisibility(View.GONE);
+
+        tv_count_f=(TextView) findViewById(R.id.tv_count_f);
+        tv_count_f.setVisibility(View.GONE);
+
         img_home=(ImageView)findViewById(R.id.img_home);
         list=(ListView)findViewById(R.id.list);
         list.setItemsCanFocus(true);

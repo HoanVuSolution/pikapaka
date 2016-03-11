@@ -44,6 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="5dp"
 
 
                     >
@@ -58,6 +59,7 @@
                         android:layout_marginLeft="13dp"
                         android:src="@drawable/ic_avata2" />
                     <TextView
+                        android:id="@+id/tv_count_f"
                         android:typeface="serif"
                         android:layout_width="22dp"
                         android:layout_height="22dp"
@@ -99,6 +101,17 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="13dp"
                         android:src="@drawable/ic_email1" />
+                    <TextView
+                        android:id="@+id/tv_count_msg"
+                        android:typeface="serif"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/bg_notyfi"
+                        android:gravity="center"
+                        android:text="4"
+                        android:textColor="@color/text5"
+                        />
 
                 </RelativeLayout>
             </LinearLayout>
@@ -119,7 +132,7 @@
             android:layout_weight="0.9"
             android:divider="@color/background1"
             android:dividerHeight="0dp"
-            tools:listitem="@layout/listview_widget_activityreview"
+            tools:listitem="@layout/listview_widget_my_activity"
 
             android:transcriptMode="alwaysScroll"
             >

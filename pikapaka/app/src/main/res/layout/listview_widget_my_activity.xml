@@ -109,7 +109,7 @@
                                 android:layout_marginLeft="13dp"
                                 android:src="@drawable/ic_avata1" />
                             <TextView
-                                android:id="@+id/tv_frend"
+                                android:id="@+id/tv_count_frend"
                                 android:layout_width="22dp"
                                 android:layout_height="22dp"
                                 android:layout_alignParentBottom="true"
@@ -145,16 +145,16 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-<!--buyguygggyuguybguyguygy-->
-    <FrameLayout
+
+    <!--  mmcscmcmmcdofdqp[pwefpwk[efw[fwef efwef  -->
+
+    <LinearLayout
         android:id="@+id/parent"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
         <!-- view 1 -->
-
-
         <LinearLayout
             android:id="@+id/view1"
             android:layout_width="fill_parent"
@@ -164,9 +164,11 @@
             android:layout_marginRight="5dp"
             android:background="@color/background2"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
 
             >
+
+
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -732,7 +734,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:background="@color/background2"
-            android:visibility="visible"
+            android:visibility="gone"
             >
 
             <LinearLayout
@@ -1355,6 +1357,6 @@
 
 
 
-    </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

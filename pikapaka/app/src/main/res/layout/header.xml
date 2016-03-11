@@ -16,7 +16,7 @@
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"
         android:src="@drawable/ic_avata_"
-        app:border_color="#FF000000" />
+        />
 
     <TextView
         android:id="@+id/first_name"

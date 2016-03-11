@@ -73,7 +73,7 @@
         <activity
             android:name="activity.Activity_YourActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
+
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
         <activity
             android:name="activity.Activity_MyActivity"

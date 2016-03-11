@@ -217,7 +217,7 @@ public class Activity_YourActivity extends AppCompatActivity {
 
                     ed_plan.setBackgroundColor(Color.parseColor("#ffffff"));
 
-                    ll_3.setBackgroundResource(R.drawable.bacground_while_border);
+                  //  ll_3.setBackgroundResource(R.drawable.bacground_while_border);
 
                 }
             }

@@ -119,12 +119,10 @@ public class adapter_myactivity extends BaseAdapter {
     @SuppressLint({"InflateParams", "CutPasteId"})
     public View getView(int position, View convertView, final ViewGroup parent) {
         final int pos = position;
-        //vi = convertView;
 
-        //try {
             if (convertView == null) {
 
-                convertView = mInflater.inflate(R.layout.listview_widget_activityreview,
+                convertView = mInflater.inflate(R.layout.listview_widget_my_activity,
                         null);
 
 
@@ -142,7 +140,6 @@ public class adapter_myactivity extends BaseAdapter {
 
                 //--------
 
-                // parent1 = (FrameLayout) vi.findViewById(R.id.parent);
                 final LinearLayout view1, view2, view3, view4;
                 view1 = (LinearLayout) convertView.findViewById(R.id.view1);
                 view2 = (LinearLayout) convertView.findViewById(R.id.view2);
@@ -293,9 +290,13 @@ public class adapter_myactivity extends BaseAdapter {
                                                 String lastName = jo.getString("lastName");
                                                 String dob = "dob";
                                                 String displayName = jo.getString("displayName");
-                                                String age = "age";                   //
+                                                String age = "age";
+
+                                                //
+
+                                                String hasRequest="";
 //
-                                                String hasRequest = jsonarray.getJSONObject(i).getString("hasRequest");
+                                               // String hasRequest = jsonarray.getJSONObject(i).getString("hasRequest");
 //
                                                 item_search_activity item = new item_search_activity(
                                                         _id,
@@ -359,6 +360,7 @@ public class adapter_myactivity extends BaseAdapter {
                         try {
                             Log.e("TAG_STATUS----", TAG_STATUS);
                             Log.e("TAG_MESSAGE---", TAG_MESSAGE);
+                            Log.e("arr_search.size()---", arr_search.size()+"");
 
                             if (arr_search.size() > 0) {
                                 view1.setVisibility(View.VISIBLE);
@@ -746,7 +748,6 @@ public class adapter_myactivity extends BaseAdapter {
                                         for (int i = 0; i < jarr.length(); i++) {
 
                                             String id = jarr.getJSONObject(i).getString("_id");
-                                            //JSONObject profile =jsonObject.getJSONObject("profile");
                                             JSONObject profile = jarr.getJSONObject(i).getJSONObject("profile");
 
                                             String firstName = profile.getString("firstName");
@@ -799,6 +800,7 @@ public class adapter_myactivity extends BaseAdapter {
                         try {
                             Log.e("TAG_STATUS----", TAG_STATUS);
                             Log.e("TAG_MESSAGE---", TAG_MESSAGE);
+                            Log.e("group---", arr_user.size()+"");
 
 
                             if (TAG_STATUS.equals("success")) {
@@ -1693,18 +1695,7 @@ public class adapter_myactivity extends BaseAdapter {
                     }
                 });
                 //***************************************************************
-//        } catch (Exception e) {
-//            // TODO: handle exception
-//            e.printStackTrace();
-//        } catch (OutOfMemoryError e) {
-//            System.gc();
-//        } catch (Throwable t) {
-//
-//        }
 
-//        if (convertView == null) {
-//            convertView = new View(activity);
-//        }}
             }
         return convertView;
     }

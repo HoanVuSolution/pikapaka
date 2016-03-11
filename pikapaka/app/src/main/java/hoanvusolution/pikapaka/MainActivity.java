@@ -24,6 +24,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import activity.Activity_Login;
@@ -31,6 +32,7 @@ import activity.Activity_MyActivity;
 import activity.Activity_Profile;
 import api.HTTP_API;
 import fragment.Home_Fragment;
+import image.lib_image_save_original;
 import internet.CheckWifi3G;
 import shared_prefs.Commit_Sha;
 import util.Activity_Result;
@@ -38,7 +40,9 @@ import util.dataString;
 
 public class MainActivity extends AppCompatActivity {
     private String TAG_STATUS;
-//    private String TAG_USERID = "";
+    private String TAG_IMAGE_URL="";
+
+    //    private String TAG_USERID = "";
 //    private String TAG_TOKEN = "";
     //Defining Variables
     private Toolbar toolbar;
@@ -67,10 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
 
-        Home_Fragment fragment = new Home_Fragment();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame, fragment);
-        fragmentTransaction.commit();
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             // This method will trigger on item Click of navigation menu
@@ -159,8 +160,20 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(Gravity.LEFT);
             }
         });
+
+        ////
         view_profile();
+        try {
+            get_shapreference();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Notyfication();
+        Home_Fragment fragment = new Home_Fragment();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame, fragment);
+        fragmentTransaction.commit();
+
 
 
     }
@@ -183,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        get_profile = false;
+       // get_profile = false;
     }
 
     @Override
@@ -289,6 +302,17 @@ public class MainActivity extends AppCompatActivity {
                                 dataString.TAG_GENDER = data.getString("gender");
 
                                 dataString.TAG_EMAIL = data.getString("email");
+
+
+                                try {
+                                    TAG_IMAGE_URL =data.getString("imageUrl");
+                                    dataString.TAG_IMAGE_URL = data.getString("imageUrl");
+                                }catch(JSONException e){
+                                    TAG_IMAGE_URL="";
+                                    Log.e("Error,---","TAG_IMAGE_URL");
+                                    e.getStackTrace();
+                                }
+
                             }
 
                         }
@@ -322,7 +346,12 @@ public class MainActivity extends AppCompatActivity {
                         Log.e("get_profile","success");
                         first_name.setText(dataString.TAG_FIRSTNAME);
                         email.setText(dataString.TAG_EMAIL);
-                        Log.e("get_profile","success");
+                        Log.e("TAG_IMAGE_URL",dataString.TAG_IMAGE_URL);
+                        if(dataString.TAG_IMAGE_URL.length()>0){
+
+                            new lib_image_save_original(MainActivity.this,dataString.TAG_IMAGE_URL,profile_image);
+
+                        }
                     } else {
                         Log.e("get_profile","fail");
                     }

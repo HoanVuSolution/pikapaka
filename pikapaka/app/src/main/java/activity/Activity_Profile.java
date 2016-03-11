@@ -30,17 +30,21 @@ import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -53,6 +57,7 @@ import java.util.List;
 
 import api.HTTP_API;
 import hoanvusolution.pikapaka.R;
+import image.lib_image_save_original;
 import internet.CheckWifi3G;
 import loading.lib_dialog;
 import loading.lib_loading;
@@ -64,6 +69,8 @@ import multipart.AndroidMultiPartEntity;
 public class Activity_Profile extends AppCompatActivity{
     private String TAG_STATUS="";
     private String TAG_MESSAGE="";
+
+    private String TAG_IMAGE_URL="";
 
     private String TAG_USERID="";
     private String TAG_TOKEN="";
@@ -129,6 +136,9 @@ public class Activity_Profile extends AppCompatActivity{
     private String TAG_PHONE="";
     private File TAG_FILE;
     long totalSize=1;
+    private boolean img_avata=false;
+    private String path_avatar="";
+    private TextView tv_count_friend,tv_count_mail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,8 +163,14 @@ public class Activity_Profile extends AppCompatActivity{
         ll_save=(LinearLayout)findViewById(R.id.ll_save);
         tv_name=(TextView)findViewById(R.id.tv_name);
         tv_old=(TextView)findViewById(R.id.tv_old);
+
         tv_name.setText("");
         tv_old.setText("");
+        tv_count_friend=(TextView)findViewById(R.id.tv_count_friend);
+        tv_count_mail=(TextView)findViewById(R.id.tv_count_mail);
+        tv_count_mail.setVisibility(View.GONE);
+        tv_count_friend.setVisibility(View.GONE);
+
         //------
 
         ll_share=(LinearLayout)findViewById(R.id.ll_share);
@@ -189,18 +205,20 @@ public class Activity_Profile extends AppCompatActivity{
     }
     private void OnClick()throws Exception{
         ll_back.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
 
-//        img_profile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(Activity_Profile.this, "profile", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        img_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                img_avata=true;
+                selectImage();
+            }
+        });
         //-------------
         ll_share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -505,7 +523,7 @@ public class Activity_Profile extends AppCompatActivity{
         ll_experss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                {
+
                     String[] item = new String[]{"30 Minutes", "1 Hour", "2 Hours", "4 Hours", "12 Hours", "1 Week", "2 Weeks"};
 
                     new AlertDialog.Builder(activity).setTitle("Activity expires?")
@@ -550,7 +568,7 @@ public class Activity_Profile extends AppCompatActivity{
                                     dialog.dismiss();
                                 }
                             }).show();
-                }
+
             }
         });
 
@@ -726,6 +744,14 @@ public class Activity_Profile extends AppCompatActivity{
                             TAG_EXPRIEDHOURS =activityPreferences.getString("expiredHours");
 
 
+                            try {
+                                TAG_IMAGE_URL =data.getString("imageUrl");
+                            }catch(JSONException e){
+                                TAG_IMAGE_URL="";
+                                Log.e("Error,---","TAG_IMAGE_URL");
+                                e.getStackTrace();
+                            }
+
 
                         }
 
@@ -775,6 +801,11 @@ public class Activity_Profile extends AppCompatActivity{
                         }
                         tv_hours.setText(TAG_EXPRIEDHOURS);
                         TAG_MESSAGE="";
+
+                        Log.e("TAG_IMAGE_URL,---",TAG_IMAGE_URL);
+                        if(TAG_IMAGE_URL.length()>0){
+                            new lib_image_save_original(activity,TAG_IMAGE_URL,img_profile);
+                        }
                     }
                     else{
                         Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
@@ -792,6 +823,7 @@ public class Activity_Profile extends AppCompatActivity{
         }
 
         if (CheckWifi3G.isConnected(activity)) {
+
             new Loading().execute();
         }
         else{
@@ -936,8 +968,18 @@ private void Save_Change(){
                // uploadProfilePhoto(TAG_PHONE, TAG_FILE);
               //  doFileUpload();
                 //uploadProfilePhoto(TAG_PHONE, TAG_FILE);
-                upload(TAG_PHONE, file_path);
-                dialog.dismiss();
+                if(TAG_PHONE.length()==0){
+                    Toast.makeText(Activity_Profile.this, "Input your phone number!", Toast.LENGTH_SHORT).show();
+                }
+                else if(file_path.length()==0){
+                    Toast.makeText(Activity_Profile.this, "please select the picture!", Toast.LENGTH_SHORT).show();
+
+                }
+                else{
+                    upload_identity(TAG_PHONE, file_path);
+                    dialog.dismiss();
+                }
+
                 //uploadFile(file_path);
             }
         });
@@ -1007,11 +1049,19 @@ private void Save_Change(){
             e.printStackTrace();
         }
 
-        ic_img.setImageBitmap(thumbnail);
         String url =destination.getAbsolutePath();
-        file_path=url;
-        TAG_FILE = new File(url);
         Log.e("url", url);
+        if(img_avata=true){
+            img_profile.setImageBitmap(thumbnail);
+            path_avatar =url;
+            update_avatar(path_avatar);
+        }
+        else {
+            ic_img.setImageBitmap(thumbnail);
+
+            file_path=url;
+            TAG_FILE = new File(url);
+        }
 
     }
     private void onSelectFromGalleryResult(Intent data) {
@@ -1021,12 +1071,28 @@ private void Save_Change(){
         Uri selectedImageUri = data.getData();
         String imagepath = getPath(selectedImageUri);
         Bitmap bitmap= BitmapFactory.decodeFile(imagepath);
-        ic_img.setImageBitmap(bitmap);
 
-        Log.e("path", imagepath);
-        file_path=imagepath;
-        TAG_FILE= new File(imagepath);
-        Log.e("TAG_FILE", TAG_FILE.toString());
+
+        //---- avata
+
+        if(img_avata==true){
+            path_avatar =imagepath;
+              img_profile.setImageBitmap(bitmap);
+            //update_avatar(path_avatar);
+           upload_(path_avatar);
+            File file = new File(path_avatar);
+           // Upload1(file);
+            //uploadProfilePhoto(file);
+        }
+        else{
+            ic_img.setImageBitmap(bitmap);
+
+            Log.e("path", imagepath);
+            file_path=imagepath;
+            TAG_FILE= new File(imagepath);
+            Log.e("TAG_FILE", TAG_FILE.toString());
+        }
+
     }
     public String getPath(Uri uri) {
         String[] projection = { MediaStore.Images.Media.DATA };
@@ -1038,8 +1104,7 @@ private void Save_Change(){
 
 
 
-    private void upload(String userName, final String file_){
-
+    private void upload_identity(final String phoneNumber, final String file_){
 
         class UploadFileToServer extends AsyncTask<Void, Integer, String> {
             ProgressDialog progressDialog;
@@ -1078,7 +1143,7 @@ private void Save_Change(){
                 try {
 
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost("http://52.26.102.232:3000/users/upload-user-identity");
+                    HttpPost httppost = new HttpPost(HTTP_API.USER_IDENTITY);
 
                     AndroidMultiPartEntity entity;
                     entity = new AndroidMultiPartEntity(
@@ -1099,13 +1164,13 @@ private void Save_Change(){
                     entity.addPart("file", new FileBody(sourceFile));
 
                     // Extra parameters if you want to pass to server
-                    entity.addPart("phoneNumber",new StringBody("0986474491"));
+                    entity.addPart("phoneNumber",new StringBody(phoneNumber));
 
                     totalSize = entity.getContentLength();
-                    httppost.addHeader("X-User-Id", "vPh2JvSf3Fqs9PxoN");
-                    httppost.addHeader("X-Auth-Token", "sbnCTMQnfdwZTcEU-choAecDhS4w8zCIlQ4DoCgV3aG");
+                    httppost.addHeader("X-User-Id", TAG_USERID);
+                    httppost.addHeader("X-Auth-Token", TAG_TOKEN);
                     httppost.setEntity(entity);
-
+                    Log.e("sourceFile  ----",sourceFile.getPath());
                     // Making server call
                     HttpResponse response = httpclient.execute(httppost);
                     HttpEntity r_entity = response.getEntity();
@@ -1154,7 +1219,7 @@ private void Save_Change(){
 
                 Toast.makeText(Activity_Profile.this, MESSAGE, Toast.LENGTH_SHORT).show();
                 Log.e("STATUS---------------",STATUS);
-
+                file_path="";
                 super.onPostExecute(result);
 
             }
@@ -1169,4 +1234,319 @@ private void Save_Change(){
 
     }
 
+    private void update_avatar(final String file){
+        class Avata_Change extends AsyncTask<Void, Integer, String> {
+            ProgressDialog progressDialog;
+            String STATUS="";
+            String MESSAGE="";
+
+            @Override
+            protected void onPreExecute() {
+
+                progressDialog = lib_loading.f_init(activity);
+            }
+
+            @Override
+            protected void onProgressUpdate(Integer... progress) {
+
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                return uploadFile();
+            }
+
+            @SuppressWarnings("deprecation")
+            private String uploadFile() {
+                String responseString = "";
+                try {
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(HTTP_API.USER_AVATAR);
+                    AndroidMultiPartEntity entity;
+                    entity = new AndroidMultiPartEntity(
+                            new AndroidMultiPartEntity.ProgressListener() {
+
+                                @Override
+                                public void transferred(long num) {
+                                    publishProgress((int) ((num / (float) totalSize) * 100));
+                                }
+                            });
+
+                    File sourceFile;
+                    sourceFile = new File(file);
+                    Log.e("sourceFile  ----",sourceFile.getPath());
+                    // Extra parameters if you want to pass to server
+                    entity.addPart("file", new FileBody(sourceFile));
+                   // totalSize = entity.getContentLength();
+                    httppost.addHeader("X-User-Id", TAG_USERID);
+                    httppost.addHeader("X-Auth-Token", TAG_TOKEN);
+                    httppost.setEntity(entity);
+
+                    // Making server call
+                    HttpResponse response = httpclient.execute(httppost);
+                    HttpEntity r_entity = response.getEntity();
+                    String request = EntityUtils.toString(r_entity);
+                    Log.e("--request----",request);
+                    Log.e("sourceFile  ----",sourceFile.getPath());
+                    int statusCode = response.getStatusLine().getStatusCode();
+                    if (statusCode == 200) {
+                        // Server response
+                        responseString = EntityUtils.toString(r_entity);
+                        //  String msg =EntityUtils.toString(r_entity);
+                        JSONObject jsonObject = new JSONObject(responseString);
+                        STATUS=jsonObject.getString("status");
+                        MESSAGE=jsonObject.getString("message");
+                    } else {
+                        responseString = "Error occurred! Http Status Code: "
+                                + statusCode;
+                    }
+
+                } catch (Exception e){
+                    progressDialog.dismiss();
+                    Log.e("Error", "Error");
+                }catch (Throwable t) {
+                    progressDialog.dismiss();
+                    Log.e("Error1", "Error1");
+
+                }
+//              catch (ClientProtocolException e) {
+//                    responseString = e.toString();
+//                    Log.e("UploadApp", "exception: " + responseString);
+//                    progressDialog.dismiss();
+//                } catch (IOException e) {
+//                    responseString = e.toString();
+//                    Log.e("UploadApp", "exception: " + responseString);
+//                    progressDialog.dismiss();
+//                }
+
+                return responseString;
+
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                Log.e("---", "Response from server: " + result);
+                progressDialog.dismiss();
+                // showing the server response in an alert dialog
+                // showAlert(result);
+                img_avata =false;
+
+                Toast.makeText(Activity_Profile.this, MESSAGE, Toast.LENGTH_SHORT).show();
+                Log.e("STATUS---------------",STATUS);
+
+                super.onPostExecute(result);
+
+            }
+
+        }
+        if(CheckWifi3G.isConnected(activity)){
+            new Avata_Change().execute();
+        }
+        else{
+            Toast.makeText(Activity_Profile.this, "Error: Check Connect internet!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void upload_(final String avata){
+        class Avata_Change extends AsyncTask<Void, Integer, String> {
+            ProgressDialog progressDialog;
+            String STATUS="";
+            String MESSAGE="";
+
+            @Override
+            protected void onPreExecute() {
+
+                progressDialog = lib_loading.f_init(activity);
+            }
+
+            @Override
+            protected void onProgressUpdate(Integer... progress) {
+
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                return uploadFile();
+            }
+
+            @SuppressWarnings("deprecation")
+            private String uploadFile() {
+                String responseString = "";
+                try {
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(HTTP_API.USER_AVATAR);
+//                    AndroidMultiPartEntity entity;
+//                    entity = new AndroidMultiPartEntity(
+//                            new AndroidMultiPartEntity.ProgressListener() {
+//
+//                                @Override
+//                                public void transferred(long num) {
+//                                    publishProgress((int) ((num / (float) 1) * 100));
+//                                }
+//                            });
+
+                    MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+                    File sourceFile;
+                    sourceFile = new File(avata);
+                    Log.e("sourceFile  ----",sourceFile.getPath());
+                    entity.addPart("file", new FileBody(sourceFile));
+                    httppost.addHeader("X-User-Id", TAG_USERID);
+                    httppost.addHeader("X-Auth-Token", TAG_TOKEN);
+                    httppost.setEntity(entity);
+
+                    HttpResponse response = httpclient.execute(httppost);
+                    HttpEntity r_entity = response.getEntity();
+                    String request = EntityUtils.toString(r_entity);
+                    Log.e("--request----",request);
+                    Log.e("sourceFile  ----",sourceFile.getPath());
+                    int statusCode = response.getStatusLine().getStatusCode();
+                    responseString = EntityUtils.toString(r_entity);
+                    JSONObject jsonObject = new JSONObject(responseString);
+                    STATUS=jsonObject.getString("status");
+                    MESSAGE=jsonObject.getString("message");
+//                    if (statusCode == 200) {
+//
+//                        JSONObject jsonObject = new JSONObject(responseString);
+//                        STATUS=jsonObject.getString("status");
+//                        MESSAGE=jsonObject.getString("message");
+//                    } else {
+//                        responseString = "Error occurred! Http Status Code: "
+//                                + statusCode;
+//                    }
+
+                } catch (Exception e){
+                    progressDialog.dismiss();
+                    Log.e("Error", "Error");
+                }catch (Throwable t) {
+                    progressDialog.dismiss();
+                    Log.e("Error1", "Error1");
+
+                }
+
+
+                return responseString;
+
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                Log.e("---", "Response from server: " + result);
+                progressDialog.dismiss();
+                // showing the server response in an alert dialog
+                // showAlert(result);
+                img_avata =false;
+
+                Toast.makeText(Activity_Profile.this, MESSAGE, Toast.LENGTH_SHORT).show();
+                Log.e("STATUS---------------",STATUS);
+
+                super.onPostExecute(result);
+
+            }
+
+        }
+        if(CheckWifi3G.isConnected(activity)){
+            new Avata_Change().execute();
+        }
+        else{
+            Toast.makeText(Activity_Profile.this, "Error: Check Connect internet!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //------------------
+    public static String uploadProfilePhoto(File file) {
+        String response_ = "";
+        try {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(HTTP_API.USER_AVATAR);
+
+            MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+            entity.addPart("file", new FileBody(file));
+
+
+            httppost.setEntity(entity);
+            HttpResponse response = httpclient.execute(httppost);
+
+            response_ = EntityUtils.toString(response.getEntity(), "UTF-8");
+            Log.e("response_",response_);
+          //  JSONObject jsonObject = new JSONObject();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response_;
+    }
+
+    private void Upload1(final File file){
+        class Loading extends AsyncTask<String, String, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressDialog = lib_loading.f_init(activity);
+            }
+
+            @Override
+            protected String doInBackground(String... args) {
+                try {
+                    HttpClient client = new DefaultHttpClient();
+                    HttpResponse response;
+
+                    HttpPost post = new HttpPost(HTTP_API.USER_AVATAR);
+                    post.addHeader("X-User-Id", TAG_USERID);
+                    post.addHeader("X-Auth-Token", TAG_TOKEN);
+                    MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+                    entity.addPart("file", new FileBody(file));
+                    response = client.execute(post);
+                    if (response != null) {
+                        HttpEntity resEntity = response.getEntity();
+                        if (resEntity != null) {
+                            String msg = EntityUtils.toString(resEntity);
+                            Log.e("msg-- respost-------", msg);
+
+
+                        }
+
+                        if (resEntity != null) {
+                            resEntity.consumeContent();
+                        }
+
+                        client.getConnectionManager().shutdown();
+
+                    }
+                } catch (Exception e) {
+                    progressDialog.dismiss();
+
+                } catch (Throwable t) {
+                    progressDialog.dismiss();
+
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                progressDialog.dismiss();
+                try {
+
+
+                } catch (Exception e) {
+
+                } catch (Throwable t) {
+
+                }
+
+            }
+
+        }
+
+        if (CheckWifi3G.isConnected(activity)) {
+
+            new Loading().execute();
+        }
+        else{
+            new lib_dialog().f_dialog_msg(activity, "Error Connect Internet!");
+        }
+    }
 }

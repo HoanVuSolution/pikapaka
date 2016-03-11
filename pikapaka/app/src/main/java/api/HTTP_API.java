@@ -40,10 +40,7 @@ public class HTTP_API {
 
     public static String RANK_USER=baseUrl+"api/v1/users/rank/";
     public static String USER_IDENTITY=baseUrl+"users/upload-user-identity";
-
+    public static String USER_AVATAR=baseUrl+"users/change-avatar";
     public static String GET_ALL_NOTIFICATION=baseUrl+"api/v1/notifications/group/all";
-
-
-
 
 }

@@ -56,12 +56,13 @@
                     />
 
 
-                <ImageView
+                <Round_ImageView.RoundedImageView
                     android:id="@+id/img_profile"
                     android:layout_width="100dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="100dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
+
                     android:src="@drawable/avata4" />
 
                 <RelativeLayout
@@ -208,8 +209,8 @@
 
                     <ImageView
                         android:id="@+id/ic_surprise"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:src="@drawable/ic_king" />
                 </LinearLayout>
 
