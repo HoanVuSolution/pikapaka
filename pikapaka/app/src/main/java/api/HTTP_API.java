@@ -5,7 +5,7 @@ package api;
  */
 public class HTTP_API {
         //http://52.26.102.232:3000/
-            private static String baseUrl = "http://52.26.102.232:3000/";
+            public static String baseUrl = "http://52.26.102.232:3000/";
 
     public static String LOGIN_SOICAL="52.26.102.232:3000/api/auth/login/local";
     public static String REGISTER=baseUrl+"api/v1/users/create";
@@ -25,6 +25,7 @@ public class HTTP_API {
     public static String GET_ACCEPT_ACTIVITY=baseUrl+"api/v1/activities/request/accept";
 
     public static String CHAT_GROUP=baseUrl+"api/v1/chat/send/group";
+    public static String CHAT_PRIVATE=baseUrl+"api/v1/chat/send/private";
     public static String CHAT_GET_CONVERSATION=baseUrl+"/api/v1/chat/conversations/";
     public static String CHAT_LOADLIST=baseUrl+"api/v1/chat/conversation/";
     public static String LEAVE_GROUP=baseUrl+"api/v1/activities/group/leave";

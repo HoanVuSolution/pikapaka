@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,6 +19,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.nkzawa.socketio.client.IO;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -32,6 +35,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import activity.Activity_MyActivity;
@@ -43,7 +47,6 @@ import item.item_chat;
 import item.item_my_activity;
 import item.item_search_activity;
 import item.item_user_group;
-import lib_resize_listview.Resize_Auto;
 import util.Activity_Result;
 import util.dataString;
 
@@ -80,10 +83,24 @@ public class adapter_myactivity extends BaseAdapter {
 
     private String TAG_COLER_VIEW_CHAT="";
     private String TAG_CONTENT_CHAT="";
+    private String TAG_CONTENT_CHAT_PRIVATE="";
     private String TAG_CONVERSATION="";
+    private String TAG_ID_USER_CHAT_PPRITE="";
+
+    public com.github.nkzawa.socketio.client.Socket Connect;
+    {
+        try {
+            Connect = IO.socket(HTTP_API.baseUrl);
+        } catch (URISyntaxException e) {
+            Log.e("SOCKET CONNNECT----",e.toString());
+        }
+    }
 
    public   ArrayList<item_chat>arr_chat= new ArrayList<item_chat>();
+   public   ArrayList<item_chat>arr_chat_private= new ArrayList<item_chat>();
      adapater_chat adapter_ch;
+     adapater_chat adapter_ch_private;
+    private boolean chat_private =false;
 
     public adapter_myactivity(Activity_MyActivity activity,
                               ArrayList<item_my_activity> arItem) {
@@ -134,22 +151,25 @@ public class adapter_myactivity extends BaseAdapter {
                 TextView tv_name = (TextView) convertView.findViewById(R.id.tv_name);
                 TextView tv_status = (TextView) convertView.findViewById(R.id.tv_status);
                 ImageView img_search = (ImageView) convertView.findViewById(R.id.img_search);
-                TextView tv_frend = (TextView) convertView.findViewById(R.id.tv_frend);
+                TextView tv_count_frend = (TextView) convertView.findViewById(R.id.tv_count_frend);
+                tv_count_frend.setVisibility(View.GONE);
                 tv_name.setText(arItem.get(pos).activityTypeName.toUpperCase());
                 tv_status.setText(arItem.get(pos).status.toUpperCase());
 
                 //--------
 
-                final LinearLayout view1, view2, view3, view4;
+                final LinearLayout view1, view2, view3, view4,view5;
                 view1 = (LinearLayout) convertView.findViewById(R.id.view1);
                 view2 = (LinearLayout) convertView.findViewById(R.id.view2);
                 view3 = (LinearLayout) convertView.findViewById(R.id.view3);
                 view4 = (LinearLayout) convertView.findViewById(R.id.view4);
+                view5 = (LinearLayout) convertView.findViewById(R.id.view5);
                 // ***************************************
                 view1.setVisibility(View.GONE);
                 view2.setVisibility(View.GONE);
                 view3.setVisibility(View.GONE);
                 view4.setVisibility(View.GONE);
+                view5.setVisibility(View.GONE);
 
                 LinearLayout ll_backgroud = (LinearLayout) convertView.findViewById(R.id.ll_backgroud);
 
@@ -218,8 +238,19 @@ public class adapter_myactivity extends BaseAdapter {
                 final TextView tv_send_view4 = (TextView) convertView.findViewById(R.id.tv_send_view4);
                 final ListView list_chat_view4 = (ListView) convertView.findViewById(R.id.list_chat_view4);
 
+                // VIEW 5
+                // view4 item
+
+
+                final LinearLayout ll_back_view5 = (LinearLayout) convertView.findViewById(R.id.ll_back_view5);
+                final EditText ed_input_chat_view5 = (EditText) convertView.findViewById(R.id.ed_input_chat_view5);
+                final TextView tv_send_view5 = (TextView) convertView.findViewById(R.id.tv_send_view5);
+                final ListView list_chat_view5 = (ListView) convertView.findViewById(R.id.list_chat_view5);
+
                 adapter_ch = new adapater_chat(activity, arr_chat);
                 list_chat_view4.setAdapter(adapter_ch);
+                adapter_ch_private = new adapater_chat(activity, arr_chat_private);
+                list_chat_view5.setAdapter(adapter_ch_private);
                 //******************
 
                 class Loading extends AsyncTask<String, String, String> {
@@ -649,6 +680,7 @@ public class adapter_myactivity extends BaseAdapter {
 
                                 view3.setVisibility(View.GONE);
                                 view4.setVisibility(View.GONE);
+                                view5.setVisibility(View.GONE);
 
                                 tv_name_view2.setText(firstName);
                                 tv_plan_view2.setText(plan);
@@ -807,6 +839,7 @@ public class adapter_myactivity extends BaseAdapter {
                                 view1.setVisibility(View.GONE);
                                 view2.setVisibility(View.GONE);
                                 view4.setVisibility(View.GONE);
+                                view5.setVisibility(View.GONE);
                                 view3.setVisibility(View.VISIBLE);
                                 view3.setBackgroundColor(Color.parseColor(activityTypeColor));
                                 ll_back_view3.setBackgroundColor(Color.parseColor(activityTypeColor));
@@ -1253,11 +1286,6 @@ public class adapter_myactivity extends BaseAdapter {
                             post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
                             post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
 
-//                        json.put("toGroup", TAG_ID);
-//                        json.put("content", TAG_CONTENT_CHAT);
-//                        StringEntity se = new StringEntity(json.toString());
-//                        se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-//                        post.setEntity(se);
 
                             HttpResponse response;
                             response = client.execute(post);
@@ -1270,7 +1298,11 @@ public class adapter_myactivity extends BaseAdapter {
                                     JSONObject jsonObject = new JSONObject(msg);
                                     TAG_STATUS = jsonObject.getString("status");
                                     TAG_MESSAGE = jsonObject.getString("message");
+                                   // mSocket.emit("join",TAG_CONVERSATION)
+                                    //Activity_Flash_Screen.mSocket.emit("join",TAG_CONVERSATION);
+                                    //Activity_Flash_Screen.mSocket.on("message:new",newMessage);
 
+                                    activity.Connect.emit(TAG_CONVERSATION);
                                     JSONObject jdata = jsonObject.getJSONObject("data");
 
                                     JSONArray message = jdata.getJSONArray("messages");
@@ -1323,8 +1355,121 @@ public class adapter_myactivity extends BaseAdapter {
 
 
                                 list_chat_view4.setAdapter(adapter);
-                                Resize_Auto resize = new Resize_Auto();
-                                resize.getListViewSize(list_chat_view4);
+                                list_chat_view4.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+                                list_chat_view4.setStackFromBottom(true);
+
+                            } else {
+                                Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (Exception e) {
+
+                        } catch (Throwable t) {
+
+                        }
+
+                    }
+
+                }
+
+                class Load_ListChat_private extends AsyncTask<String, String, String> {
+
+                    ProgressDialog progressDialog;
+
+
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                        // progressDialog = lib_loading.f_init(activity);
+                        progressDialog = ProgressDialog.show(activity, "",
+                                "", true);
+                    }
+
+                    @Override
+                    protected String doInBackground(String... args) {
+                        try {
+                            // Looper.prepare(); //For Preparing Message Pool for the child Thread
+                            HttpClient client = new DefaultHttpClient();
+
+                            JSONObject json = new JSONObject();
+
+                            HttpGet post = new HttpGet(HTTP_API.CHAT_LOADLIST + TAG_CONVERSATION);
+                            post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
+                            post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+
+
+                            HttpResponse response;
+                            response = client.execute(post);
+
+                            if (response != null) {
+                                HttpEntity resEntity = response.getEntity();
+                                if (resEntity != null) {
+                                    String msg = EntityUtils.toString(resEntity);
+                                    Log.v("msg-- cate", msg);
+                                    JSONObject jsonObject = new JSONObject(msg);
+                                    TAG_STATUS = jsonObject.getString("status");
+                                    TAG_MESSAGE = jsonObject.getString("message");
+                                    // mSocket.emit("join",TAG_CONVERSATION)
+                                    //Activity_Flash_Screen.mSocket.emit("join",TAG_CONVERSATION);
+                                    //Activity_Flash_Screen.mSocket.on("message:new",newMessage);
+
+                                    activity.Connect.emit(TAG_CONVERSATION);
+
+                                    JSONObject jdata = jsonObject.getJSONObject("data");
+
+                                    JSONArray message = jdata.getJSONArray("messages");
+                                    arr_chat_private.clear();
+                                    for (int i = 0; i < message.length(); i++) {
+                                        String _id = message.getJSONObject(i).getString("_id");
+                                        String conversationId = message.getJSONObject(i).getString("conversationId");
+//                                    String fromUser =message.getJSONObject(i).getString("fromUser");
+//
+                                        JSONObject fromUser = message.getJSONObject(i).getJSONObject("fromUser");
+                                        JSONObject profile = fromUser.getJSONObject("profile");
+                                        String firstName = profile.getString("firstName");
+                                        String gender = profile.getString("gender");
+                                        String lastName = profile.getString("lastName");
+                                        String content = message.getJSONObject(i).getString("content");
+                                        item_chat item = new item_chat(_id, conversationId, firstName, gender, lastName, content);
+                                        arr_chat_private.add(item);
+                                    }
+
+                                }
+
+                                if (resEntity != null) {
+                                    resEntity.consumeContent();
+                                }
+
+                                client.getConnectionManager().shutdown();
+
+                            }
+                        } catch (Exception e) {
+                            progressDialog.dismiss();
+
+                        } catch (Throwable t) {
+                            progressDialog.dismiss();
+
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(String result) {
+                        progressDialog.dismiss();
+                        try {
+                            Log.e("TAG_STATUS----", TAG_STATUS);
+                            Log.e("TAG_MESSAGE---", TAG_MESSAGE);
+
+                            if (arr_chat_private.size() > 0) {
+                                //  Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+                                Log.e("arr_chat size", arr_chat.size() + "");
+                                adapater_chat adapter = new adapater_chat(activity, arr_chat_private);
+
+
+                                list_chat_view5.setAdapter(adapter);
+                                list_chat_view5.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+                                list_chat_view5.setStackFromBottom(true);
 
                             } else {
                                 Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
@@ -1438,12 +1583,111 @@ public class adapter_myactivity extends BaseAdapter {
                             if (TAG_STATUS.equals("success")) {
 
                                 if (TAG_CONVERSATION.length() > 0) {
-                                    new Load_ListChat().execute();
+                                    if(chat_private){
+                                        new Load_ListChat_private().execute();
+                                    }
+                                    else{
+                                        new Load_ListChat().execute();
+                                    }
+
                                 }
 
                             } else {
                                 Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
                             }
+
+
+                        } catch (Exception e) {
+
+                        } catch (Throwable t) {
+
+                        }
+
+                    }
+
+                }
+                class Chat_Private extends AsyncTask<String, String, String> {
+
+                    ProgressDialog progressDialog;
+
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                        // progressDialog = lib_loading.f_init(activity);
+                        progressDialog = ProgressDialog.show(activity, "",
+                                "", true);
+                    }
+
+                    @Override
+                    protected String doInBackground(String... args) {
+                        try {
+                            // Looper.prepare(); //For Preparing Message Pool for the child Thread
+                            HttpClient client = new DefaultHttpClient();
+
+                            JSONObject json = new JSONObject();
+
+                            HttpPost post = new HttpPost(HTTP_API.CHAT_PRIVATE);
+                            post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
+                            post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+
+                            json.put("toUser", TAG_ID_USER_CHAT_PPRITE);
+                            json.put("toGroup", TAG_ID);
+                            json.put("content", TAG_CONTENT_CHAT_PRIVATE);
+                            StringEntity se = new StringEntity(json.toString());
+                            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                            post.setEntity(se);
+
+                            HttpResponse response;
+                            response = client.execute(post);
+
+                            if (response != null) {
+                                HttpEntity resEntity = response.getEntity();
+                                if (resEntity != null) {
+                                    String msg = EntityUtils.toString(resEntity);
+                                    Log.v("msg-- CHAT", msg);
+                                    JSONObject jsonObject = new JSONObject(msg);
+                                    TAG_STATUS = jsonObject.getString("status");
+                                    TAG_MESSAGE = jsonObject.getString("message");
+
+                                }
+
+                                if (resEntity != null) {
+                                    resEntity.consumeContent();
+                                }
+
+                                client.getConnectionManager().shutdown();
+
+                            }
+                        } catch (Exception e) {
+                            progressDialog.dismiss();
+
+                        } catch (Throwable t) {
+                            progressDialog.dismiss();
+
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(String result) {
+                        progressDialog.dismiss();
+                        try {
+                            Log.e("TAG_STATUS----", TAG_STATUS);
+                            Log.e("TAG_MESSAGE---", TAG_MESSAGE);
+                            Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+
+//                            if (TAG_STATUS.equals("success")) {
+////                                arr_chat.add(new item_chat("", "", dataString.TAG_FIRSTNAME, "", "", TAG_CONTENT_CHAT
+////                                ));
+////
+////                                // adapter_ch.notifyDataSetChanged();
+////                                adapter_ch = new adapater_chat(activity, arr_chat);
+////                                list_chat_view4.setAdapter(adapter_ch);
+////                                TAG_CONTENT_CHAT = "";
+////                                ed_input_chat_view4.setText("");
+//                            } else {
+//                                Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+//                            }
 
 
                         } catch (Exception e) {
@@ -1495,6 +1739,7 @@ public class adapter_myactivity extends BaseAdapter {
                             view2.setVisibility(View.GONE);
                             view3.setVisibility(View.GONE);
                             view4.setVisibility(View.GONE);
+                            view5.setVisibility(View.GONE);
 
                             click = false;
 
@@ -1514,7 +1759,7 @@ public class adapter_myactivity extends BaseAdapter {
                         TAG_ID=arItem.get(pos)._id;
                         TAG_ID_SINGLE = arr_search.get(0)._id;
                         TAG_COLER_VIEW_CHAT = arItem.get(pos).activityTypeColor;
-
+                        TAG_ID_USER_CHAT_PPRITE= arr_search.get(0)._id;
                         if (CheckWifi3G.isConnected(activity)) {
 
                             new Get_Single().execute();
@@ -1530,6 +1775,7 @@ public class adapter_myactivity extends BaseAdapter {
                         TAG_ID=arItem.get(pos)._id;
                         TAG_ID_SINGLE = arr_search.get(1)._id;
                         TAG_COLER_VIEW_CHAT = arItem.get(pos).activityTypeColor;
+                        TAG_ID_USER_CHAT_PPRITE= arr_search.get(1)._id;
                         if (CheckWifi3G.isConnected(activity)) {
 
                             new Get_Single().execute();
@@ -1544,6 +1790,7 @@ public class adapter_myactivity extends BaseAdapter {
                         TAG_ID=arItem.get(pos)._id;
                         TAG_ID_SINGLE = arr_search.get(2)._id;
                         TAG_COLER_VIEW_CHAT = arItem.get(pos).activityTypeColor;
+                        TAG_ID_USER_CHAT_PPRITE= arr_search.get(2)._id;
                         if (CheckWifi3G.isConnected(activity)) {
 
                             new Get_Single().execute();
@@ -1640,6 +1887,24 @@ public class adapter_myactivity extends BaseAdapter {
                     }
 
                 });
+                ll_chat_view2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        view1.setVisibility(View.GONE);
+                        view2.setVisibility(View.GONE);
+                        view3.setVisibility(View.GONE);
+                        view4.setVisibility(View.GONE);
+                        view5.setVisibility(View.VISIBLE);
+                        chat_private=true;
+                                view5.setBackgroundColor(Color.parseColor(TAG_COLER_VIEW_CHAT.toString()));
+                                ll_back_view5.setBackgroundColor(Color.parseColor(TAG_COLER_VIEW_CHAT.toString()));
+
+                   new Get_Conversations().execute();
+                        chat_private=false;
+                    }
+
+                });
+
 
 
                 // view 3 click----------------------------------------
@@ -1684,6 +1949,8 @@ public class adapter_myactivity extends BaseAdapter {
                             Toast.makeText(activity, "Please input content", Toast.LENGTH_SHORT).show();
                         } else {
                             new Chat_Group().execute();
+                            activity.addMessage(TAG_CONTENT_CHAT);
+
                         }
                     }
                 });
@@ -1694,10 +1961,40 @@ public class adapter_myactivity extends BaseAdapter {
                         new Leave_Group().execute();
                     }
                 });
+
+                /// view 5 click
+
+                ll_back_view5.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        view1.setVisibility(View.GONE);
+                        view2.setVisibility(View.VISIBLE);
+                        view3.setVisibility(View.GONE);
+                        view4.setVisibility(View.GONE);
+                        view5.setVisibility(View.GONE);
+                    }
+                });
+                tv_send_view5.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String text =ed_input_chat_view5.getText().toString();
+                        if(text.length()==0){
+                            Toast.makeText(activity,"please input content!",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            new Chat_Private().execute();
+                        }
+
+                    }
+                });
                 //***************************************************************
 
             }
         return convertView;
     }
+
+
+    // Socket
+
 
 }

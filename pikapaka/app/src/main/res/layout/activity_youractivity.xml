@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background8"
-    android:theme="@style/AppTheme.NoActionBar"
+
     android:orientation="vertical">
 
     <RelativeLayout
@@ -27,7 +27,7 @@
             android:text="YOUR ACTIVITY"
             android:typeface="serif"
             android:textColor="@color/text4"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -44,21 +44,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="5dp"
 
                     >
 
                     <ImageView
-                        android:layout_width="27dp"
-                        android:layout_height="27dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="13dp"
                         android:src="@drawable/ic_avata2" />
 
 
                     <TextView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentBottom="true"
                         android:background="@drawable/bg_notyfi"
                         android:typeface="serif"
@@ -82,15 +82,15 @@
 
                     <ImageView
                         android:id="@+id/ic_mail1"
-                        android:layout_width="27dp"
-                        android:layout_height="27dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="13dp"
                         android:src="@drawable/ic_email1" />
 
                     <TextView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentBottom="true"
                         android:background="@drawable/bg_notyfi"
                         android:gravity="center"
@@ -174,7 +174,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="#FFFFFF"
-                        android:hint="Share your plan... \n(for instance:I would like to go grab a drink and relax, maybe the beach area)"
+                        android:hint="Share your plans... \n(for instance:I would like to go grab a drink and relax, maybe the beach area)"
                         android:padding="10dp"
                         android:typeface="serif"
                         android:maxLength="400"

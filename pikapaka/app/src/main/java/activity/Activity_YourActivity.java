@@ -38,7 +38,7 @@ import internet.CheckWifi3G;
 import item.item_custom_fields;
 import item.item_selection_custom;
 import loading.lib_loading;
-
+import location_gps.GPSTracker;
 /**
  * Created by MrThanhPhong on 2/18/2016.
  */
@@ -61,7 +61,8 @@ public class Activity_YourActivity extends AppCompatActivity {
     public static String TAG_DISTANCE = "10";
     public static String TAG_EXPIREDHOURS = "2";
     public String TAG_PLAN = "";
-
+    private String TAG_LATITUDE="0";
+    private String TAG_LONGITUDE="0";
 
     private AppCompatActivity activity;
     private TextView tv_name, tv_desciption;
@@ -109,11 +110,12 @@ public class Activity_YourActivity extends AppCompatActivity {
 
     public ArrayList<item_custom_fields> arr_Icustom = new ArrayList<item_custom_fields>();
     public ArrayList<item_selection_custom> arr_I_seelctiom = new ArrayList<item_selection_custom>();
-
+    GPSTracker gps;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_youractivity);
+
         try {
             init();
         } catch (Exception e) {
@@ -122,8 +124,11 @@ public class Activity_YourActivity extends AppCompatActivity {
     }
 
     private void init() throws Exception {
+
         get_resource();
+
         get_shapreference();
+        //mSocket.connect();
         Get_Info();
         Onclick();
 
@@ -714,6 +719,7 @@ public class Activity_YourActivity extends AppCompatActivity {
                                     ageTo="32";
                                     distance="30";
                                     expiredHours="12";
+                                    gender="Man";
                                 }
 
 
@@ -836,10 +842,39 @@ public class Activity_YourActivity extends AppCompatActivity {
         boolean test = false;
         float distance = Float.parseFloat(tv_km.getText().toString());
 
-        new http.create_activities().SEND(
-                activity, TAG_USERID, TAG_TOKEN, TAG_ID, TAG_PLAN, min_num, max_num, age_form, age_to, TAG_PARTNERGEGER
-                , distance, hours, meetConfirm, publishToSocial, test
-        );
+        Log.e("TAG_ID",TAG_ID);
+        if(Get_GPS()){
+            new http.create_activities().SEND(
+                    activity, TAG_USERID, TAG_TOKEN, TAG_ID, TAG_PLAN, min_num, max_num, age_form, age_to, TAG_PARTNERGEGER
+                    , distance, hours, meetConfirm, publishToSocial, test,TAG_LATITUDE,TAG_LONGITUDE
+            );
+        }
+
+    }
+
+
+    private boolean Get_GPS()throws Exception{
+        boolean check = false;
+
+             gps = new GPSTracker(activity);
+
+            if (gps.canGetLocation())
+            {
+                double latitude_ = gps.getLatitude();
+                double longitude_ = gps.getLongitude();
+
+                TAG_LATITUDE = String.valueOf(latitude_);
+                TAG_LONGITUDE = String.valueOf(longitude_);
+                Log.e("location----","lat:"+ TAG_LATITUDE +" - lng:"+ TAG_LONGITUDE);
+
+                check=  true;
+            }
+            else{
+                check=   false;
+                gps.showSettingsAlert();
+            }
+
+        return  check;
     }
 
 

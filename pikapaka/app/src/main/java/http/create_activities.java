@@ -42,7 +42,7 @@ public class create_activities {
             final Context context, final String idUser, final String token, final String activityType, final String plan, final int minNumOfParticipants
             , final int maxNumOfParticipants, final int ageFrom, final int ageTo, final String gender,
             final float distance, final double expiredHours, final boolean meetConfirm, final boolean publishToSocial,
-            final boolean test
+            final boolean test,final String latitude,final String longitude
 
     ) {
 
@@ -92,6 +92,10 @@ public class create_activities {
                     json.put("expiredHours", expiredHours);
                     json.put("meetConfirm", meetConfirm);
                     json.put("publishToSocial", publishToSocial);
+                    JSONObject location = new JSONObject();
+                    location.put("lat",latitude);
+                    location.put("lng",longitude);
+                    json.put("location",location);
 
                     StringEntity se = new StringEntity(json.toString());
                     se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));

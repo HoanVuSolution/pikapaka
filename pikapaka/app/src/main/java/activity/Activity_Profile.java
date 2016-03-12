@@ -1054,7 +1054,10 @@ private void Save_Change(){
         if(img_avata=true){
             img_profile.setImageBitmap(thumbnail);
             path_avatar =url;
-            update_avatar(path_avatar);
+            //update_avatar(path_avatar);
+            File file = new File(path_avatar);
+            Upload1(file);
+            img_avata=false;
         }
         else {
             ic_img.setImageBitmap(thumbnail);
@@ -1079,10 +1082,11 @@ private void Save_Change(){
             path_avatar =imagepath;
               img_profile.setImageBitmap(bitmap);
             //update_avatar(path_avatar);
-           upload_(path_avatar);
+           //upload_(path_avatar);
             File file = new File(path_avatar);
-           // Upload1(file);
+            Upload1(file);
             //uploadProfilePhoto(file);
+            img_avata=false;
         }
         else{
             ic_img.setImageBitmap(bitmap);
@@ -1480,7 +1484,8 @@ private void Save_Change(){
 
     private void Upload1(final File file){
         class Loading extends AsyncTask<String, String, String> {
-
+            String mess = "";
+            String status="";
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -1498,12 +1503,16 @@ private void Save_Change(){
                     post.addHeader("X-Auth-Token", TAG_TOKEN);
                     MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
                     entity.addPart("file", new FileBody(file));
+                    post.setEntity(entity);
                     response = client.execute(post);
                     if (response != null) {
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
                             Log.e("msg-- respost-------", msg);
+                            JSONObject json = new JSONObject(msg);
+                            mess = json.getString("message");
+                            status = json.getString("status");
 
 
                         }
@@ -1529,6 +1538,7 @@ private void Save_Change(){
             protected void onPostExecute(String result) {
                 progressDialog.dismiss();
                 try {
+                    Toast.makeText(Activity_Profile.this, status+" : "+mess, Toast.LENGTH_SHORT).show();
 
 
                 } catch (Exception e) {

@@ -21,6 +21,8 @@ public class Commit_Sha {
 		dataString.TAG_FIRSTNAME="";
 		dataString.TAG_LASTNAME="";
 		dataString.TAG_EMAIL="";
+		dataString.TAG_USERID="";
+		dataString.TAG_IMAGE_URL="";
 
 	}
 

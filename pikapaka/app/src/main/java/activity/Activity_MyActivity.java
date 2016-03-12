@@ -14,6 +14,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -21,8 +24,10 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import adapter.adapter_myactivity;
@@ -53,6 +58,16 @@ public class Activity_MyActivity extends AppCompatActivity implements
 
     private ImageView img_home;
     private TextView tv_count_msg,tv_count_f;
+
+ //  private Socket_Manager socket = new Socket_Manager();
+    public com.github.nkzawa.socketio.client.Socket Connect;
+    {
+        try {
+            Connect = IO.socket(HTTP_API.baseUrl);
+        } catch (URISyntaxException e) {
+            Log.e("SOCKET CONNNECT----",e.toString());
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,17 +82,18 @@ public class Activity_MyActivity extends AppCompatActivity implements
     private void init()throws Exception{
         get_resource();
         get_shapreference();
+        Connect.connect();
 
 
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Connect.disconnect();
+        Connect.close();
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if(arItem.size()==0){
-//            get_myactivity();
-//        }
-//    }
+    }
+
 
     private void get_resource()throws Exception{
 
@@ -265,6 +281,48 @@ private void get_myactivity()throws Exception{
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
     }
+// _________________________________
+public void addMessage(String message){
+    JSONObject sendText = new JSONObject();
+    try{
+        sendText.put("text",message);
+        Connect.emit("message", sendText);
+    }catch(JSONException e){
 
+    }
+}
+//    private void addImage(Bitmap bmp){
+//        mMessages.add(new Message.Builder(Message.TYPE_MESSAGE)
+//                .image(bmp).build());
+//        mAdapter = new MessageAdapter( mMessages);
+//        mAdapter.notifyItemInserted(0);
+//        scrollToBottom();
+//    }
+    private Emitter.Listener handleIncomingMessages = new Emitter.Listener(){
+        @Override
+        public void call(final Object... args){
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject data = (JSONObject) args[0];
+                    String message;
+                    String imageText;
+                    try {
+                        message = data.getString("text").toString();
+                        addMessage(message);
 
+                    } catch (JSONException e) {
+                        // return;
+                    }
+//                    try {
+//                        imageText = data.getString("image");
+//                        addImage(decodeImage(imageText));
+//                    } catch (JSONException e) {
+//                        //retur
+//                    }
+
+                }
+            });
+        }
+    };
 }
