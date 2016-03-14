@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="50dp">
+        android:layout_height="60dp">
 
         <!--<ImageView-->
             <!--android:id="@+id/img"-->
@@ -27,7 +27,7 @@
             android:text="YOUR ACTIVITY"
             android:typeface="serif"
             android:textColor="@color/text4"
-            android:textSize="18sp" />
+            android:textSize="25sp" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -44,21 +44,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginRight="15dp"
 
                     >
 
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="13dp"
                         android:src="@drawable/ic_avata2" />
 
 
                     <TextView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentBottom="true"
                         android:background="@drawable/bg_notyfi"
                         android:typeface="serif"
@@ -82,15 +82,15 @@
 
                     <ImageView
                         android:id="@+id/ic_mail1"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="13dp"
                         android:src="@drawable/ic_email1" />
 
                     <TextView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentBottom="true"
                         android:background="@drawable/bg_notyfi"
                         android:gravity="center"
@@ -109,7 +109,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -140,7 +140,7 @@
                     android:typeface="serif"
                     android:text="GRAB A DRINK"
                     android:textColor="@color/text3"
-                    android:textSize="15sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tv_desciption"
@@ -152,7 +152,7 @@
                     android:text="This is the activity for people who wants to go, grab a drink and have fun,and looking for a partner."
                     android:textColor="@color/text3"
                     android:typeface="serif"
-                    android:textSize="13sp" />
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -160,7 +160,7 @@
                 android:id="@+id/ll_1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -178,7 +178,7 @@
                         android:padding="10dp"
                         android:typeface="serif"
                         android:maxLength="400"
-                        android:textSize="13sp"
+                        android:textSize="18sp"
                         android:textStyle="italic" />
 
 
@@ -221,9 +221,12 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_marginBottom="60dp"
+                android:layout_marginBottom="70dp"
                 android:gravity="bottom"
                 android:layout_gravity="bottom"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -237,7 +240,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="15dp"
+                        android:layout_margin="20dp"
                         android:background="@color/background4"
                         android:orientation="vertical"
                         android:gravity="bottom"
@@ -249,15 +252,15 @@
                             android:id="@+id/tv_change"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
+                            android:layout_marginTop="6dp"
                             android:background="@color/background5"
                             android:gravity="bottom"
                             android:layout_gravity="bottom"
-                            android:padding="7dp"
+                            android:padding="10dp"
                             android:typeface="serif"
                             android:text="CHANGE DEFAULTS"
                             android:textColor="#FFFFFF"
-                            android:textSize="14sp" />
+                            android:textSize="17sp" />
                     </LinearLayout>
 
                     <ScrollView
@@ -271,26 +274,27 @@
                             android:id="@+id/ll_show"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginBottom="16dp"
                             android:orientation="vertical">
 
 
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="22dp"
+                                android:layout_height="30dp"
                                 android:layout_marginRight="20dp">
 
                                 <TextView
 
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="fill_parent"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
                                     android:gravity="center_vertical"
                                     android:text="Max.number of participants:"
                                     android:textColor="@color/text4"
-                                    android:textSize="13sp"
+                                    android:textSize="15sp"
                                     android:typeface="serif"
                                     />
 
@@ -298,7 +302,7 @@
                                     android:id="@+id/ll_max"
 
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="fill_parent"
                                     android:layout_alignParentRight="true"
                                     android:background="@drawable/bacground_while_border"
                                     android:orientation="horizontal">
@@ -311,7 +315,7 @@
                                         android:gravity="center_vertical"
                                         android:text="4"
                                         android:textColor="@color/text4"
-                                        android:textSize="13sp"
+                                        android:textSize="15sp"
                                         android:typeface="serif"
                                         />
 
@@ -334,27 +338,27 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="22dp"
+                                android:layout_height="30dp"
                                 android:layout_marginRight="20dp"
-                                android:layout_marginTop="12dp">
+                                android:layout_marginTop="16dp">
 
                                 <TextView
 
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
                                     android:gravity="center_vertical"
                                     android:text="Min.number of participants:"
                                     android:textColor="@color/text4"
-                                    android:textSize="13sp"
+                                    android:textSize="15sp"
                                     android:typeface="serif"
                                     />
 
                                 <LinearLayout
                                     android:id="@+id/ll_min"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_alignParentRight="true"
                                     android:background="@drawable/bacground_while_border"
                                     android:orientation="horizontal">
@@ -367,7 +371,7 @@
                                         android:gravity="center_vertical"
                                         android:text="2"
                                         android:textColor="@color/text4"
-                                        android:textSize="13sp"
+                                        android:textSize="15sp"
                                         android:typeface="serif"
                                         />
 
@@ -390,26 +394,26 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="22dp"
+                                android:layout_height="30dp"
                                 android:layout_marginRight="20dp"
-                                android:layout_marginTop="12dp">
+                                android:layout_marginTop="20dp">
 
                                 <TextView
 
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
                                     android:gravity="center_vertical"
                                     android:text="Age between"
                                     android:textColor="@color/text4"
-                                    android:textSize="13sp"
+                                    android:textSize="15sp"
                                     android:typeface="serif"
                                     />
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_alignParentRight="true"
                                     android:orientation="horizontal">
 
@@ -430,7 +434,7 @@
                                             android:gravity="center_vertical"
                                             android:text="25"
                                             android:textColor="@color/text4"
-                                            android:textSize="13sp"
+                                            android:textSize="15sp"
                                             android:typeface="serif"
                                             />
 
@@ -455,7 +459,7 @@
                                         android:layout_marginRight="10dp"
                                         android:gravity="center"
                                         android:typeface="serif"
-                                        android:textSize="13sp"
+                                        android:textSize="15sp"
                                         android:textColor="@color/text4"
                                         android:text="and" />
 
@@ -475,7 +479,7 @@
                                             android:gravity="center_vertical"
                                             android:text="37"
                                             android:textColor="@color/text4"
-                                            android:textSize="13sp"
+                                            android:textSize="15sp"
                                             android:typeface="serif"
                                             />
 
@@ -498,27 +502,27 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="22dp"
+                                android:layout_height="30dp"
                                 android:layout_marginRight="20dp"
-                                android:layout_marginTop="12dp">
+                                android:layout_marginTop="20dp">
 
                                 <TextView
 
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
                                     android:gravity="center_vertical"
                                     android:text="Partner gender"
                                     android:textColor="@color/text4"
-                                    android:textSize="13sp"
+                                    android:textSize="15sp"
                                     android:typeface="serif"
                                     />
 
                                 <LinearLayout
                                     android:id="@+id/ll_par_gender"
                                     android:layout_width="150dp"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_alignParentRight="true"
                                     android:background="@drawable/bacground_while_border"
                                     android:orientation="horizontal">
@@ -532,7 +536,7 @@
                                         android:gravity="center_vertical"
                                         android:text="Anything goes"
                                         android:textColor="@color/text4"
-                                        android:textSize="13sp"
+                                        android:textSize="15sp"
                                         android:typeface="serif"
                                         />
 
@@ -556,26 +560,26 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="22dp"
+                                android:layout_height="30dp"
                                 android:layout_marginRight="20dp"
                                 android:layout_marginTop="12dp">
 
                                 <TextView
 
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
                                     android:gravity="center_vertical"
                                     android:text="Distance"
                                     android:textColor="@color/text4"
-                                    android:textSize="13sp"
+                                    android:textSize="15sp"
                                     android:typeface="serif"
                                     />
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:orientation="horizontal"
                                     android:layout_alignParentRight="true"
                                     android:gravity="center_vertical"
@@ -583,7 +587,7 @@
                                     <LinearLayout
                                         android:id="@+id/ll_distance"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:background="@drawable/bacground_while_border"
                                         android:orientation="horizontal">
 
@@ -595,7 +599,7 @@
                                             android:gravity="center_vertical"
                                             android:text="10"
                                             android:textColor="@color/text4"
-                                            android:textSize="13sp"
+                                            android:textSize="15sp"
                                             android:typeface="serif"
                                             />
 
@@ -615,11 +619,11 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="unit"
-                                        android:layout_marginLeft="5dp"
-                                        android:layout_marginRight="5dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginRight="10dp"
                                         android:textColor="@color/text3"
                                         android:gravity="center_vertical"
-                                        android:textSize="13sp"
+                                        android:textSize="15sp"
                                         />
                                     <LinearLayout
                                         android:id="@+id/ll_type_distance"
@@ -630,13 +634,13 @@
 
                                         <TextView
                                             android:id="@+id/tv_type_dis"
-                                            android:layout_width="65dp"
+                                            android:layout_width="70dp"
                                             android:layout_height="fill_parent"
                                             android:layout_marginLeft="10dp"
                                             android:gravity="center_vertical"
                                             android:text="kilometers"
                                             android:textColor="@color/text4"
-                                            android:textSize="13sp"
+                                            android:textSize="15sp"
                                             android:typeface="serif"
                                             />
 
@@ -659,27 +663,27 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="22dp"
+                                android:layout_height="30dp"
                                 android:layout_marginRight="20dp"
-                                android:layout_marginTop="12dp">
+                                android:layout_marginTop="20dp">
 
                                 <TextView
 
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
                                     android:gravity="center_vertical"
                                     android:text="Activity Expires in "
                                     android:textColor="@color/text4"
-                                    android:textSize="13sp"
+                                    android:textSize="15sp"
                                     android:typeface="serif"
                                     />
 
                                 <LinearLayout
                                     android:id="@+id/ll_experss"
                                     android:layout_width="150dp"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_alignParentRight="true"
                                     android:background="@drawable/bacground_while_border"
                                     android:orientation="horizontal">
@@ -694,7 +698,7 @@
                                         android:text="Tow hours"
                                         android:typeface="serif"
                                         android:textColor="@color/text4"
-                                        android:textSize="13sp"
+                                        android:textSize="15sp"
 
                                         />
 
@@ -717,9 +721,9 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="22dp"
+                                android:layout_height="30dp"
                                 android:layout_marginRight="20dp"
-                                android:layout_marginTop="12dp">
+                                android:layout_marginTop="20dp">
 
                                 <TextView
 
@@ -730,21 +734,21 @@
                                     android:gravity="center_vertical"
                                     android:text="Meet with confirmed users only "
                                     android:textColor="@color/text4"
-                                    android:textSize="13sp"
+                                    android:textSize="15sp"
                                     android:typeface="serif"
                                     />
 
                                 <LinearLayout
                                     android:id="@+id/ll_"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_alignParentRight="true"
 
                                     android:orientation="horizontal">
 
                                     <CheckBox
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:gravity="center_vertical"
                                         android:checked="true"
                                         />
@@ -754,9 +758,10 @@
                             </RelativeLayout>
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="22dp"
+                                android:layout_height="30dp"
                                 android:layout_marginRight="20dp"
-                                android:layout_marginTop="12dp">
+                                android:layout_marginBottom="20dp"
+                                android:layout_marginTop="20dp">
 
                                 <TextView
 
@@ -767,21 +772,21 @@
                                     android:gravity="center_vertical"
                                     android:text="Publish to social media "
                                     android:textColor="@color/text4"
-                                    android:textSize="13sp"
+                                    android:textSize="15sp"
                                     android:typeface="serif"
                                     />
 
                                 <LinearLayout
                                     android:id="@+id/ll_publish"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_alignParentRight="true"
 
                                     android:orientation="horizontal">
 
                                     <CheckBox
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:gravity="center_vertical"
                                         android:checked="false"
                                         />
@@ -798,7 +803,7 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="60dp"
+                android:layout_height="70dp"
                 android:layout_alignParentBottom="true"
 
                 android:orientation="vertical">
@@ -816,9 +821,11 @@
 
                     <LinearLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="60dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:weightSum="2">
 
                         <LinearLayout
@@ -839,13 +846,13 @@
 
                                 <TextView
                                     android:layout_width="wrap_content"
-                                    android:layout_height="48dp"
+                                    android:layout_height="57dp"
                                     android:background="#333333"
                                     android:gravity="center"
                                     android:padding="10dp"
                                     android:text="&lt; Back"
                                     android:textColor="#FFFFFF"
-                                    android:textSize="15sp"
+                                    android:textSize="20sp"
                                     android:typeface="serif"
                                     />
 
@@ -876,13 +883,13 @@
 
                                 <TextView
                                     android:layout_width="wrap_content"
-                                    android:layout_height="48dp"
+                                    android:layout_height="57dp"
                                     android:background="#99cc00"
                                     android:gravity="center"
                                     android:padding="10dp"
                                     android:text="Find a partner >"
                                     android:textColor="#FFFFFF"
-                                    android:textSize="15sp"
+                                    android:textSize="20sp"
                                     android:typeface="serif"
                                     />
 

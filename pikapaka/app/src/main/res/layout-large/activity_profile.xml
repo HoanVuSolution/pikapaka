@@ -11,7 +11,7 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="50dp">
+        android:layout_height="60dp">
 
         <!--<ImageView-->
         <!--android:layout_width="wrap_content"-->
@@ -27,7 +27,7 @@
             android:layout_centerVertical="true"
             android:text="PROFILE"
             android:textColor="@color/text3"
-            android:textSize="17sp"
+            android:textSize="22sp"
             android:typeface="serif" />
 
         <RelativeLayout
@@ -45,15 +45,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="20dp"
 
                     >
 
 
                     <ImageView
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="13dp"
                         android:src="@drawable/ic_avata2" />
@@ -84,8 +84,8 @@
 
                     <ImageView
                         android:id="@+id/ic_mail1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="13dp"
                         android:src="@drawable/ic_email1" />
@@ -143,7 +143,7 @@
 
                         <LinearLayout
                             android:layout_width="fill_parent"
-                            android:layout_height="70dp"
+                            android:layout_height="80dp"
                             android:layout_centerVertical="true"
                             android:background="@drawable/bacground_while_border"
                             android:gravity="center_horizontal"
@@ -158,7 +158,7 @@
                                 android:gravity="center_horizontal"
                                 android:text="name"
                                 android:textColor="@color/text3"
-                                android:textSize="16sp"
+                                android:textSize="18sp"
                                 android:typeface="serif" />
 
                             <TextView
@@ -170,7 +170,7 @@
                                 android:gravity="center_horizontal"
                                 android:text="32 years old, Man"
                                 android:textColor="@color/text4"
-                                android:textSize="14sp"
+                                android:textSize="16sp"
                                 android:typeface="serif" />
 
 
@@ -178,9 +178,9 @@
 
                         <Round_ImageView.RoundedImageView
                             android:id="@+id/img_profile"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_marginLeft="15dp"
+                            android:layout_width="110dp"
+                            android:layout_height="110dp"
+                            android:layout_marginLeft="22dp"
                             android:scaleType="fitXY"
                             android:src="@drawable/ic_avata_" />
                         <!--<ImageView-->
@@ -196,9 +196,9 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="30dp"
                         android:fillViewport="true">
 
                         <LinearLayout
@@ -208,7 +208,7 @@
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="25dp"
+                                android:layout_height="30dp"
                                 android:orientation="horizontal"
 
                                 >
@@ -221,19 +221,19 @@
                                     <TextView
 
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_centerVertical="true"
                                         android:layout_marginLeft="10dp"
                                         android:gravity="center_vertical"
                                         android:text="Share my contacts"
                                         android:textColor="@color/text3"
-                                        android:textSize="13sp"
+                                        android:textSize="15sp"
                                         android:typeface="serif" />
 
                                     <LinearLayout
                                         android:id="@+id/ll_share"
                                         android:layout_width="150dp"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_alignParentRight="true"
                                         android:background="@drawable/bacground_while_border"
                                         android:orientation="horizontal">
@@ -247,7 +247,7 @@
                                             android:gravity="center_vertical"
                                             android:text="Only approved"
                                             android:textColor="@color/text3"
-                                            android:textSize="13sp"
+                                            android:textSize="15sp"
                                             android:typeface="serif"
 
                                             />
@@ -271,8 +271,8 @@
 
                             <LinearLayout
                                 android:layout_width="fill_parent"
-                                android:layout_height="25dp"
-                                android:layout_marginTop="12dp"
+                                android:layout_height="39dp"
+                                android:layout_marginTop="20dp"
                                 android:orientation="horizontal">
 
                                 <RelativeLayout
@@ -291,7 +291,7 @@
                                         android:gravity="center_vertical"
                                         android:text="Max.number of participants:"
                                         android:textColor="@color/text3"
-                                        android:textSize="13sp"
+                                        android:textSize="15sp"
                                         android:typeface="serif" />
 
                                     <LinearLayout
@@ -311,7 +311,7 @@
                                             android:gravity="center_vertical"
                                             android:text="4"
                                             android:textColor="@color/text3"
-                                            android:textSize="13sp"
+                                            android:textSize="15sp"
                                             android:typeface="serif" />
 
                                         <View
@@ -333,8 +333,8 @@
 
                             <LinearLayout
                                 android:layout_width="fill_parent"
-                                android:layout_height="25dp"
-                                android:layout_marginTop="12dp"
+                                android:layout_height="30dp"
+                                android:layout_marginTop="20dp"
                                 android:orientation="horizontal">
 
                                 <RelativeLayout
@@ -352,7 +352,7 @@
                                         android:gravity="center_vertical"
                                         android:text="Min.number of participants:"
                                         android:textColor="@color/text3"
-                                        android:textSize="13sp"
+                                        android:textSize="15sp"
                                         android:typeface="serif"
 
                                         />
@@ -398,8 +398,8 @@
 
                             <LinearLayout
                                 android:layout_width="fill_parent"
-                                android:layout_height="25dp"
-                                android:layout_marginTop="12dp"
+                                android:layout_height="30dp"
+                                android:layout_marginTop="29dp"
                                 android:orientation="horizontal">
 
                                 <RelativeLayout
@@ -412,13 +412,13 @@
                                     <TextView
 
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_centerVertical="true"
                                         android:layout_marginLeft="10dp"
                                         android:gravity="center_vertical"
                                         android:text="Age between"
                                         android:textColor="@color/text3"
-                                        android:textSize="13sp"
+                                        android:textSize="15sp"
                                         android:typeface="serif" />
 
                                     <LinearLayout
@@ -444,7 +444,7 @@
                                                 android:gravity="center_vertical"
                                                 android:text="25"
                                                 android:textColor="@color/text3"
-                                                android:textSize="13sp"
+                                                android:textSize="15sp"
                                                 android:typeface="serif"
 
                                                 />
@@ -488,7 +488,7 @@
                                                 android:gravity="center_vertical"
                                                 android:text="37"
                                                 android:textColor="@color/text3"
-                                                android:textSize="13sp"
+                                                android:textSize="15sp"
                                                 android:typeface="serif"
 
                                                 />
@@ -514,8 +514,8 @@
 
                             <LinearLayout
                                 android:layout_width="fill_parent"
-                                android:layout_height="25dp"
-                                android:layout_marginTop="12dp"
+                                android:layout_height="30dp"
+                                android:layout_marginTop="20dp"
                                 android:orientation="horizontal">
 
                                 <RelativeLayout
@@ -532,7 +532,7 @@
                                         android:gravity="center_vertical"
                                         android:text="Partner gender"
                                         android:textColor="@color/text3"
-                                        android:textSize="13sp"
+                                        android:textSize="15sp"
                                         android:typeface="serif"
 
                                         />
@@ -540,7 +540,7 @@
                                     <LinearLayout
                                         android:id="@+id/ll_par_gender"
                                         android:layout_width="150dp"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_alignParentRight="true"
                                         android:background="@drawable/bacground_while_border"
                                         android:orientation="horizontal">
@@ -554,7 +554,7 @@
                                             android:gravity="center_vertical"
                                             android:text="Anything goes"
                                             android:textColor="@color/text3"
-                                            android:textSize="13sp"
+                                            android:textSize="15sp"
                                             android:typeface="serif" />
 
                                         <View
@@ -578,8 +578,8 @@
 
                             <LinearLayout
                                 android:layout_width="fill_parent"
-                                android:layout_height="25dp"
-                                android:layout_marginTop="12dp"
+                                android:layout_height="39dp"
+                                android:layout_marginTop="20dp"
                                 android:orientation="horizontal">
 
                                 <RelativeLayout
@@ -597,7 +597,7 @@
                                         android:gravity="center_vertical"
                                         android:text="Distance"
                                         android:textColor="@color/text3"
-                                        android:textSize="13sp"
+                                        android:textSize="15sp"
                                         android:typeface="serif"
 
                                         />
@@ -626,7 +626,7 @@
                                                 android:gravity="center_vertical"
                                                 android:text="10"
                                                 android:textColor="@color/text3"
-                                                android:textSize="13sp"
+                                                android:textSize="15sp"
                                                 android:typeface="serif"
 
                                                 />
@@ -647,12 +647,12 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginLeft="5dp"
-                                            android:layout_marginRight="5dp"
+                                            android:layout_marginLeft="25dp"
+                                            android:layout_marginRight="25dp"
                                             android:gravity="center_vertical"
                                             android:text="unit"
                                             android:textColor="@color/text3"
-                                            android:textSize="13sp" />
+                                            android:textSize="15sp" />
 
                                         <LinearLayout
                                             android:id="@+id/ll_type_distance"
@@ -672,7 +672,7 @@
                                                 android:gravity="center_vertical"
                                                 android:text="kilometers"
                                                 android:textColor="@color/text3"
-                                                android:textSize="13sp"
+                                                android:textSize="15sp"
                                                 android:typeface="serif"
 
                                                 />
@@ -698,8 +698,8 @@
 
                             <LinearLayout
                                 android:layout_width="fill_parent"
-                                android:layout_height="25dp"
-                                android:layout_marginTop="12dp"
+                                android:layout_height="30dp"
+                                android:layout_marginTop="20dp"
                                 android:orientation="horizontal">
 
                                 <RelativeLayout
@@ -716,7 +716,7 @@
                                         android:gravity="center_vertical"
                                         android:text="Activity Expires in"
                                         android:textColor="@color/text3"
-                                        android:textSize="13sp"
+                                        android:textSize="15sp"
                                         android:typeface="serif"
 
                                         />
@@ -737,7 +737,7 @@
                                             android:gravity="center_vertical"
                                             android:text="Two hours"
                                             android:textColor="@color/text3"
-                                            android:textSize="13sp"
+                                            android:textSize="15sp"
                                             android:typeface="serif"
 
                                             />
@@ -761,7 +761,7 @@
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="40dp"
+                                android:layout_height="50dp"
                                 android:orientation="vertical"
                                 android:layout_marginTop="30dp"
                                 android:gravity="center"
@@ -772,7 +772,7 @@
                                     android:layout_height="match_parent"
                                     android:text="Confirm my identity"
                                     android:gravity="center"
-                                    android:textSize="16sp"
+                                    android:textSize="18sp"
                                     android:textColor="@color/text4"
                                     />
                             </LinearLayout>
@@ -804,7 +804,7 @@
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:weightSum="2">
@@ -820,20 +820,20 @@
                             android:id="@+id/ll_back"
                             android:layout_width="wrap_content"
                             android:layout_height="fill_parent"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginLeft="20dp"
                             android:background="#999999"
                             android:gravity="bottom"
                             android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="48dp"
+                                android:layout_height="57dp"
                                 android:background="#333333"
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="&lt; Back"
                                 android:textColor="#FFFFFF"
-                                android:textSize="16sp"
+                                android:textSize="20sp"
                                 android:typeface="serif" />
 
 
@@ -855,7 +855,7 @@
                             android:layout_height="fill_parent"
                             android:layout_gravity="right"
                             android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
+                            android:layout_marginRight="20dp"
                             android:background="#999999"
 
                             android:gravity="bottom"
@@ -863,13 +863,13 @@
 
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="48dp"
+                                android:layout_height="57dp"
                                 android:background="#99cc00"
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="Save changes >"
                                 android:textColor="#FFFFFF"
-                                android:textSize="16sp"
+                                android:textSize="20sp"
                                 android:typeface="serif" />
 
 
