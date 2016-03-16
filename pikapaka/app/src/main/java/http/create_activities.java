@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -73,7 +72,7 @@ public class create_activities {
             @Override
             protected String doInBackground(String... args) {
                 try {
-                    Looper.prepare(); //For Preparing Message Pool for the child Thread
+                   // Looper.prepare(); //For Preparing Message Pool for the child Thread
                     HttpClient client = new DefaultHttpClient();
                     HttpResponse response;
                     JSONObject json = new JSONObject();
@@ -106,7 +105,7 @@ public class create_activities {
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                            Log.i("msg-- cate", msg);
+                            Log.e("create  cate", msg);
 
                             JSONObject jsonObject = new JSONObject(msg);
                             TAG_STATUS = jsonObject.getString("status");
@@ -155,22 +154,7 @@ public class create_activities {
                 try {
                     if (TAG_STATUS.equals("success")) {
                         Toast.makeText(context,TAG_MESSAGE,Toast.LENGTH_SHORT).show();
-//                        Log.d("_id---", _id);
-//                        Log.d("activityTypes---", _activityTypes);
-//                        Log.d("plan---", plan);
-//                        Log.d("minNumOfParticipans---", _minNumOfParticipans);
-//                        Log.d("maxNumOfParticipans---", _maxNumOfParticipans);
-//                        Log.d("ageFrom---", _ageFrom);
-//                        Log.d("ageTo---", _ageTo);
-//                        // Log.d("gender---",_gender);
-//                        Log.d("distance---", _distance);
-//                        Log.d("expiredHours---", _expiredHours);
-//                        Log.d("meetConfirm---", _meetConfirm + "");
-//                        Log.d("publicSocial---", _publicSocial + "");
-//                        Log.d("userId---", _userId + "");
-//                        Log.d("_status---", _status + "");
-//                        Log.d("activie---", _activie + "");
-//                        Log.d("activityTypeName---", _activityTypeName + "");
+
                         Intent in = new Intent(context, Activity_MyActivity.class);
                         context.startActivity(in);
 

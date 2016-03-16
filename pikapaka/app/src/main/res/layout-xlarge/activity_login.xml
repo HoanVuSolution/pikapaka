@@ -22,7 +22,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.47"
+                android:layout_weight="0.45"
                 android:orientation="vertical"
                 >
 
@@ -45,7 +45,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.53"
+                android:layout_weight="0.55"
                 android:orientation="vertical"
                 >
 

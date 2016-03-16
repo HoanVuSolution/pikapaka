@@ -35,8 +35,10 @@ import api.HTTP_API;
 import hoanvusolution.pikapaka.MainActivity;
 import hoanvusolution.pikapaka.R;
 import internet.CheckWifi3G;
+import item.item_chat;
 import item.item_my_activity;
 import loading.lib_loading;
+import location_gps.GPSTracker;
 
 /**
  * Created by MrThanhPhong on 2/18/2016.
@@ -59,11 +61,15 @@ public class Activity_MyActivity extends AppCompatActivity implements
     private ImageView img_home;
     private TextView tv_count_msg,tv_count_f;
 
+    public static String TAG_LATITUDE="0";
+    public static String TAG_LONGITUDE="0";
+    private GPSTracker gps;
+
  //  private Socket_Manager socket = new Socket_Manager();
-    public com.github.nkzawa.socketio.client.Socket Connect;
+    public com.github.nkzawa.socketio.client.Socket mSocket;
     {
         try {
-            Connect = IO.socket(HTTP_API.baseUrl);
+            mSocket = IO.socket(HTTP_API.SOCKET);
         } catch (URISyntaxException e) {
             Log.e("SOCKET CONNNECT----",e.toString());
         }
@@ -72,6 +78,8 @@ public class Activity_MyActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myactivity);
+//        mSocket.connect();
+//        mSocket.on("message:new",onMessage);
         try {
             init();
         } catch (Exception e) {
@@ -82,15 +90,14 @@ public class Activity_MyActivity extends AppCompatActivity implements
     private void init()throws Exception{
         get_resource();
         get_shapreference();
-        Connect.connect();
 
+        Get_GPS();
 
     }
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Connect.disconnect();
-        Connect.close();
+        mSocket.disconnect();
 
     }
 
@@ -135,7 +142,7 @@ public class Activity_MyActivity extends AppCompatActivity implements
         get_myactivity();
     }
 
-private void get_myactivity()throws Exception{
+public void get_myactivity()throws Exception{
     class Loading extends AsyncTask<String, String, String> {
 
         @Override
@@ -163,10 +170,11 @@ private void get_myactivity()throws Exception{
                     HttpEntity resEntity = response.getEntity();
                     if (resEntity != null) {
                         String msg = EntityUtils.toString(resEntity);
-                        Log.i("msg-- cate", msg);
+                        Log.e("activity created--", msg);
                         JSONObject jsonObject = new JSONObject(msg);
                         TAG_STATUS = jsonObject.getString("status");
                         TAG_MESSAGE = jsonObject.getString("message");
+                        arItem.clear();
                         if(TAG_STATUS.equals("success")){
                             JSONArray jsonarray = jsonObject.getJSONArray("data");
                             for(int i=0;i<jsonarray.length();i++){
@@ -249,6 +257,7 @@ private void get_myactivity()throws Exception{
         protected void onPostExecute(String result) {
             progressDialog.dismiss();
             try {
+                Log.e("arItem create size =",arItem.size()+"");
                 if (arItem.size()>0){
 
                     adapter_myactivity adapter = new adapter_myactivity(Activity_MyActivity.this,arItem);
@@ -282,15 +291,54 @@ private void get_myactivity()throws Exception{
 
     }
 // _________________________________
-public void addMessage(String message){
-    JSONObject sendText = new JSONObject();
-    try{
-        sendText.put("text",message);
-        Connect.emit("message", sendText);
-    }catch(JSONException e){
 
-    }
-}
+//
+//public void addMessage(String message){
+//    JSONObject sendText = new JSONObject();
+//    try{
+//        sendText.put("text",message);
+//        //mSocket.emit("message", sendText);
+//    }catch(JSONException e){
+//
+//    }
+//}
+    public Emitter.Listener onMessage = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+
+            String message = args[0].toString();
+            Log.e("onMessage-----", message);
+
+            JSONObject data =(JSONObject) args[0];
+
+            String _id=null;
+            String conversationId=null;
+            String firstName=null;
+            String gender=null;
+            String lastName=null;
+            String content=null;
+            try {
+                _id =data.getString("_id");
+                conversationId =data.getString("conversationId");
+                content =data.getString("content");
+                JSONObject from = data.getJSONObject("fromUser");
+                firstName=from.getString("firstName");
+                gender=from.getString("gender");
+                lastName=from.getString("lastName");
+            }catch (JSONException e){
+                e.getStackTrace();
+            }
+            Log.e("firstName",firstName.toString());
+            item_chat item = new item_chat(_id,conversationId,firstName,gender,lastName,content);
+//           adapter_myactivity.arr_chat.add(
+//                   new item_chat( _id,conversationId,firstName,gender,lastName,content)
+//                  );
+           // adapter_myactivity.adapter_ch= new adapater_chat(activity, adapter_myactivity.arr_chat);
+            //adapter_myactivity.adapter_ch.notifyDataSetChanged();
+
+           // adapter_myactivity.add_message(item);
+        }
+    };
 //    private void addImage(Bitmap bmp){
 //        mMessages.add(new Message.Builder(Message.TYPE_MESSAGE)
 //                .image(bmp).build());
@@ -298,31 +346,56 @@ public void addMessage(String message){
 //        mAdapter.notifyItemInserted(0);
 //        scrollToBottom();
 //    }
-    private Emitter.Listener handleIncomingMessages = new Emitter.Listener(){
-        @Override
-        public void call(final Object... args){
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    JSONObject data = (JSONObject) args[0];
-                    String message;
-                    String imageText;
-                    try {
-                        message = data.getString("text").toString();
-                        addMessage(message);
-
-                    } catch (JSONException e) {
-                        // return;
-                    }
+//    private Emitter.Listener handleIncomingMessages = new Emitter.Listener(){
+//        @Override
+//        public void call(final Object... args){
+//            activity.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    JSONObject data = (JSONObject) args[0];
+//                    String message;
+//                    String imageText;
 //                    try {
-//                        imageText = data.getString("image");
-//                        addImage(decodeImage(imageText));
+//                        message = data.getString("text").toString();
+//                        addMessage(message);
+//
 //                    } catch (JSONException e) {
-//                        //retur
+//                        // return;
 //                    }
+////                    try {
+////                        imageText = data.getString("image");
+////                        addImage(decodeImage(imageText));
+////                    } catch (JSONException e) {
+////                        //retur
+////                    }
+//
+//                }
+//            });
+//        }
+//    };
 
-                }
-            });
+    private void Get_GPS()throws Exception{
+
+
+        gps = new GPSTracker(activity);
+
+        if (gps.canGetLocation())
+        {
+            double latitude_ = gps.getLatitude();
+            double longitude_ = gps.getLongitude();
+
+            TAG_LATITUDE = String.valueOf(latitude_);
+            TAG_LONGITUDE = String.valueOf(longitude_);
+            Log.e("location----","lat:"+ TAG_LATITUDE +" - lng:"+ TAG_LONGITUDE);
+
+
         }
-    };
+        else{
+
+            gps.showSettingsAlert();
+        }
+
+
+    }
+
 }

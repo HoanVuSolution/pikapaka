@@ -1,6 +1,7 @@
 package adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -20,11 +21,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.nkzawa.socketio.client.IO;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -33,9 +33,9 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import activity.Activity_MyActivity;
@@ -69,7 +69,7 @@ public class adapter_myactivity extends BaseAdapter {
     private RelativeLayout.LayoutParams lparam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
 
     private ArrayList<item_search_activity> arr_search = new ArrayList<item_search_activity>();
-
+    static  ListView list_chat_view4 =null;
 //    private String id = "";
 //    private String userID = Activity_MyActivity.TAG_USERID;
 //    private String Token = Activity_MyActivity.TAG_TOKEN;
@@ -87,20 +87,23 @@ public class adapter_myactivity extends BaseAdapter {
     private String TAG_CONVERSATION="";
     private String TAG_ID_USER_CHAT_PPRITE="";
 
-    public com.github.nkzawa.socketio.client.Socket Connect;
-    {
-        try {
-            Connect = IO.socket(HTTP_API.baseUrl);
-        } catch (URISyntaxException e) {
-            Log.e("SOCKET CONNNECT----",e.toString());
-        }
-    }
 
-   public   ArrayList<item_chat>arr_chat= new ArrayList<item_chat>();
+    private String TAG_ACTIVITY_DELETE="";
+
+   public static   ArrayList<item_chat>arr_chat= new ArrayList<item_chat>();
    public   ArrayList<item_chat>arr_chat_private= new ArrayList<item_chat>();
-     adapater_chat adapter_ch;
+    public static adapater_chat adapter_ch;
      adapater_chat adapter_ch_private;
     private boolean chat_private =false;
+
+//    public com.github.nkzawa.socketio.client.Socket mSocket;
+//    {
+//        try {
+//            mSocket = IO.socket(HTTP_API.SOCKET);
+//        } catch (URISyntaxException e) {
+//            Log.e("SOCKET CONNNECT----",e.toString());
+//        }
+//    }
 
     public adapter_myactivity(Activity_MyActivity activity,
                               ArrayList<item_my_activity> arItem) {
@@ -139,10 +142,11 @@ public class adapter_myactivity extends BaseAdapter {
 
             if (convertView == null) {
 
+
                 convertView = mInflater.inflate(R.layout.listview_widget_my_activity,
                         null);
-
-
+                activity.mSocket.connect();
+                activity.mSocket.on("message:new",activity.onMessage);
                 String activityType = arItem.get(pos).activityType;
 
 
@@ -155,6 +159,8 @@ public class adapter_myactivity extends BaseAdapter {
                 tv_count_frend.setVisibility(View.GONE);
                 tv_name.setText(arItem.get(pos).activityTypeName.toUpperCase());
                 tv_status.setText(arItem.get(pos).status.toUpperCase());
+
+                final  ImageView img_delete=(ImageView)convertView.findViewById(R.id.img_delete);
 
                 //--------
 
@@ -236,7 +242,8 @@ public class adapter_myactivity extends BaseAdapter {
 
                 final EditText ed_input_chat_view4 = (EditText) convertView.findViewById(R.id.ed_input_chat_view4);
                 final TextView tv_send_view4 = (TextView) convertView.findViewById(R.id.tv_send_view4);
-                final ListView list_chat_view4 = (ListView) convertView.findViewById(R.id.list_chat_view4);
+               // final ListView list_chat_view4 = (ListView) convertView.findViewById(R.id.list_chat_view4);
+               list_chat_view4 = (ListView) convertView.findViewById(R.id.list_chat_view4);
 
                 // VIEW 5
                 // view4 item
@@ -270,20 +277,28 @@ public class adapter_myactivity extends BaseAdapter {
                             // Looper.prepare(); //For Preparing Message Pool for the child Thread
                             HttpClient client = new DefaultHttpClient();
                             arr_search.clear();
-                            //JSONObject json = new JSONObject();
+                            JSONObject json = new JSONObject();
 
                             HttpPost post = new HttpPost(HTTP_API.SEARCH_ACTIVITY + "/" + TAG_ID);
                             post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
                             post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
-
+                            JSONObject jlocation = new JSONObject();
+                            jlocation.put("lat",Activity_MyActivity.TAG_LATITUDE);
+                            jlocation.put("lng",Activity_MyActivity.TAG_LONGITUDE);
+                            json.put("location",jlocation);
                             HttpResponse response;
+                            StringEntity se = new StringEntity( json.toString());
+                            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                            post.setEntity(se);
+
+
                             response = client.execute(post);
 
                             if (response != null) {
                                 HttpEntity resEntity = response.getEntity();
                                 if (resEntity != null) {
                                     String msg = EntityUtils.toString(resEntity);
-                                    Log.v("msg-- cate", msg);
+                                    Log.e("loading- cate", msg);
                                     JSONObject jsonObject = new JSONObject(msg);
                                     TAG_STATUS = jsonObject.getString("status");
                                     TAG_MESSAGE = jsonObject.getString("message");
@@ -295,70 +310,49 @@ public class adapter_myactivity extends BaseAdapter {
                                             for (int i = 0; i < jsonarray.length(); i++) {
 
                                                 String _id = jsonarray.getJSONObject(i).getString("_id");
-                                                String minNumOfParticipants = jsonarray.getJSONObject(i).getString("minNumOfParticipants");
-                                                String ageTo = jsonarray.getJSONObject(i).getString("ageTo");
-                                                String maxNumOfParticipants = jsonarray.getJSONObject(i).getString("maxNumOfParticipants");
-                                                String distance = jsonarray.getJSONObject(i).getString("distance");
-                                                String ageFrom = jsonarray.getJSONObject(i).getString("ageFrom");
-                                                String plan = jsonarray.getJSONObject(i).getString("plan");
-                                                String publishToSocial = jsonarray.getJSONObject(i).getString("publishToSocial");
-                                                String expiredHours = jsonarray.getJSONObject(i).getString("expiredHours");
-                                                String meetConfirm = jsonarray.getJSONObject(i).getString("meetConfirm");
-                                                String gender = jsonarray.getJSONObject(i).getString("gender");
                                                 String activityType = jsonarray.getJSONObject(i).getString("activityType");
-                                                String userId = jsonarray.getJSONObject(i).getString("userId");
-                                                String status = jsonarray.getJSONObject(i).getString("status");
                                                 String type = jsonarray.getJSONObject(i).getString("type");
-                                                String activityTypeName = jsonarray.getJSONObject(i).getString("activityTypeName");
                                                 String activityTypeColor = jsonarray.getJSONObject(i).getString("activityTypeColor");
-                                                String createdAt = jsonarray.getJSONObject(i).getString("createdAt");
                                                 String active = jsonarray.getJSONObject(i).getString("active");
 
-                                                JSONObject j_user = jsonarray.getJSONObject(i);
-                                                JSONObject jo = j_user.getJSONObject("user");
-                                                String firstName = jo.getString("firstName");
-                                                String gender_ = jo.getString("gender");
-                                                String lastName = jo.getString("lastName");
-                                                String dob = "dob";
-                                                String displayName = jo.getString("displayName");
-                                                String age = "age";
+                                                JSONObject ob_user =jsonarray.getJSONObject(i).getJSONObject("user");
+                                                String id_= ob_user.getString("_id");
+                                                String firstName = ob_user.getString("firstName");
+                                                String gender_ = ob_user.getString("gender");
+                                                String lastName = ob_user.getString("lastName");
+                                                String dob = ob_user.getString("dob");
+                                                String displayName = ob_user.getString("displayName");
+                                                String age = ob_user.getString("displayName");
+                                              //  String imageUrl = ob_user.getString("imageUrl");
+                                                String hasRequest="false";
+                                                try {
+                                                    hasRequest=jsonarray.getJSONObject(i).getString("hasRequest");
+                                                }catch (JSONException e){
+                                                    hasRequest="false";
+                                                }
 
-                                                //
 
-                                                String hasRequest="";
-//
-                                               // String hasRequest = jsonarray.getJSONObject(i).getString("hasRequest");
-//
-                                                item_search_activity item = new item_search_activity(
-                                                        _id,
-                                                        minNumOfParticipants,
-                                                        ageTo,
-                                                        maxNumOfParticipants,
-                                                        distance,
-                                                        ageFrom,
-                                                        plan,
-                                                        publishToSocial,
-                                                        expiredHours,
-                                                        meetConfirm,
-                                                        gender,
-                                                        activityType,
-                                                        userId,
-                                                        status,
-                                                        type,
-                                                        activityTypeName,
-                                                        activityTypeColor,
-                                                        createdAt,
-                                                        active,
-                                                        firstName,
-                                                        gender_,
-                                                        lastName,
-                                                        dob,
-                                                        displayName,
-                                                        age,
-                                                        hasRequest
-                                                );
+                                                    item_search_activity item = new item_search_activity(
+                                                            _id,
+                                                            activityType,
+                                                            type,
+                                                            activityTypeColor,
+                                                            active,
+                                                            id_,
+                                                            firstName,
+                                                            gender_,
+                                                            lastName,
+                                                            dob,
+                                                            displayName,
+                                                            age,
+                                                            hasRequest
 
-                                                arr_search.add(item);
+                                                    );
+                                                    arr_search.add(item);
+
+                                              //  }
+
+
 
                                             }
                                             Log.i("arr_search", arr_search.size() + "");
@@ -376,9 +370,11 @@ public class adapter_myactivity extends BaseAdapter {
 
                             }
                         } catch (Exception e) {
+                            Log.e("Error loading", "error");
                             progressDialog1.dismiss();
 
                         } catch (Throwable t) {
+                            Log.e("Error loading", "error1");
                             progressDialog1.dismiss();
 
                         }
@@ -403,7 +399,15 @@ public class adapter_myactivity extends BaseAdapter {
                                     ll_view1_user2.setVisibility(View.GONE);
                                     ll_view1_user3.setVisibility(View.GONE);
 
-                                    tv_name1_view1.setText(arr_search.get(0).firstName);
+                                    String name =arr_search.get(0).firstName;
+                                    if(name.length()>10){
+                                        tv_name1_view1.setText(arr_search.get(0).firstName.substring(0,9)+"...");
+                                    }
+                                    else{
+                                        tv_name1_view1.setText(arr_search.get(0).firstName);
+                                    }
+
+
                                     if (arr_search.get(0).hasRequest.equals("true")) {
                                         icon_hasRequest1_view1.setImageResource(R.drawable.ic_like);
                                     } else {
@@ -421,8 +425,26 @@ public class adapter_myactivity extends BaseAdapter {
                                     ll_view1_user1.setVisibility(View.VISIBLE);
                                     ll_view1_user2.setVisibility(View.VISIBLE);
                                     ll_view1_user3.setVisibility(View.GONE);
-                                    tv_name1_view1.setText(arr_search.get(0).firstName);
+
                                     tv_name2_view1.setText(arr_search.get(1).firstName);
+
+                                    String name =arr_search.get(0).firstName;
+                                    String name2 =arr_search.get(1).firstName;
+                                    if(name.length()>10){
+                                        tv_name1_view1.setText(arr_search.get(0).firstName.substring(0,9)+"...");
+                                    }
+                                    else{
+                                        tv_name1_view1.setText(arr_search.get(0).firstName);
+
+                                    }
+                                    if(name2.length()>10){
+                                        tv_name2_view1.setText(arr_search.get(1).firstName.substring(0,9)+"...");
+                                    }
+                                    else{
+                                        tv_name2_view1.setText(arr_search.get(1).firstName);
+
+                                    }
+
 
                                     if (arr_search.get(0).hasRequest.equals("true")) {
                                         icon_hasRequest1_view1.setImageResource(R.drawable.ic_like);
@@ -439,13 +461,13 @@ public class adapter_myactivity extends BaseAdapter {
                                     }
 
                                     //-------------
-                                    if (arr_search.get(0).gender.equals("Woman")) {
+                                    if (arr_search.get(0).gender_.equals("Woman")) {
                                         img1_view1.setImageResource(R.drawable.female);
 
                                     } else {
                                         img1_view1.setImageResource(R.drawable.male);
                                     }
-                                    if (arr_search.get(1).gender.equals("Woman")) {
+                                    if (arr_search.get(1).gender_.equals("Woman")) {
                                         img2_view1.setImageResource(R.drawable.female);
 
                                     } else {
@@ -457,9 +479,34 @@ public class adapter_myactivity extends BaseAdapter {
                                     ll_view1_user1.setVisibility(View.VISIBLE);
                                     ll_view1_user2.setVisibility(View.VISIBLE);
                                     ll_view1_user3.setVisibility(View.VISIBLE);
-                                    tv_name1_view1.setText(arr_search.get(0).firstName);
-                                    tv_name2_view1.setText(arr_search.get(1).firstName);
-                                    tv_name3_view1.setText(arr_search.get(2).firstName);
+//                                    tv_name1_view1.setText(arr_search.get(0).firstName);
+//                                    tv_name2_view1.setText(arr_search.get(1).firstName);
+//                                    tv_name3_view1.setText(arr_search.get(2).firstName);
+
+                                    String name =arr_search.get(0).firstName;
+                                    String name2 =arr_search.get(1).firstName;
+                                    String name3 =arr_search.get(2).firstName;
+                                    if(name.length()>10){
+                                        tv_name1_view1.setText(arr_search.get(0).firstName.substring(0,9)+"...");
+                                    }
+                                    else{
+                                        tv_name1_view1.setText(arr_search.get(0).firstName);
+
+                                    }
+                                    if(name2.length()>10){
+                                        tv_name2_view1.setText(arr_search.get(1).firstName.substring(0,9)+"...");
+                                    }
+                                    else{
+                                        tv_name2_view1.setText(arr_search.get(1).firstName);
+
+                                    }
+                                    if(name3.length()>10){
+                                        tv_name3_view1.setText(arr_search.get(2).firstName.substring(0,9)+"...");
+                                    }
+                                    else{
+                                        tv_name3_view1.setText(arr_search.get(2).firstName);
+
+                                    }
 
 
                                     if (arr_search.get(0).hasRequest.equals("true")) {
@@ -483,19 +530,19 @@ public class adapter_myactivity extends BaseAdapter {
                                     }
                                     //----
 
-                                    if (arr_search.get(0).gender.equals("Woman")) {
+                                    if (arr_search.get(0).gender_.equals("Woman")) {
                                         img1_view1.setImageResource(R.drawable.female);
 
                                     } else {
                                         img1_view1.setImageResource(R.drawable.male);
                                     }
-                                    if (arr_search.get(1).gender.equals("Woman")) {
+                                    if (arr_search.get(1).gender_.equals("Woman")) {
                                         img2_view1.setImageResource(R.drawable.female);
 
                                     } else {
                                         img2_view1.setImageResource(R.drawable.male);
                                     }
-                                    if (arr_search.get(2).gender.equals("Woman")) {
+                                    if (arr_search.get(2).gender_.equals("Woman")) {
                                         img3_view1.setImageResource(R.drawable.female);
 
                                     } else {
@@ -509,9 +556,35 @@ public class adapter_myactivity extends BaseAdapter {
                                     ll_view1_user1.setVisibility(View.VISIBLE);
                                     ll_view1_user2.setVisibility(View.VISIBLE);
                                     ll_view1_user3.setVisibility(View.VISIBLE);
-                                    tv_name1_view1.setText(arr_search.get(0).firstName);
-                                    tv_name2_view1.setText(arr_search.get(1).firstName);
-                                    tv_name3_view1.setText(arr_search.get(2).firstName + " & " + arr_search.get(3).lastName);
+//                                    tv_name1_view1.setText(arr_search.get(0).firstName);
+//                                    tv_name2_view1.setText(arr_search.get(1).firstName);
+//                                    tv_name3_view1.setText(arr_search.get(2).firstName + " & " + arr_search.get(3).lastName);
+
+                                    String name =arr_search.get(0).firstName;
+                                    String name2 =arr_search.get(1).firstName;
+                                    String name3 =arr_search.get(2).firstName+arr_search.get(3).firstName;
+                                    if(name.length()>10){
+                                        tv_name1_view1.setText(arr_search.get(0).firstName.substring(0,9)+"...");
+                                    }
+                                    else{
+                                        tv_name1_view1.setText(arr_search.get(0).firstName);
+
+                                    }
+                                    if(name2.length()>10){
+                                        tv_name2_view1.setText(arr_search.get(1).firstName.substring(0,9)+"...");
+                                    }
+                                    else{
+                                        tv_name2_view1.setText(arr_search.get(1).firstName);
+
+                                    }
+                                    if(name3.length()>10){
+                                        tv_name3_view1.setText(arr_search.get(2).firstName.substring(0,9)+" + ...");
+                                    }
+                                    else{
+                                        tv_name3_view1.setText(arr_search.get(2).firstName);
+
+                                    }
+
 
                                     if (arr_search.get(0).hasRequest.equals("true")) {
                                         icon_hasRequest1_view1.setImageResource(R.drawable.ic_like);
@@ -590,23 +663,25 @@ public class adapter_myactivity extends BaseAdapter {
                     @Override
                     protected String doInBackground(String... args) {
                         try {
-                            // Looper.prepare(); //For Preparing Message Pool for the child Thread
                             HttpClient client = new DefaultHttpClient();
 
-                            //JSONObject json = new JSONObject();
+                            JSONObject json = new JSONObject();
 
                             HttpGet post = new HttpGet(HTTP_API.GET_SINGLE_ACTIVITY + "/" + TAG_ID_SINGLE);
                             post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
                             post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
 
+                            JSONObject jlocation = new JSONObject();
+
                             HttpResponse response;
+
                             response = client.execute(post);
 
                             if (response != null) {
                                 HttpEntity resEntity = response.getEntity();
                                 if (resEntity != null) {
                                     String msg = EntityUtils.toString(resEntity);
-                                    Log.v("msg-- cate", msg);
+                                    Log.e("single-- cate", msg);
                                     JSONObject jsonObject = new JSONObject(msg);
                                     TAG_STATUS = jsonObject.getString("status");
                                     TAG_MESSAGE = jsonObject.getString("message");
@@ -626,7 +701,7 @@ public class adapter_myactivity extends BaseAdapter {
                                         meetConfirm = data.getString("meetConfirm");
                                         gender = data.getString("gender");
                                         activityType = data.getString("activityType");
-                                        userId = data.getString("userId");
+                                      //  userId = data.getString("userId");
                                         status = data.getString("status");
                                         type = data.getString("type");
                                         activityTypeName = data.getString("activityTypeName");
@@ -752,27 +827,26 @@ public class adapter_myactivity extends BaseAdapter {
                                 HttpEntity resEntity = response.getEntity();
                                 if (resEntity != null) {
                                     String msg = EntityUtils.toString(resEntity);
-                                    Log.d("msg-- cate", msg);
+                                    Log.d("group - cate", msg);
                                     JSONObject jsonObject = new JSONObject(msg);
                                     TAG_STATUS = jsonObject.getString("status");
                                     TAG_MESSAGE = jsonObject.getString("message");
                                     if (TAG_STATUS.equals("success")) {
-
                                         JSONObject data = jsonObject.getJSONObject("data");
                                         _id = data.getString("_id");
-                                        minNumOfParticipants = data.getString("minNumOfParticipants");
-                                        ageTo = data.getString("ageTo");
-                                        maxNumOfParticipants = data.getString("maxNumOfParticipants");
-                                        distance = data.getString("distance");
-                                        ageFrom = data.getString("ageFrom");
-                                        publishToSocial = data.getString("publishToSocial");
-                                        meetConfirm = data.getString("meetConfirm");
+                                     //   minNumOfParticipants = data.getString("minNumOfParticipants");
+                                       // ageTo = data.getString("ageTo");
+                                      //  maxNumOfParticipants = data.getString("maxNumOfParticipants");
+                                      //  distance = data.getString("distance");
+                                      //  ageFrom = data.getString("ageFrom");
+                                      //  publishToSocial = data.getString("publishToSocial");
+                                       // meetConfirm = data.getString("meetConfirm");
                                         activityType = data.getString("activityType");
-                                        status = data.getString("status");
-                                        type = data.getString("type");
+                                      //  status = data.getString("status");
+                                      //  type = data.getString("type");
                                         activityTypeName = data.getString("activityTypeName");
                                         activityTypeColor = data.getString("activityTypeColor");
-                                        createdAt = data.getString("createdAt");
+                                      //  createdAt = data.getString("createdAt");
                                         active = data.getString("active");
 
                                         //JSONObject jo = data.getJSONObject("users");
@@ -928,8 +1002,7 @@ public class adapter_myactivity extends BaseAdapter {
 
                             JSONObject json = new JSONObject();
 
-                            // HttpPost post = new HttpPost(HTTP_API.GET_SEND_ACTIVITY + "/" + TAG_ID_SINGLE);
-                            //HttpPost post = new HttpPost(HTTP_API.GET_SEND_ACTIVITY + "/" + TAG_IDTO);
+
                             HttpPost post = new HttpPost(HTTP_API.GET_SEND_ACTIVITY);
                             post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
                             post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
@@ -1240,8 +1313,6 @@ public class adapter_myactivity extends BaseAdapter {
                                 //Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
                                 arr_chat.add(new item_chat("", "", dataString.TAG_FIRSTNAME, "", "", TAG_CONTENT_CHAT
                                 ));
-
-                                // adapter_ch.notifyDataSetChanged();
                                 adapter_ch = new adapater_chat(activity, arr_chat);
                                 list_chat_view4.setAdapter(adapter_ch);
                                 TAG_CONTENT_CHAT = "";
@@ -1298,11 +1369,10 @@ public class adapter_myactivity extends BaseAdapter {
                                     JSONObject jsonObject = new JSONObject(msg);
                                     TAG_STATUS = jsonObject.getString("status");
                                     TAG_MESSAGE = jsonObject.getString("message");
-                                   // mSocket.emit("join",TAG_CONVERSATION)
-                                    //Activity_Flash_Screen.mSocket.emit("join",TAG_CONVERSATION);
-                                    //Activity_Flash_Screen.mSocket.on("message:new",newMessage);
+                                    activity.mSocket.emit("join",TAG_CONVERSATION);
 
-                                    activity.Connect.emit(TAG_CONVERSATION);
+
+
                                     JSONObject jdata = jsonObject.getJSONObject("data");
 
                                     JSONArray message = jdata.getJSONArray("messages");
@@ -1414,7 +1484,7 @@ public class adapter_myactivity extends BaseAdapter {
                                     //Activity_Flash_Screen.mSocket.emit("join",TAG_CONVERSATION);
                                     //Activity_Flash_Screen.mSocket.on("message:new",newMessage);
 
-                                    activity.Connect.emit(TAG_CONVERSATION);
+                                    activity.mSocket.emit(TAG_CONVERSATION);
 
                                     JSONObject jdata = jsonObject.getJSONObject("data");
 
@@ -1606,7 +1676,7 @@ public class adapter_myactivity extends BaseAdapter {
                     }
 
                 }
-                class Chat_Private extends AsyncTask<String, String, String> {
+              class Chat_Private extends AsyncTask<String, String, String> {
 
                     ProgressDialog progressDialog;
 
@@ -1699,7 +1769,90 @@ public class adapter_myactivity extends BaseAdapter {
                     }
 
                 }
+                class Delete_Ac extends AsyncTask<String, String, String> {
+                    ProgressDialog progressDialog;
 
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                        // progressDialog = lib_loading.f_init(activity);
+                        progressDialog = ProgressDialog.show(activity, "",
+                                "", true);
+                    }
+
+                    @Override
+                    protected String doInBackground(String... args) {
+                        try {
+                            // Looper.prepare(); //For Preparing Message Pool for the child Thread
+                            HttpClient client = new DefaultHttpClient();
+
+                            JSONObject json = new JSONObject();
+
+                            HttpDelete post = new HttpDelete(HTTP_API.DELETE_AC+TAG_ID);
+                            post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
+                            post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+
+//                            json.put("groupId", TAG_ID);
+//                            json.put("userId", Activity_MyActivity.TAG_USERID);
+//                            StringEntity se = new StringEntity(json.toString());
+//                            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+//                           // post.setEntity(se);
+
+                            HttpResponse response;
+                            response = client.execute(post);
+
+                            if (response != null) {
+                                HttpEntity resEntity = response.getEntity();
+                                if (resEntity != null) {
+                                    String msg = EntityUtils.toString(resEntity);
+                                    Log.e("delete-- cate", msg);
+                                    JSONObject jsonObject = new JSONObject(msg);
+                                    TAG_STATUS = jsonObject.getString("status");
+                                    TAG_MESSAGE = jsonObject.getString("message");
+
+                                }
+
+                                if (resEntity != null) {
+                                    resEntity.consumeContent();
+                                }
+
+                                client.getConnectionManager().shutdown();
+
+                            }
+                        } catch (Exception e) {
+                            progressDialog.dismiss();
+
+                        } catch (Throwable t) {
+                            progressDialog.dismiss();
+
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(String result) {
+                        progressDialog.dismiss();
+                        try {
+                            Log.e("TAG_STATUS----", TAG_STATUS);
+                            Log.e("TAG_MESSAGE---", TAG_MESSAGE);
+                            Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+
+                            if (TAG_STATUS.equals("success")) {
+                                activity.get_myactivity();
+                            } else {
+                                Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (Exception e) {
+
+                        } catch (Throwable t) {
+
+                        }
+
+                    }
+
+                }
                 ll_backgroud.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1748,6 +1901,45 @@ public class adapter_myactivity extends BaseAdapter {
                 });
 
 
+                img_delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TAG_ACTIVITY_DELETE =arItem.get(pos).activityTypeName;
+                        TAG_ID = arItem.get(pos)._id;
+                        //dialog_delete();
+                        final Dialog dialog = new Dialog(activity);
+                        dialog.requestWindowFeature(dialog.getWindow().FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.dialog_delete);
+
+
+                        final TextView tv_name=(TextView)dialog.findViewById(R.id.tv_name);
+                        final TextView tv_no=(TextView)dialog.findViewById(R.id.tv_no);
+                        final TextView tv_yes=(TextView)dialog.findViewById(R.id.tv_yes);
+
+                        tv_name.setText(TAG_ACTIVITY_DELETE);
+                        tv_no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        tv_yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                new Delete_Ac().execute();
+
+                                dialog.dismiss();
+                            }
+                        });
+
+
+
+
+                        dialog.show();
+                    }
+
+                });
                 //--********************************
                 //*********************
 
@@ -1758,10 +1950,11 @@ public class adapter_myactivity extends BaseAdapter {
 
                         TAG_ID=arItem.get(pos)._id;
                         TAG_ID_SINGLE = arr_search.get(0)._id;
-                        TAG_COLER_VIEW_CHAT = arItem.get(pos).activityTypeColor;
-                        TAG_ID_USER_CHAT_PPRITE= arr_search.get(0)._id;
-                        if (CheckWifi3G.isConnected(activity)) {
 
+                        Log.e("TAG_ID_SINGLE---",TAG_ID_SINGLE);
+                        TAG_COLER_VIEW_CHAT = arItem.get(pos).activityTypeColor;
+                        TAG_ID_USER_CHAT_PPRITE= arr_search.get(0).id_user;
+                        if (CheckWifi3G.isConnected(activity)) {
                             new Get_Single().execute();
                         } else {
                             Toast.makeText(activity, "Error Connect Internet!", Toast.LENGTH_SHORT).show();
@@ -1773,9 +1966,10 @@ public class adapter_myactivity extends BaseAdapter {
                     public void onClick(View v) {
 
                         TAG_ID=arItem.get(pos)._id;
-                        TAG_ID_SINGLE = arr_search.get(1)._id;
+                        //TAG_ID_SINGLE = arr_search.get(1).id_user;
+                        TAG_ID_SINGLE = arr_search.get(0)._id;
                         TAG_COLER_VIEW_CHAT = arItem.get(pos).activityTypeColor;
-                        TAG_ID_USER_CHAT_PPRITE= arr_search.get(1)._id;
+                        TAG_ID_USER_CHAT_PPRITE= arr_search.get(1).id_user;
                         if (CheckWifi3G.isConnected(activity)) {
 
                             new Get_Single().execute();
@@ -1788,9 +1982,10 @@ public class adapter_myactivity extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         TAG_ID=arItem.get(pos)._id;
-                        TAG_ID_SINGLE = arr_search.get(2)._id;
+                       // TAG_ID_SINGLE = arr_search.get(2).id_user;
+                        TAG_ID_SINGLE = arr_search.get(0)._id;
                         TAG_COLER_VIEW_CHAT = arItem.get(pos).activityTypeColor;
-                        TAG_ID_USER_CHAT_PPRITE= arr_search.get(2)._id;
+                        TAG_ID_USER_CHAT_PPRITE= arr_search.get(2).id_user;
                         if (CheckWifi3G.isConnected(activity)) {
 
                             new Get_Single().execute();
@@ -1803,6 +1998,7 @@ public class adapter_myactivity extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         TAG_ID=arItem.get(pos)._id;
+                        //TAG_IDTO = arr_search.get(0).id_user;
                         TAG_IDTO = arr_search.get(0)._id;
                         TAG_COLER_VIEW_CHAT = arItem.get(pos).activityTypeColor;
                         String check = arr_search.get(0).hasRequest;
@@ -1949,7 +2145,7 @@ public class adapter_myactivity extends BaseAdapter {
                             Toast.makeText(activity, "Please input content", Toast.LENGTH_SHORT).show();
                         } else {
                             new Chat_Group().execute();
-                            activity.addMessage(TAG_CONTENT_CHAT);
+                            //activity.addMessage(TAG_CONTENT_CHAT);
 
                         }
                     }
@@ -1996,5 +2192,21 @@ public class adapter_myactivity extends BaseAdapter {
 
     // Socket
 
+//    public Emitter.Listener onMessage = new Emitter.Listener() {
+//        @Override
+//        public void call(Object... args) {
+//
+//            String message = args[0].toString();
+//            Log.e("onMessage-----", message);
+//        }
+//    };
+
+
+    public static void add_message(item_chat item){
+        arr_chat.add(item);
+        adapter_ch = new adapater_chat(activity, arr_chat);
+        //list_chat_view4.setAdapter(adapter_ch);
+        adapter_ch.notifyDataSetChanged();
+    }
 
 }

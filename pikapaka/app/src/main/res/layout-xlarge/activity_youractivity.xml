@@ -58,6 +58,7 @@
 
 
                     <TextView
+                        android:id="@+id/tv_count_friend"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:layout_alignParentBottom="true"
@@ -90,6 +91,7 @@
                         android:src="@drawable/ic_email1" />
 
                     <TextView
+                        android:id="@+id/tv_count_msg"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:layout_alignParentBottom="true"

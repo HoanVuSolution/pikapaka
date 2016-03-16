@@ -65,7 +65,7 @@ public class Request_Token {
                             Log.d("userID",userID);
                             Log.d("authToken",authToken);
                             if(userID.length()>0&& authToken.length()>0){
-                                new Commit_Sha().Write_TokenID(context,userID,authToken);
+                                new Commit_Sha().Write_TokenID(context,userID,authToken,"user","pass");
 
                             }
 

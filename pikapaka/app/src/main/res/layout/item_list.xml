@@ -5,4 +5,5 @@
     android:paddingBottom="15dp"
     android:paddingTop="15dp"
     android:textColor="#000000"
+    android:id="@+id/tv_name"
     android:textSize="18dp" />

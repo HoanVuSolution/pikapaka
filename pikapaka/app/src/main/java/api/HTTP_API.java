@@ -6,10 +6,12 @@ package api;
 public class HTTP_API {
         //http://52.26.102.232:3000/
             public static String baseUrl = "http://52.26.102.232:3000/";
+            public static String SOCKET = "http://52.26.102.232:3002";
 
     public static String LOGIN_SOICAL="52.26.102.232:3000/api/auth/login/local";
     public static String REGISTER=baseUrl+"api/v1/users/create";
     public static String LOGIN=baseUrl+"api/v1/auth/login/local";
+    public static String LOGOUT=baseUrl+"api/v1/auth/logout";
     // public static String SOCIAL =baseUrl+"v1/auth/{provider}/callback";
 
     public static String Request_Token=baseUrl+"api/v1/users/profile/me";
@@ -30,6 +32,8 @@ public class HTTP_API {
     public static String CHAT_LOADLIST=baseUrl+"api/v1/chat/conversation/";
     public static String LEAVE_GROUP=baseUrl+"api/v1/activities/group/leave";
 
+    public static String DELETE_AC=baseUrl+"api/v1/activities/delete/";
+
     public static String GET_PROFILE=baseUrl+"api/v1/users/profile";
     public static String UPDATE_PROFILE=baseUrl+"api/v1/users/profile/update";
 
@@ -43,5 +47,8 @@ public class HTTP_API {
     public static String USER_IDENTITY=baseUrl+"users/upload-user-identity";
     public static String USER_AVATAR=baseUrl+"users/change-avatar";
     public static String GET_ALL_NOTIFICATION=baseUrl+"api/v1/notifications/group/all";
+    public static String GET_ALL_REASON=baseUrl+"api/v1/reports/reason/get-all";
+    public static String REPORT_USER=baseUrl+"api/v1/reports/send/";
+
 
 }

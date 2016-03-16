@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    >
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background4"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/PrimaryColor"
+            android:textSize="16sp"
+            android:text="Report :"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text5"
+            android:textSize="18sp"
+            android:text=""
+            android:layout_marginLeft="10dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textColor="@color/text1"
+            android:textSize="15sp"
+            android:text="Reason : "/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            >
+            <TextView
+                android:id="@+id/tv_reason"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="40dp"
+                android:textColor="@color/text4"
+                android:textSize="15sp"
+                android:gravity="center_vertical"
+                />
+            <ImageView
+                android:id="@+id/img_select"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_arrowdown"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="10dp"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+<View
+    android:layout_width="match_parent"
+    android:layout_height="0.5dp"
+   android:layout_marginTop="20dp"
+    android:background="#999999"/>
+    <EditText
+        android:id="@+id/ed_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:textColor="@color/text4"
+        android:hint="content..."
+        android:textSize="16sp"
+        />
+
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:background="#999999"/>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:gravity="center"
+            android:layout_gravity="right"
+            android:padding="20dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#4CAF50"
+            android:id="@+id/tv_cancel" />
+        <View
+            android:layout_width="30dp"
+            android:layout_height="fill_parent"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Ok"
+            android:gravity="center"
+            android:layout_gravity="right"
+            android:padding="20dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#4CAF50"
+            android:id="@+id/tv_send" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="2dp"
+        android:background="#999999"/>
+
+
+
+</LinearLayout>

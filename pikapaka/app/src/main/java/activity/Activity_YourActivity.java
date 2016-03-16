@@ -61,8 +61,8 @@ public class Activity_YourActivity extends AppCompatActivity {
     public static String TAG_DISTANCE = "10";
     public static String TAG_EXPIREDHOURS = "2";
     public String TAG_PLAN = "";
-    private String TAG_LATITUDE="0";
-    private String TAG_LONGITUDE="0";
+    private String  TAG_LATITUDE="0";
+    private static String TAG_LONGITUDE="0";
 
     private AppCompatActivity activity;
     private TextView tv_name, tv_desciption;
@@ -111,6 +111,7 @@ public class Activity_YourActivity extends AppCompatActivity {
     public ArrayList<item_custom_fields> arr_Icustom = new ArrayList<item_custom_fields>();
     public ArrayList<item_selection_custom> arr_I_seelctiom = new ArrayList<item_selection_custom>();
     GPSTracker gps;
+    private TextView  tv_count_friend,tv_count_msg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,7 +139,13 @@ public class Activity_YourActivity extends AppCompatActivity {
 
         activity = this;
         Log.e("_id", TAG_ID);
+
         tv_name = (TextView) findViewById(R.id.tv_name);
+        tv_count_friend = (TextView) findViewById(R.id.tv_count_friend);
+        tv_count_msg = (TextView) findViewById(R.id.tv_count_msg);
+        tv_count_friend.setVisibility(View.GONE);
+        tv_count_msg.setVisibility(View.GONE);
+
 
         tv_desciption = (TextView) findViewById(R.id.tv_desciption);
         ll_bg = (LinearLayout) findViewById(R.id.ll_bg);
@@ -700,7 +707,7 @@ public class Activity_YourActivity extends AppCompatActivity {
 
                                 JSONObject defaultValue = data.getJSONObject("defaultValue");
                                 color = data.getString("color");
-                                updatedAt = data.getString("updatedAt");
+                                //updatedAt = data.getString("updatedAt");
                                 createdAt = data.getString("createdAt");
                                 if(defaultValue.length()>0){
                                     minNumOfParticipants = defaultValue.getString("minNumOfParticipants");
@@ -791,6 +798,29 @@ public class Activity_YourActivity extends AppCompatActivity {
                     Log.e("arr_Icustom-----", arr_Icustom.size() + "");
                     Log.e("arr_I_seelctiom-----", arr_I_seelctiom.size() + "");
                     if (TAG_STATUS.equals("success")) {
+
+                        if(maxNumOfParticipants.length()==0){
+                            maxNumOfParticipants="4";
+                        }
+                        if(minNumOfParticipants.length()==0){
+                            maxNumOfParticipants="2";
+                        }
+                        if(ageFrom.length()==0){
+                            ageFrom="23";
+                        }
+                        if(ageTo.length()==0){
+                            ageTo="32";
+                        }
+                        if(gender.length()==0){
+                            gender="Man";
+                        }
+                        if(distance.length()==0){
+                            distance="10";
+                        }
+                        if(expiredHours.length()==0){
+                            expiredHours="12";
+                        }
+
 
                         tv_name.setText(name);
                         tv_desciption.setText(description);

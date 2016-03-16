@@ -8,36 +8,44 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import adapter.adapter_reason;
 import api.HTTP_API;
 import hoanvusolution.pikapaka.R;
 import internet.CheckWifi3G;
+import item.item_reason;
 import loading.lib_loading;
 
-/**
- * Created by MrThanhPhong on 3/8/2016.
- */
+
 public class Activity_Rank_Report extends AppCompatActivity {
     private AppCompatActivity activity;
     private TextView tv_fullname,tv_age,tv_gender,tv_rank,tv_report;
     ProgressDialog   progressDialog1;
     private String SCORE="0";
     private String TAG_USERID_RANK="";
+    private String TAG_FULLNAME="";
     private String TAG_STATUS;
     private String TAG_MESSAGE;
 
@@ -45,6 +53,14 @@ public class Activity_Rank_Report extends AppCompatActivity {
     private String   TAG_TOKEN ="";
 
     private LinearLayout ll_back;
+    private String TAG_REASON="";
+    private String TAG_DESCRIPTION="";
+
+    private   EditText ed_input;
+    private  TextView tv_reason;
+    private Dialog dialog;
+    private ProgressDialog progressDialog;
+    private ArrayList<item_reason>arr_reason = new ArrayList<item_reason>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +78,7 @@ public class Activity_Rank_Report extends AppCompatActivity {
         get_shapreference();
         get_Intent();
         onClick();
+        get_reason();
     }
     private void get_resource()throws Exception{
         activity=this;
@@ -79,6 +96,7 @@ public class Activity_Rank_Report extends AppCompatActivity {
         if(b!=null){
             TAG_USERID_RANK= b.getString("id_user");
             String fullname = b.getString("fullname");
+            TAG_FULLNAME = b.getString("fullname");
             String age = b.getString("age");
             String gender = b.getString("gender");
             tv_fullname.setText(fullname);
@@ -103,8 +121,7 @@ public class Activity_Rank_Report extends AppCompatActivity {
         tv_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Activity_Rank_Report.this, "processing....", Toast.LENGTH_SHORT).show();
-            }
+                dilog_report() ;           }
         });
     }
     private void dilog_rank(){
@@ -193,7 +210,53 @@ public class Activity_Rank_Report extends AppCompatActivity {
 
         dialog.show();
     }
+    private void dilog_report(){
+        dialog = new Dialog(activity);
+        dialog.requestWindowFeature(dialog.getWindow().FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_report);
 
+
+        final ImageView img_select=(ImageView)dialog.findViewById(R.id.img_select);
+        tv_reason =(TextView)dialog.findViewById(R.id.tv_reason);
+        final TextView tv_name =(TextView)dialog.findViewById(R.id.tv_name);
+        tv_name.setText(TAG_FULLNAME);
+         ed_input =(EditText)dialog.findViewById(R.id.ed_input);
+        final TextView tv_cancel =(TextView)dialog.findViewById(R.id.tv_cancel);
+        final TextView tv_send =(TextView)dialog.findViewById(R.id.tv_send);
+
+
+
+
+        tv_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ed_input.length()>0){
+                    TAG_DESCRIPTION =ed_input.getText().toString();
+                   // Rank_User();
+                    send_report();
+
+                }
+
+            }
+        });
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        img_select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    dialogReason();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        dialog.show();
+    }
     private void Rank_User(){
 
         class Rank extends AsyncTask<String, String, String> {
@@ -294,6 +357,234 @@ public class Activity_Rank_Report extends AppCompatActivity {
 
         Log.d("TAG_USERID-----", TAG_USERID);
         Log.d("token-----", TAG_TOKEN);
+
+
+
+    }
+
+    private void get_reason()throws Exception{
+
+        TAG_STATUS="";
+        TAG_MESSAGE="";
+        class Loading extends AsyncTask<String, String, String> {
+
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+               // progressDialog = lib_loading.f_init(Activity_Rank_Report.this);
+            }
+
+            @Override
+            protected String doInBackground(String... args) {
+                try {
+
+                    HttpClient client = new DefaultHttpClient();
+                    HttpResponse response;
+
+                    HttpGet post = new HttpGet(HTTP_API.GET_ALL_REASON);
+                    post.addHeader("X-User-Id", TAG_USERID);
+                    post.addHeader("X-Auth-Token", TAG_TOKEN);
+
+                    response = client.execute(post);
+                    if (response != null) {
+                        HttpEntity resEntity = response.getEntity();
+                        if (resEntity != null) {
+                            String msg = EntityUtils.toString(resEntity);
+                            Log.i("msg-- cate", msg);
+
+                            JSONObject jsonObject = new JSONObject(msg);
+                            TAG_STATUS = jsonObject.getString("status");
+                            TAG_MESSAGE=jsonObject.getString("message");
+
+                            if(TAG_STATUS.equals("success")){
+                                JSONArray jsonarray = jsonObject.getJSONArray("data");
+                                if(jsonarray!=null){
+
+                                    for(int i=0;i<jsonarray.length();i++){
+                                        String _id = jsonarray.getJSONObject(i).getString("_id");
+                                        String name = jsonarray.getJSONObject(i).getString("name");
+
+                                        item_reason item = new item_reason(_id,name);
+                                        arr_reason.add(item);
+                                    }
+                                }
+
+                            }
+                            else{
+                                Log.e("TAG_MESSAGE",TAG_MESSAGE);
+                            }
+
+
+                        }
+
+                        if (resEntity != null) {
+                            resEntity.consumeContent();
+                        }
+
+                        client.getConnectionManager().shutdown();
+
+                    }
+                } catch (Exception e) {
+                  //  progressDialog.dismiss();
+
+                } catch (Throwable t) {
+                   // progressDialog.dismiss();
+
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+             //   progressDialog.dismiss();
+                try {
+                    Log.e("arr_reason.size()--",arr_reason.size()+"");
+                    if(TAG_STATUS.equals("success")){
+                        Log.e("TAG_MESSAGE--",TAG_MESSAGE);
+
+                    }
+                    else{
+                       Log.e("fail--","get reason");
+                    }
+
+                } catch (Exception e) {
+
+                } catch (Throwable t) {
+
+                }
+
+            }
+
+        }
+
+        if (CheckWifi3G.isConnected(activity)) {
+
+            new Loading().execute();
+        }
+
+    }
+
+    private void send_report(){
+        TAG_STATUS="";
+        TAG_MESSAGE="";
+        class Loading extends AsyncTask<String, String, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressDialog = lib_loading.f_init(Activity_Rank_Report.this);
+            }
+
+            @Override
+            protected String doInBackground(String... args) {
+                try {
+
+                    HttpClient client = new DefaultHttpClient();
+                    HttpResponse response;
+                    JSONObject json = new JSONObject();
+
+                    HttpPost post = new HttpPost(HTTP_API.REPORT_USER+TAG_USERID_RANK);
+                    post.addHeader("X-User-Id", TAG_USERID);
+                    post.addHeader("X-Auth-Token", TAG_TOKEN);
+                    json.put("reason",TAG_REASON);
+                    json.put("description",TAG_DESCRIPTION);
+                    StringEntity se = new StringEntity(json.toString());
+                    se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                    post.setEntity(se);
+                    response = client.execute(post);
+                    if (response != null) {
+                        HttpEntity resEntity = response.getEntity();
+                        if (resEntity != null) {
+                            String msg = EntityUtils.toString(resEntity);
+                            Log.i("msg-- cate", msg);
+
+                            JSONObject jsonObject = new JSONObject(msg);
+                            TAG_STATUS = jsonObject.getString("status");
+                            TAG_MESSAGE=jsonObject.getString("message");
+
+                            if(TAG_STATUS.equals("success")){
+                               // JSONObject data =jsonObject.getJSONObject("data");
+                                Log.e("TAG_MESSAGE",TAG_MESSAGE);
+                            }
+                            else{
+                                Log.e("TAG_MESSAGE",TAG_MESSAGE);
+                            }
+
+
+                        }
+
+                        if (resEntity != null) {
+                            resEntity.consumeContent();
+                        }
+
+                        client.getConnectionManager().shutdown();
+
+                    }
+                } catch (Exception e) {
+                    progressDialog.dismiss();
+
+                } catch (Throwable t) {
+                    progressDialog.dismiss();
+
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                progressDialog.dismiss();
+                try {
+                    if(TAG_STATUS.equals("success")){
+                        Log.e("TAG_MESSAGE--",TAG_MESSAGE);
+                        ed_input.setText("");
+                        dialog.dismiss();
+                    }
+                    else{
+
+                        Toast.makeText(Activity_Rank_Report.this, TAG_MESSAGE , Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+
+                } catch (Throwable t) {
+
+                }
+
+            }
+
+        }
+
+        if (CheckWifi3G.isConnected(activity)) {
+
+            new Loading().execute();
+        }
+
+    }
+
+
+
+    private void dialogReason()throws Exception{
+        final Dialog dialog = new Dialog(activity);
+        dialog.requestWindowFeature(dialog.getWindow().FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_reason);
+
+        ListView list = (ListView) dialog.findViewById(R.id.list);
+        adapter_reason adapter  = new adapter_reason(activity, arr_reason);
+
+        list.setAdapter(adapter);
+
+        if(arr_reason.size()>0){
+            dialog.show();
+        }
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TAG_REASON =arr_reason.get(position)._id;
+                tv_reason.setText(arr_reason.get(position).name);
+                dialog.dismiss();
+            }
+        });
 
 
 

@@ -112,7 +112,7 @@ public class Activity_Login extends AppCompatActivity {
 
             }
         }
-        Log.e("regid---", regid);
+        Log.e("TAG_TOKEN_GOOGLE---", TAG_TOKEN_GOOGLE);
     }
 
     private void get_resource() throws Exception {
@@ -252,7 +252,7 @@ public class Activity_Login extends AppCompatActivity {
                     HttpPost post = new HttpPost(HTTP_API.LOGIN);
                     json.put("user", TAG_EMAIL);
                     json.put("password", TAG_PASSWORD);
-                   // json.put("deviceToken", TAG_TOKEN_GOOGLE);
+                    json.put("deviceToken", TAG_TOKEN_GOOGLE);
                     StringEntity se = new StringEntity(json.toString());
                     se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
                     post.setEntity(se);
@@ -304,7 +304,7 @@ public class Activity_Login extends AppCompatActivity {
                        // new Request_Token().Get_Profile(activity,TAG_USERID,TAG_AUTH_TOKEN);
                       //  new MainActivity().Get_Profile(activity,TAG_USERID,TAG_AUTH_TOKEN);
 
-                        new Commit_Sha().Write_TokenID(Activity_Login.this, TAG_USERID, TAG_AUTH_TOKEN);
+                        new Commit_Sha().Write_TokenID(Activity_Login.this, TAG_USERID, TAG_AUTH_TOKEN,TAG_EMAIL,TAG_PASSWORD);
                         Toast.makeText(Activity_Login.this, "You have successfully logged in", Toast.LENGTH_SHORT).show();
 
                         Log.e("TAG_USERID", TAG_USERID);

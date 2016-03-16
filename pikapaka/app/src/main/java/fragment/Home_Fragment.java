@@ -78,6 +78,17 @@ public class Home_Fragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.e("Image fragment",dataString.TAG_IMAGE_URL.toString());
+        if(dataString.TAG_IMAGE_URL.length()>0){
+
+            new lib_image_save_original(getActivity(),dataString.TAG_IMAGE_URL,img_profile);
+
+        }
+    }
+
     private void init() throws Exception {
         get_resource();
         get_shapreference();
@@ -102,11 +113,8 @@ public class Home_Fragment extends Fragment {
         ic_favorites = (ImageView) v.findViewById(R.id.ic_favorites);
         ic_popular = (ImageView) v.findViewById(R.id.ic_popular);
         ic_surprise = (ImageView) v.findViewById(R.id.ic_surprise);
-        if(dataString.TAG_IMAGE_URL.length()>0){
 
-            new lib_image_save_original(getActivity(),dataString.TAG_IMAGE_URL,img_profile);
 
-        }
     }
 
 
@@ -491,4 +499,9 @@ public class Home_Fragment extends Fragment {
         }
     }
 
+//
+//    public  void load_image(){
+//        new lib_image_save_original(getActivity(),dataString.TAG_IMAGE_URL,img_profile);
+//
+//    }
 }

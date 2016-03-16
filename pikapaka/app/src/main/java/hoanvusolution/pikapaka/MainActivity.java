@@ -179,11 +179,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
-    protected void onResume() {
-        super.onResume();
-
+    protected void onStart() {
+        super.onStart();
         if(get_profile == true){
             try {
                 get_shapreference();
@@ -192,6 +190,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 
     @Override
     protected void onDestroy() {
@@ -270,16 +270,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             protected String doInBackground(String... args) {
-                // Looper.prepare(); //For Preparing Message Pool for the child Thread
                 HttpClient client = new DefaultHttpClient();
-                //HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); //Timeout Limit
+
                 HttpResponse response;
                 try {
                     HttpGet post = new HttpGet(HTTP_API.Request_Token);
                     post.addHeader("X-User-Id", TAG_USERID);
                     post.addHeader("X-Auth-Token", TAG_AUTH_TOKEN);
-//                    Log.i("idUser-------", idUser);
-//                    Log.i("token--------", token);
+
                     Log.i("URL--------", post.getAllHeaders().toString());
                     response = client.execute(post);
                     if (response != null) {
@@ -350,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
                         if(dataString.TAG_IMAGE_URL.length()>0){
 
                             new lib_image_save_original(MainActivity.this,dataString.TAG_IMAGE_URL,profile_image);
+
 
                         }
                     } else {
