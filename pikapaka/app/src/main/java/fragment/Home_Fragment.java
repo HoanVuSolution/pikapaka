@@ -63,6 +63,7 @@ public class Home_Fragment extends Fragment {
     private int check_favorites = 0;
     View v;
     TextView tv_noty_users;
+    private String d_id,d_name;
 
     @Nullable
     @Override
@@ -95,6 +96,8 @@ public class Home_Fragment extends Fragment {
         get_cate();
         OnClick();
         Item_Onlick();
+
+
     }
 
     private void get_resource() throws Exception {
@@ -499,9 +502,5 @@ public class Home_Fragment extends Fragment {
         }
     }
 
-//
-//    public  void load_image(){
-//        new lib_image_save_original(getActivity(),dataString.TAG_IMAGE_URL,img_profile);
-//
-//    }
+
 }

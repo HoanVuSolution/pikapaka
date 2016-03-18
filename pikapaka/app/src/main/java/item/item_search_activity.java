@@ -17,6 +17,7 @@ public class item_search_activity {
     public String dob = "";
     public String displayName = "";
     public String age = "";
+    public String imageUrl = "";
     public String hasRequest = "";
 
     public item_search_activity(
@@ -32,6 +33,7 @@ public class item_search_activity {
             String dob,
             String displayName,
             String age,
+            String imageUrl,
             String hasRequest
 
     ){
@@ -52,6 +54,7 @@ public class item_search_activity {
         this.dob=dob;
         this.displayName=displayName;
         this.age=age;
+        this.imageUrl=imageUrl;
 
         this.hasRequest=hasRequest;
     }

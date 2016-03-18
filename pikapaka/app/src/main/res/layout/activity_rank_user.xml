@@ -63,10 +63,12 @@
             android:orientation="horizontal"
             android:gravity="center"
             >
-            <ImageView
+            <Round_ImageView.RoundedImageView
+                android:id="@+id/img_avatar"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:src="@drawable/ic_avata_"
+                android:scaleType="fitXY"
                 />
 
         </LinearLayout>

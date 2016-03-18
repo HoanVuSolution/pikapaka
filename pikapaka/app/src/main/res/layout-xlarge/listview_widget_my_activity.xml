@@ -172,7 +172,7 @@
             android:layout_marginRight="5dp"
             android:background="@color/background2"
             android:orientation="vertical"
-            android:visibility="visible"
+            android:visibility="gone"
 
             >
 
@@ -208,7 +208,7 @@
 
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
-
+                                android:scaleType="fitXY"
                                 android:src="@drawable/male"
                                 android:id="@+id/img1_view1" />
                         </LinearLayout>
@@ -272,6 +272,7 @@
                                 android:layout_height="fill_parent"
                                 android:id="@+id/img2_view1"
                                 android:src="@drawable/female"
+                                android:scaleType="fitXY"
                                 />
                         </LinearLayout>
 
@@ -335,6 +336,7 @@
                                 android:layout_height="fill_parent"
                                 android:id="@+id/img4_view1"
                                 android:src="@drawable/male"
+                                android:scaleType="fitXY"
                                 />
 
                         </RelativeLayout>
@@ -350,6 +352,7 @@
                                 android:layout_height="fill_parent"
                                 android:id="@+id/img3_view1"
                                 android:src="@drawable/male"
+                                android:scaleType="fitXY"
                                 />
 
                         </RelativeLayout>
@@ -460,7 +463,7 @@
                             android:id="@+id/img_view2"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-
+                            android:scaleType="fitXY"
                             android:src="@drawable/male"
                             />
                     </LinearLayout>
@@ -780,7 +783,7 @@
                                 android:id="@+id/img1_view3"
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
-
+                                android:scaleType="fitXY"
                                 android:src="@drawable/male"
                                 />
                         </LinearLayout>
@@ -891,7 +894,7 @@
                                 android:id="@+id/img2_view3"
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
-
+                                android:scaleType="fitXY"
                                 android:src="@drawable/female"
                                 />
                         </LinearLayout>

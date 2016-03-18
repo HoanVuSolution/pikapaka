@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -38,17 +39,18 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import activity.Activity_Members;
 import activity.Activity_MyActivity;
 import activity.Activity_Rank_Report;
 import api.HTTP_API;
 import hoanvusolution.pikapaka.R;
+import image.lib_image_save_original;
 import internet.CheckWifi3G;
 import item.item_chat;
 import item.item_my_activity;
 import item.item_search_activity;
 import item.item_user_group;
 import util.Activity_Result;
-import util.dataString;
 
 /**
  * Created by MrThanhPhong on 2/23/2016.
@@ -70,9 +72,7 @@ public class adapter_myactivity extends BaseAdapter {
 
     private ArrayList<item_search_activity> arr_search = new ArrayList<item_search_activity>();
     static  ListView list_chat_view4 =null;
-//    private String id = "";
-//    private String userID = Activity_MyActivity.TAG_USERID;
-//    private String Token = Activity_MyActivity.TAG_TOKEN;
+
 
     public static String TAG_ID = "";
     public static String TAG_IDTO = "";
@@ -95,6 +95,8 @@ public class adapter_myactivity extends BaseAdapter {
     public static adapater_chat adapter_ch;
      adapater_chat adapter_ch_private;
     private boolean chat_private =false;
+
+
 
 //    public com.github.nkzawa.socketio.client.Socket mSocket;
 //    {
@@ -145,11 +147,7 @@ public class adapter_myactivity extends BaseAdapter {
 
                 convertView = mInflater.inflate(R.layout.listview_widget_my_activity,
                         null);
-                activity.mSocket.connect();
-                activity.mSocket.on("message:new",activity.onMessage);
                 String activityType = arItem.get(pos).activityType;
-
-
                 ImageView img_cate = (ImageView) convertView.findViewById(R.id.img_cate);
 
                 TextView tv_name = (TextView) convertView.findViewById(R.id.tv_name);
@@ -242,7 +240,6 @@ public class adapter_myactivity extends BaseAdapter {
 
                 final EditText ed_input_chat_view4 = (EditText) convertView.findViewById(R.id.ed_input_chat_view4);
                 final TextView tv_send_view4 = (TextView) convertView.findViewById(R.id.tv_send_view4);
-               // final ListView list_chat_view4 = (ListView) convertView.findViewById(R.id.list_chat_view4);
                list_chat_view4 = (ListView) convertView.findViewById(R.id.list_chat_view4);
 
                 // VIEW 5
@@ -323,12 +320,14 @@ public class adapter_myactivity extends BaseAdapter {
                                                 String dob = ob_user.getString("dob");
                                                 String displayName = ob_user.getString("displayName");
                                                 String age = ob_user.getString("displayName");
-                                              //  String imageUrl = ob_user.getString("imageUrl");
+                                               String imageUrl = "";
                                                 String hasRequest="false";
                                                 try {
+                                                    imageUrl=ob_user.getString("imageUrl");
                                                     hasRequest=jsonarray.getJSONObject(i).getString("hasRequest");
                                                 }catch (JSONException e){
                                                     hasRequest="false";
+                                                    imageUrl = "";
                                                 }
 
 
@@ -345,6 +344,7 @@ public class adapter_myactivity extends BaseAdapter {
                                                             dob,
                                                             displayName,
                                                             age,
+                                                            imageUrl,
                                                             hasRequest
 
                                                     );
@@ -415,11 +415,11 @@ public class adapter_myactivity extends BaseAdapter {
 
                                     }
 
-                                    if (arr_search.get(0).gender_.equals("Woman")) {
-                                        img1_view1.setImageResource(R.drawable.female);
+                                    String imageUrl =arr_search.get(0).imageUrl;
 
-                                    } else {
-                                        img1_view1.setImageResource(R.drawable.male);
+                                    Log.e("imageUrl",imageUrl);
+                                    if (imageUrl.length()>0) {
+                                        new lib_image_save_original(activity,imageUrl,img1_view1);
                                     }
                                 } else if (arr_search.size() == 2) {
                                     ll_view1_user1.setVisibility(View.VISIBLE);
@@ -461,19 +461,23 @@ public class adapter_myactivity extends BaseAdapter {
                                     }
 
                                     //-------------
-                                    if (arr_search.get(0).gender_.equals("Woman")) {
-                                        img1_view1.setImageResource(R.drawable.female);
 
-                                    } else {
-                                        img1_view1.setImageResource(R.drawable.male);
+
+                                    String imageUrl =arr_search.get(0).imageUrl;
+                                    String imageUrl1 =arr_search.get(1).imageUrl;
+
+                                    if (imageUrl.length()>0) {
+
+                                        new lib_image_save_original(activity,imageUrl,img1_view1);
+
                                     }
-                                    if (arr_search.get(1).gender_.equals("Woman")) {
-                                        img2_view1.setImageResource(R.drawable.female);
+                                    if (imageUrl1.length()>0) {
 
-                                    } else {
-                                        img2_view1.setImageResource(R.drawable.male);
+                                        new lib_image_save_original(activity,imageUrl,img2_view1);
+
                                     }
 
+//
 
                                 } else if (arr_search.size() == 3) {
                                     ll_view1_user1.setVisibility(View.VISIBLE);
@@ -528,30 +532,30 @@ public class adapter_myactivity extends BaseAdapter {
                                         icon_hasRequest3_view1.setImageResource(R.drawable.ic_add);
 
                                     }
-                                    //----
 
-                                    if (arr_search.get(0).gender_.equals("Woman")) {
-                                        img1_view1.setImageResource(R.drawable.female);
 
-                                    } else {
-                                        img1_view1.setImageResource(R.drawable.male);
+                                    String imageUrl =arr_search.get(0).imageUrl;
+                                    String imageUrl1 =arr_search.get(1).imageUrl;
+                                    String imageUrl2 =arr_search.get(2).imageUrl;
+
+                                    if (imageUrl.length()>0) {
+
+                                        new lib_image_save_original(activity,imageUrl,img1_view1);
+
                                     }
-                                    if (arr_search.get(1).gender_.equals("Woman")) {
-                                        img2_view1.setImageResource(R.drawable.female);
+                                    if (imageUrl1.length()>0) {
 
-                                    } else {
-                                        img2_view1.setImageResource(R.drawable.male);
+                                        new lib_image_save_original(activity,imageUrl,img2_view1);
+
                                     }
-                                    if (arr_search.get(2).gender_.equals("Woman")) {
-                                        img3_view1.setImageResource(R.drawable.female);
+                                    if (imageUrl2.length()>0) {
 
-                                    } else {
-                                        img3_view1.setImageResource(R.drawable.male);
+                                        new lib_image_save_original(activity,imageUrl,img3_view1);
+
                                     }
                                 } else if (arr_search.size() > 3) {
 
-                                    rl_img4_view1.setVisibility(View.VISIBLE);
-                                    img4_view1.setVisibility(View.VISIBLE);
+
 
                                     ll_view1_user1.setVisibility(View.VISIBLE);
                                     ll_view1_user2.setVisibility(View.VISIBLE);
@@ -605,6 +609,36 @@ public class adapter_myactivity extends BaseAdapter {
                                         icon_hasRequest3_view1.setImageResource(R.drawable.ic_add);
 
                                     }
+
+                                    //---
+                                    rl_img4_view1.setVisibility(View.VISIBLE);
+                                    img4_view1.setVisibility(View.VISIBLE);
+
+                                    String imageUrl =arr_search.get(0).imageUrl;
+                                    String imageUrl1 =arr_search.get(1).imageUrl;
+                                    String imageUrl2 =arr_search.get(2).imageUrl;
+                                    String imageUrl3 =arr_search.get(3).imageUrl;
+
+                                    if (imageUrl.length()>0) {
+
+                                        new lib_image_save_original(activity,imageUrl,img1_view1);
+
+                                    }
+                                    if (imageUrl1.length()>0) {
+
+                                        new lib_image_save_original(activity,imageUrl,img2_view1);
+
+                                    }
+                                    if (imageUrl2.length()>0) {
+
+                                        new lib_image_save_original(activity,imageUrl,img3_view1);
+
+                                    }
+                                    if (imageUrl3.length()>0) {
+
+                                        new lib_image_save_original(activity,imageUrl,img4_view1);
+
+                                    }
                                 }
 
                             } else {
@@ -650,6 +684,7 @@ public class adapter_myactivity extends BaseAdapter {
                     String dob;
                     String displayName;
                     String age;                   //
+                    String imageUrl;                   //
                     String hasRequest;
 
                     @Override
@@ -714,7 +749,14 @@ public class adapter_myactivity extends BaseAdapter {
                                         lastName = jo.getString("lastName");
                                         dob = jo.getString("dob");
                                         displayName = jo.getString("displayName");
-                                        age = jo.getString("age");                   //
+                                        age = jo.getString("age");
+
+                                        try {
+                                            imageUrl= jo.getString("imageUrl");
+                                        }catch (JSONException e){
+                                            imageUrl="";
+                                        }
+
                                         hasRequest = "hasRequest";
 
                                     }
@@ -762,6 +804,9 @@ public class adapter_myactivity extends BaseAdapter {
                                 tv_old_view2.setText(age + " years old" + "," + gender_);
                                 tv_age_gender_view2.setText("Demography:" + " Ages " + ageFrom + " to " + ageTo + " " + gender);
 
+                                    if(imageUrl.length()>0){
+                                        new lib_image_save_original(activity,imageUrl,img_view2);
+                                    }
 
 
                             } else {
@@ -803,7 +848,7 @@ public class adapter_myactivity extends BaseAdapter {
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
-                        // progressDialog = lib_loading.f_init(activity);
+
                         progressDialog1 = ProgressDialog.show(activity, "",
                                 "", true);
                     }
@@ -811,7 +856,6 @@ public class adapter_myactivity extends BaseAdapter {
                     @Override
                     protected String doInBackground(String... args) {
                         try {
-                            // Looper.prepare(); //For Preparing Message Pool for the child Thread
                             HttpClient client = new DefaultHttpClient();
 
                             //JSONObject json = new JSONObject();
@@ -827,29 +871,21 @@ public class adapter_myactivity extends BaseAdapter {
                                 HttpEntity resEntity = response.getEntity();
                                 if (resEntity != null) {
                                     String msg = EntityUtils.toString(resEntity);
-                                    Log.d("group - cate", msg);
+                                    Log.e("group - cate", msg);
                                     JSONObject jsonObject = new JSONObject(msg);
                                     TAG_STATUS = jsonObject.getString("status");
                                     TAG_MESSAGE = jsonObject.getString("message");
                                     if (TAG_STATUS.equals("success")) {
                                         JSONObject data = jsonObject.getJSONObject("data");
                                         _id = data.getString("_id");
-                                     //   minNumOfParticipants = data.getString("minNumOfParticipants");
-                                       // ageTo = data.getString("ageTo");
-                                      //  maxNumOfParticipants = data.getString("maxNumOfParticipants");
-                                      //  distance = data.getString("distance");
-                                      //  ageFrom = data.getString("ageFrom");
-                                      //  publishToSocial = data.getString("publishToSocial");
-                                       // meetConfirm = data.getString("meetConfirm");
+
                                         activityType = data.getString("activityType");
-                                      //  status = data.getString("status");
-                                      //  type = data.getString("type");
+
                                         activityTypeName = data.getString("activityTypeName");
                                         activityTypeColor = data.getString("activityTypeColor");
-                                      //  createdAt = data.getString("createdAt");
+
                                         active = data.getString("active");
 
-                                        //JSONObject jo = data.getJSONObject("users");
                                         JSONArray jarr = data.getJSONArray("users");
                                         for (int i = 0; i < jarr.length(); i++) {
 
@@ -867,6 +903,14 @@ public class adapter_myactivity extends BaseAdapter {
                                             String displayName = profile.getString("displayName");
 
                                             String age = profile.getString("age");
+                                            String imageUrl="";
+                                            try {
+                                                imageUrl =profile.getString("imageUrl");
+                                            }catch(JSONException e){
+                                                imageUrl="";
+                                                Log.e("Error,---","TAG_IMAGE_URL");
+                                                e.getStackTrace();
+                                            }
 
                                             item_user_group item = new item_user_group(
                                                     id,
@@ -875,7 +919,8 @@ public class adapter_myactivity extends BaseAdapter {
                                                     lastName,
                                                     dob,
                                                     displayName,
-                                                    age
+                                                    age,
+                                                    imageUrl
                                             );
                                             arr_user.add(item);
                                         }
@@ -929,11 +974,28 @@ public class adapter_myactivity extends BaseAdapter {
                                     tv_old1_view3.setText(arr_user.get(0).age + " years old, " + arr_user.get(0).gender);
                                     tv_old2_view3.setText(arr_user.get(1).age + " years old, " + arr_user.get(1).gender);
                                     ll_user2_view3.setVisibility(View.VISIBLE);
+                                    //img1_view3
+                                    String urlImage1 =arr_user.get(0).imageUrl;
+
+                                    String urlImage2 =arr_user.get(1).imageUrl;
+
+
+                                    if(urlImage1.length()>0){
+                                        new lib_image_save_original(activity,urlImage1,img1_view3);
+                                    }
+                                    if(urlImage1.length()>0){
+                                        new lib_image_save_original(activity,urlImage2,img2_view3);
+                                    }
 
                                 } else {
                                     tv_name1_view3.setText(arr_user.get(0).lastName);
                                     tv_old1_view3.setText(arr_user.get(0).age + " years old, " + arr_user.get(0).gender);
                                     ll_user2_view3.setVisibility(View.INVISIBLE);
+
+                                    String urlImage1 =arr_user.get(0).imageUrl;
+                                    if(urlImage1.length()>0){
+                                        new lib_image_save_original(activity,urlImage1,img1_view3);
+                                    }
                                 }
                             } else {
                                 Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
@@ -946,12 +1008,14 @@ public class adapter_myactivity extends BaseAdapter {
                                     String fullname = arr_user.get(0).displayName;
                                     String age =arr_user.get(0).age;
                                     String gender =arr_user.get(0).gender;
+                                    String imageUrl =arr_user.get(0).imageUrl;
 
                                     Intent in = new Intent(activity, Activity_Rank_Report.class);
                                     in.putExtra("id_user",id_user);
                                     in.putExtra("fullname",fullname);
                                     in.putExtra("age",age);
                                     in.putExtra("gender",gender);
+                                    in.putExtra("imageUrl",imageUrl);
                                     activity.startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);
                                 }
                             });
@@ -1311,10 +1375,11 @@ public class adapter_myactivity extends BaseAdapter {
 
                             if (TAG_STATUS.equals("success")) {
                                 //Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
-                                arr_chat.add(new item_chat("", "", dataString.TAG_FIRSTNAME, "", "", TAG_CONTENT_CHAT
-                                ));
-                                adapter_ch = new adapater_chat(activity, arr_chat);
-                                list_chat_view4.setAdapter(adapter_ch);
+//                                arr_chat.add(new item_chat("", "", dataString.TAG_FIRSTNAME, "", "", TAG_CONTENT_CHAT
+//                                ));
+//                                adapter_ch = new adapater_chat(activity, arr_chat);
+//                                list_chat_view4.setAdapter(adapter_ch);
+                               // adapter_ch.notifyDataSetChanged();
                                 TAG_CONTENT_CHAT = "";
                                 ed_input_chat_view4.setText("");
                             } else {
@@ -1421,12 +1486,13 @@ public class adapter_myactivity extends BaseAdapter {
                             if (arr_chat.size() > 0) {
                                 //  Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
                                 Log.e("arr_chat size", arr_chat.size() + "");
-                                adapater_chat adapter = new adapater_chat(activity, arr_chat);
-
-
-                                list_chat_view4.setAdapter(adapter);
-                                list_chat_view4.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-                                list_chat_view4.setStackFromBottom(true);
+//                                adapter_ch = new adapater_chat(activity, arr_chat);
+//
+//                                list_chat_view4.setAdapter(adapter_ch);
+//                                list_chat_view4.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+//                                list_chat_view4.setStackFromBottom(true);
+                                adapter_ch.notifyDataSetChanged();
+                                Scroll_Listview();
 
                             } else {
                                 Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
@@ -1860,8 +1926,7 @@ public class adapter_myactivity extends BaseAdapter {
                         TAG_TYPE = arItem.get(pos).type;
                         TAG_COLER_VIEW_CHAT = arItem.get(pos).activityTypeColor;
                         Log.i("TAG_ID   ---------", TAG_ID);
-                        //M4fE8ZXJpqkYePCKH
-                        //eyGZGCGr48Ljec7a2
+
 
 
                         if (click == false) {
@@ -2086,17 +2151,17 @@ public class adapter_myactivity extends BaseAdapter {
                 ll_chat_view2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        view1.setVisibility(View.GONE);
-                        view2.setVisibility(View.GONE);
-                        view3.setVisibility(View.GONE);
-                        view4.setVisibility(View.GONE);
-                        view5.setVisibility(View.VISIBLE);
-                        chat_private=true;
-                                view5.setBackgroundColor(Color.parseColor(TAG_COLER_VIEW_CHAT.toString()));
-                                ll_back_view5.setBackgroundColor(Color.parseColor(TAG_COLER_VIEW_CHAT.toString()));
-
-                   new Get_Conversations().execute();
-                        chat_private=false;
+//                        view1.setVisibility(View.GONE);
+//                        view2.setVisibility(View.GONE);
+//                        view3.setVisibility(View.GONE);
+//                        view4.setVisibility(View.GONE);
+//                        view5.setVisibility(View.VISIBLE);
+//                        chat_private=true;
+//                                view5.setBackgroundColor(Color.parseColor(TAG_COLER_VIEW_CHAT.toString()));
+//                                ll_back_view5.setBackgroundColor(Color.parseColor(TAG_COLER_VIEW_CHAT.toString()));
+//
+//                   new Get_Conversations().execute();
+//                        chat_private=false;
                     }
 
                 });
@@ -2134,6 +2199,15 @@ public class adapter_myactivity extends BaseAdapter {
                     }
                 });
 
+                ll_member_view3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Activity_Members.TAG_ID =arItem.get(pos)._id;
+                        Intent in = new Intent(activity, Activity_Members.class);
+                        activity.startActivityForResult(in,Activity_Result.REQUEST_CODE_ACT);
+                    }
+                });
+
 
                 // view 4 click---------------------------------------
 
@@ -2155,6 +2229,12 @@ public class adapter_myactivity extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         new Leave_Group().execute();
+                    }
+                });
+                list_chat_view4.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return false;
                     }
                 });
 
@@ -2192,21 +2272,16 @@ public class adapter_myactivity extends BaseAdapter {
 
     // Socket
 
-//    public Emitter.Listener onMessage = new Emitter.Listener() {
-//        @Override
-//        public void call(Object... args) {
-//
-//            String message = args[0].toString();
-//            Log.e("onMessage-----", message);
-//        }
-//    };
-
 
     public static void add_message(item_chat item){
         arr_chat.add(item);
-        adapter_ch = new adapater_chat(activity, arr_chat);
-        //list_chat_view4.setAdapter(adapter_ch);
         adapter_ch.notifyDataSetChanged();
+        Log.e("new item =",item.firstName+"- "+item.content);
+        Scroll_Listview();
     }
 
+    private static void Scroll_Listview(){
+        list_chat_view4.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        list_chat_view4.setStackFromBottom(true);
+    }
 }

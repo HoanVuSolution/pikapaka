@@ -28,8 +28,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@drawable/bacground_while_border"
-            android:paddingLeft="10dp"
-            android:gravity="center_vertical"
+
+            android:gravity="center"
 
             android:textColor="@color/text4"
             android:textSize="18sp"

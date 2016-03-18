@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import adapter.adapter_reason;
 import api.HTTP_API;
 import hoanvusolution.pikapaka.R;
+import image.lib_image_save_original;
 import internet.CheckWifi3G;
 import item.item_reason;
 import loading.lib_loading;
@@ -41,11 +42,13 @@ import loading.lib_loading;
 
 public class Activity_Rank_Report extends AppCompatActivity {
     private AppCompatActivity activity;
+    private ImageView img_avatar;
     private TextView tv_fullname,tv_age,tv_gender,tv_rank,tv_report;
     ProgressDialog   progressDialog1;
     private String SCORE="0";
     private String TAG_USERID_RANK="";
     private String TAG_FULLNAME="";
+    private String TAG_IMAGE="";
     private String TAG_STATUS;
     private String TAG_MESSAGE;
 
@@ -83,6 +86,7 @@ public class Activity_Rank_Report extends AppCompatActivity {
     private void get_resource()throws Exception{
         activity=this;
         ll_back=(LinearLayout)findViewById(R.id.ll_back);
+        img_avatar=(ImageView)findViewById(R.id.img_avatar);
         tv_fullname=(TextView)findViewById(R.id.tv_fullname);
         tv_age=(TextView)findViewById(R.id.tv_age);
         tv_gender=(TextView)findViewById(R.id.tv_gender);
@@ -97,11 +101,17 @@ public class Activity_Rank_Report extends AppCompatActivity {
             TAG_USERID_RANK= b.getString("id_user");
             String fullname = b.getString("fullname");
             TAG_FULLNAME = b.getString("fullname");
+            TAG_IMAGE= b.getString("imageUrl");
             String age = b.getString("age");
             String gender = b.getString("gender");
             tv_fullname.setText(fullname);
             tv_age.setText(age);
             tv_gender.setText(gender);
+
+            if(TAG_IMAGE.length()>0){
+                new lib_image_save_original(activity,TAG_IMAGE,img_avatar);
+
+            }
         }
     }
 

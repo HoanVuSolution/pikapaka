@@ -78,8 +78,8 @@ public class Activity_MyActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myactivity);
-//        mSocket.connect();
-//        mSocket.on("message:new",onMessage);
+        mSocket.connect();
+        mSocket.on("message:new",onMessage);
         try {
             init();
         } catch (Exception e) {
@@ -302,11 +302,44 @@ public void get_myactivity()throws Exception{
 //
 //    }
 //}
-    public Emitter.Listener onMessage = new Emitter.Listener() {
+private Emitter.Listener onMessage = new Emitter.Listener() {
+//        @Override
+//        public void call(Object... args) {
+//
+//            String message = args[0].toString();
+//            Log.e("onMessage-----", message);
+//
+//            JSONObject data =(JSONObject) args[0];
+//
+//            String _id=null;
+//            String conversationId=null;
+//            String firstName=null;
+//            String gender=null;
+//            String lastName=null;
+//            String content=null;
+//            try {
+//                _id =data.getString("_id");
+//                conversationId =data.getString("conversationId");
+//                content =data.getString("content");
+//                JSONObject from = data.getJSONObject("fromUser");
+//                firstName=from.getString("firstName");
+//                gender=from.getString("gender");
+//                lastName=from.getString("lastName");
+//            }catch (JSONException e){
+//                e.getStackTrace();
+//            }
+//
+//            item_chat item = new item_chat(_id,conversationId,firstName,gender,lastName,content);
+//
+//
+//            adapter_myactivity.add_message(item);
+//        }
+@Override
+public void call(final Object... args) {
+    Activity_MyActivity.this.runOnUiThread(new Runnable() {
         @Override
-        public void call(Object... args) {
-
-            String message = args[0].toString();
+        public void run() {
+                        String message = args[0].toString();
             Log.e("onMessage-----", message);
 
             JSONObject data =(JSONObject) args[0];
@@ -328,16 +361,17 @@ public void get_myactivity()throws Exception{
             }catch (JSONException e){
                 e.getStackTrace();
             }
-            Log.e("firstName",firstName.toString());
-            item_chat item = new item_chat(_id,conversationId,firstName,gender,lastName,content);
-//           adapter_myactivity.arr_chat.add(
-//                   new item_chat( _id,conversationId,firstName,gender,lastName,content)
-//                  );
-           // adapter_myactivity.adapter_ch= new adapater_chat(activity, adapter_myactivity.arr_chat);
-            //adapter_myactivity.adapter_ch.notifyDataSetChanged();
 
-           // adapter_myactivity.add_message(item);
+            item_chat item = new item_chat(_id,conversationId,firstName,gender,lastName,content);
+
+
+            adapter_myactivity.add_message(item);
+
+
         }
+    });
+}
+
     };
 //    private void addImage(Bitmap bmp){
 //        mMessages.add(new Message.Builder(Message.TYPE_MESSAGE)
