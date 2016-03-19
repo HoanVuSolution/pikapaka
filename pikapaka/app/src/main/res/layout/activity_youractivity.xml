@@ -181,6 +181,8 @@
                         android:padding="10dp"
                         android:typeface="serif"
                         android:maxLength="400"
+                        android:focusable="true"
+                        android:focusableInTouchMode ="true"
                         android:textSize="13sp"
                         android:textStyle="italic" />
 

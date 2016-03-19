@@ -7,6 +7,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +29,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import activity.Activity_YourActivity;
 import adapter.adapter_activity_type;
@@ -54,16 +59,20 @@ public class Home_Fragment extends Fragment {
     private ArrayList<item_categories> arr_cate = new ArrayList<item_categories>();
     public ArrayList<item_activity_types> arr_activty = new ArrayList<item_activity_types>();
     public ArrayList<item_activity_types> arr_activty_search = new ArrayList<item_activity_types>();
-    private adapter_activity_type adapter;
-    // private adappter_pager_type adapter1;
-    private GridView listview;
 
+
+    private GridView listview;
+private adapter_activity_type adapter;
     private String _idCate = "";
     private ImageView ic_favorites, ic_popular, ic_surprise;
     private int check_favorites = 0;
     View v;
     TextView tv_noty_users;
     private String d_id,d_name;
+
+    private ViewPager awesomePager;
+    private PagerAdapter pm;
+
 
     @Nullable
     @Override
@@ -90,6 +99,8 @@ public class Home_Fragment extends Fragment {
         }
     }
 
+
+
     private void init() throws Exception {
         get_resource();
         get_shapreference();
@@ -103,12 +114,10 @@ public class Home_Fragment extends Fragment {
     private void get_resource() throws Exception {
         tv_noty_users =(TextView)v.findViewById(R.id.tv_noty_users);
         tv_noty_users.setVisibility(View.GONE);
-        listview = (GridView) v.findViewById(R.id.listview);
-        /// pager = (ViewPager)findViewById(R.id.viewpager);
-        adapter = new adapter_activity_type(getActivity(), arr_activty_search);
-        //adapter1 = new adappter_pager_type(activity,arr_activty_search);
-        // pager.setAdapter(adapter1);
-        listview.setAdapter(adapter);
+        awesomePager = (ViewPager)v.findViewById(R.id.pager);
+        //listview = (GridView) v.findViewById(R.id.listview);
+       // adapter = new adapter_activity_type(getActivity(), arr_activty_search);
+        //listview.setAdapter(adapter);
         wheelMenu = (WheelMenu) v.findViewById(R.id.wheelMenu);
 
 
@@ -364,9 +373,99 @@ public class Home_Fragment extends Fragment {
                     ));
                 }
             }
-            adapter.notifyDataSetChanged();
+          //  adapter.notifyDataSetChanged();
             // adapter1.notifyDataSetChanged();
         }
+
+        //
+        Log.e("arr_activty_search size",arr_activty_search.size()+"");
+
+        if(arr_activty_search.size()>0){
+            load_slider();
+
+        }
+    }
+
+    private void load_slider(){
+
+
+        ArrayList<item_activity_types> a = new ArrayList<item_activity_types>();
+
+
+        for(int i = 0; i < arr_activty_search.size(); i++) {
+            a.add(arr_activty_search.get(i));
+
+        }
+
+
+        Iterator<item_activity_types> it = a.iterator();
+
+        List<GridFragment> gridFragments = new ArrayList<GridFragment>();
+        it = a.iterator();
+
+        int i = 0;
+        while(it.hasNext()) {
+            ArrayList<GridItems> imLst = new ArrayList<GridItems>();
+
+            GridItems itm = new GridItems(0,it.next());
+            imLst.add(itm);
+            i = i + 1;
+
+            if(it.hasNext()) {
+                GridItems itm1 = new GridItems(1, it.next());
+                imLst.add(itm1);
+                i = i + 1;
+            }
+
+            if(it.hasNext()) {
+                GridItems itm2 =new GridItems(2, it.next());
+                imLst.add(itm2);
+                i = i + 1;
+            }
+
+            if(it.hasNext()) {
+                GridItems itm3 =new GridItems(3, it.next());
+                imLst.add(itm3);
+                i = i + 1;
+            }
+
+            if(it.hasNext()) {
+                GridItems itm4 = new GridItems(4, it.next());
+                imLst.add(itm4);
+                i = i + 1;
+            }
+
+            if(it.hasNext()) {
+                GridItems itm5 = new GridItems(5,  it.next());
+                imLst.add(itm5);
+                i = i + 1;
+            }
+
+            if(it.hasNext()) {
+                GridItems itm6 = new GridItems(6,  it.next());
+                imLst.add(itm6);
+                i = i + 1;
+            }
+
+            if(it.hasNext()) {
+                GridItems itm7 = new GridItems(7, it.next());
+                imLst.add(itm7);
+                i = i + 1;
+            }
+
+//            if(it.hasNext()) {
+//                GridItems itm8 = new GridItems(8, it.next());
+//                imLst.add(itm8);
+//                i = i + 1;
+//            }
+
+            GridItems[] gp = {};
+            GridItems[] gridPage = imLst.toArray(gp);
+            gridFragments.add(new GridFragment(gridPage, getActivity()));
+        }
+
+        pm = new PagerAdapter( getActivity().getSupportFragmentManager(), gridFragments);
+        awesomePager.setAdapter(pm);
     }
 
     private void Item_Onlick() throws Exception {
@@ -485,7 +584,7 @@ public class Home_Fragment extends Fragment {
             protected void onPostExecute(String result) {
                 progressDialog.dismiss();
                 try {
-                    adapter.notifyDataSetChanged();
+                    //adapter.notifyDataSetChanged();
                     //adapter1.notifyDataSetChanged();
                 } catch (Exception e) {
 
@@ -502,5 +601,23 @@ public class Home_Fragment extends Fragment {
         }
     }
 
+    private class PagerAdapter extends FragmentStatePagerAdapter {
 
+        private List<GridFragment> fragments;
+
+        public PagerAdapter(FragmentManager fm, List<GridFragment> fragments) {
+            super(fm);
+            this.fragments = fragments;
+        }
+
+        @Override
+        public Fragment getItem(int pos) {
+            return this.fragments.get(pos);
+        }
+
+        @Override
+        public int getCount() {
+            return this.fragments.size();
+        }
+    }
 }

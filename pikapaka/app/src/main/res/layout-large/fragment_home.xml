@@ -145,18 +145,25 @@
                             android:src="@drawable/ic_arowright" />
 
                         <!--android:numColumns="4"-->
-                        <GridView
-                            android:id="@+id/listview"
+                        <!--<GridView-->
+                            <!--android:id="@+id/listview"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_marginRight="25dp"-->
+                            <!--android:layout_marginLeft="25dp"-->
+                            <!--android:numColumns="4"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:layout_marginTop="10dp"-->
+                            <!--tools:listitem="@layout/listview_widget_activity_type"-->
+                            <!--&gt;-->
+
+                        <!--</GridView>-->
+                        <android.support.v4.view.ViewPager
+                            android:id="@+id/pager"
                             android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="25dp"
                             android:layout_marginLeft="25dp"
-                            android:numColumns="4"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="10dp"
-                            tools:listitem="@layout/listview_widget_activity_type"
-                            >
-
-                        </GridView>
+                            />
 
                     </RelativeLayout>
                 </LinearLayout>

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -27,12 +27,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import adapter.adapter_myactivity;
 import api.HTTP_API;
 import hoanvusolution.pikapaka.MainActivity;
+import hoanvusolution.pikapaka.PikaPakaApplication;
 import hoanvusolution.pikapaka.R;
 import internet.CheckWifi3G;
 import item.item_chat;
@@ -64,20 +64,14 @@ public class Activity_MyActivity extends AppCompatActivity implements
     public static String TAG_LATITUDE="0";
     public static String TAG_LONGITUDE="0";
     private GPSTracker gps;
+    public Socket mSocket;
 
- //  private Socket_Manager socket = new Socket_Manager();
-    public com.github.nkzawa.socketio.client.Socket mSocket;
-    {
-        try {
-            mSocket = IO.socket(HTTP_API.SOCKET);
-        } catch (URISyntaxException e) {
-            Log.e("SOCKET CONNNECT----",e.toString());
-        }
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myactivity);
+        PikaPakaApplication application =(PikaPakaApplication)this.getApplication();
+        mSocket = application.getSocket();
         mSocket.connect();
         mSocket.on("message:new",onMessage);
         try {

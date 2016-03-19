@@ -53,7 +53,7 @@ public class Request_Token {
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                            Log.i("msg--",msg);
+                            Log.e("msg-facebook-",msg);
 
                             JSONObject jsonObject = new JSONObject(msg);
                             String status =jsonObject.getString("status");

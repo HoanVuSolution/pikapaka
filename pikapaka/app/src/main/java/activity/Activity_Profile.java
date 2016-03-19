@@ -726,7 +726,7 @@ public class Activity_Profile extends AppCompatActivity{
                             TAG_FIRSTNAME =data.getString("firstName");
                             TAG_LASTNAME =data.getString("lastName");
                             TAG_DOB =data.getString("dob");
-                            TAG_PROVIDER =data.getString("provider");
+                            //TAG_PROVIDER =data.getString("provider");
                             TAG_DISPLAYNAME =data.getString("displayName");
                             TAG_GENDER =data.getString("gender");
                             //TAG_USERNAME =data.getString("username");

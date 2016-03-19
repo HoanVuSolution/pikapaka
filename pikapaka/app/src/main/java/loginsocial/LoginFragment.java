@@ -1,10 +1,12 @@
 package loginsocial;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -28,6 +31,12 @@ import com.facebook.login.widget.ProfilePictureView;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,7 +44,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+import api.HTTP_API;
+import hoanvusolution.pikapaka.MainActivity;
 import hoanvusolution.pikapaka.R;
+import internet.CheckWifi3G;
+import loading.lib_loading;
+import shared_prefs.Commit_Sha;
 
 public class LoginFragment extends FragmentActivity {
     CallbackManager callbackManager;
@@ -48,8 +62,13 @@ public class LoginFragment extends FragmentActivity {
 
     RelativeLayout rl_back;
     private FragmentActivity activity;
+    private String TAG_TOKEN="";
 
     private String status="";
+    String user_ID="";
+    String token_RG="";
+    private String TAG_STATUS="";
+    private String TAG_MESSAGE="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,9 +94,9 @@ public class LoginFragment extends FragmentActivity {
 //            Toast.makeText(activity.getApplication(), token, Toast.LENGTH_LONG).show();
 //        }
 
-            Log.i("token----------1", token.getToken().toString());
-           // post_token();
+            Log.e("token----------1", token.getToken().toString());
 
+            TAG_TOKEN =token.getToken().toString();
 
         }
         onClick();
@@ -97,7 +116,7 @@ public class LoginFragment extends FragmentActivity {
 //        login.setReadPermissions("email");
 //        login.setReadPermissions("user_friends");
 //        login.setReadPermissions("user_birthday");
-        login.setReadPermissions(Arrays.asList("public_profile, email, user_birthday, user_friends"));
+        login.setReadPermissions(Arrays.asList(" email, user_birthday, user_photos "));
 
         share.setVisibility(View.INVISIBLE);
         details.setVisibility(View.INVISIBLE);
@@ -225,10 +244,9 @@ public class LoginFragment extends FragmentActivity {
 
         AccessToken token = AccessToken.getCurrentAccessToken();
         String _token=token.getToken().toString();
+        TAG_TOKEN=token.getToken().toString();
 
-        if(_token!=null||!_token.equals("")){
-            new http.Request_Token().send_token_social(getApplication(), _token);
-        }
+        Login_PikaPaka(TAG_TOKEN);
 
 
     }
@@ -257,4 +275,104 @@ public class LoginFragment extends FragmentActivity {
     }
 
 
+    private void Login_PikaPaka(final String token){
+
+        class Request extends AsyncTask<String, String, String> {
+            ProgressDialog   progressDialog;
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressDialog = lib_loading.f_init(activity);
+            }
+
+            @Override
+            protected String doInBackground(String... args) {
+                HttpClient client = new DefaultHttpClient();
+
+                HttpResponse response;
+                try {
+                    HttpGet post = new HttpGet(HTTP_API.Request_Token_SOC + "/" + token);
+
+
+
+                    response = client.execute(post);
+                    if (response != null) {
+
+                        HttpEntity resEntity = response.getEntity();
+                        if (resEntity != null) {
+                            String msg = EntityUtils.toString(resEntity);
+                            Log.e("msg-facebook-",msg);
+
+                            JSONObject jsonObject = new JSONObject(msg);
+                            TAG_STATUS =jsonObject.getString("status");
+                            TAG_MESSAGE =jsonObject.getString("message");
+                            Log.e("status--",status);
+
+
+                            JSONObject object =jsonObject.getJSONObject("data");
+                            user_ID =object.getString("userId");
+                            token_RG =object.getString("authToken");
+//                            String user_ID=object.getString("userId");
+//                            String token_RG=object.getString("authToken");
+                            Log.d("userID",user_ID);
+                            Log.d("authToken",token_RG);
+
+
+                            //parseJSON(msg);
+                        }
+                        if (resEntity != null) {
+                            resEntity.consumeContent();
+                        }
+
+
+
+                    }
+
+
+                } catch (Exception e) {
+                    progressDialog.dismiss();
+                    Log.e("Error", "Error");
+
+                } catch (Throwable t) {
+                    progressDialog.dismiss();
+                    Log.e("Error1", "Error1");
+
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                progressDialog.dismiss();
+                try {
+                    Toast.makeText(LoginFragment.this, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+
+                    if(user_ID.length()>0&& token_RG.length()>0){
+                        new Commit_Sha().Write_TokenID(LoginFragment.this,user_ID,token_RG,"user","pass");
+                        user_ID="";
+                        token_RG="";
+                        Intent in = new Intent(LoginFragment.this, MainActivity.class);
+                        in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(in);
+
+
+                    }
+
+
+
+
+                } catch (Exception e) {
+
+                } catch (Throwable t) {
+
+                }
+
+            }
+
+        }
+
+        if (CheckWifi3G.isConnected(LoginFragment.this)) {
+            new Request().execute();
+        }
+    }
 }

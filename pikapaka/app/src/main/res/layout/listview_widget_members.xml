@@ -7,14 +7,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="90dp"
         android:orientation="horizontal"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         >
         <Round_ImageView.RoundedImageView
             android:id="@+id/img_avatar"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
             android:src="@drawable/ic_avata_"
@@ -29,7 +29,7 @@
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:text="name"
                 android:gravity="center_vertical"
                 android:textSize="15sp"

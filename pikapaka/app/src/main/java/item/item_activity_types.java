@@ -14,6 +14,10 @@ public class item_activity_types {
     public String color;
     public String updatedAt;
 
+    public item_activity_types(){
+
+    }
+
     public item_activity_types(
             String _id,
             String name,
@@ -25,6 +29,7 @@ public class item_activity_types {
             String updatedAt
 
     ){
+        super();
         this._id=_id;
         this.name=name;
         this.description=description;

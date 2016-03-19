@@ -90,22 +90,9 @@ public class adapter_myactivity extends BaseAdapter {
 
     private String TAG_ACTIVITY_DELETE="";
 
-   public static   ArrayList<item_chat>arr_chat= new ArrayList<item_chat>();
-   public   ArrayList<item_chat>arr_chat_private= new ArrayList<item_chat>();
-    public static adapater_chat adapter_ch;
-     adapater_chat adapter_ch_private;
-    private boolean chat_private =false;
+    private  static  ArrayList<item_chat>arr_chat= new ArrayList<item_chat>();
 
-
-
-//    public com.github.nkzawa.socketio.client.Socket mSocket;
-//    {
-//        try {
-//            mSocket = IO.socket(HTTP_API.SOCKET);
-//        } catch (URISyntaxException e) {
-//            Log.e("SOCKET CONNNECT----",e.toString());
-//        }
-//    }
+    private static adapater_chat adapter_ch;
 
     public adapter_myactivity(Activity_MyActivity activity,
                               ArrayList<item_my_activity> arItem) {
@@ -114,8 +101,6 @@ public class adapter_myactivity extends BaseAdapter {
 
         this.arItem = arItem;
         this.activity = activity;
-
-
     }
 
     public int getCount() {
@@ -141,10 +126,7 @@ public class adapter_myactivity extends BaseAdapter {
     @SuppressLint({"InflateParams", "CutPasteId"})
     public View getView(int position, View convertView, final ViewGroup parent) {
         final int pos = position;
-
             if (convertView == null) {
-
-
                 convertView = mInflater.inflate(R.layout.listview_widget_my_activity,
                         null);
                 String activityType = arItem.get(pos).activityType;
@@ -160,6 +142,10 @@ public class adapter_myactivity extends BaseAdapter {
 
                 final  ImageView img_delete=(ImageView)convertView.findViewById(R.id.img_delete);
 
+                String type =arItem.get(pos).type;
+                if(type.equals("group")){
+                    img_delete.setVisibility(View.GONE);
+                }
                 //--------
 
                 final LinearLayout view1, view2, view3, view4,view5;
@@ -167,13 +153,12 @@ public class adapter_myactivity extends BaseAdapter {
                 view2 = (LinearLayout) convertView.findViewById(R.id.view2);
                 view3 = (LinearLayout) convertView.findViewById(R.id.view3);
                 view4 = (LinearLayout) convertView.findViewById(R.id.view4);
-                view5 = (LinearLayout) convertView.findViewById(R.id.view5);
+
                 // ***************************************
                 view1.setVisibility(View.GONE);
                 view2.setVisibility(View.GONE);
                 view3.setVisibility(View.GONE);
                 view4.setVisibility(View.GONE);
-                view5.setVisibility(View.GONE);
 
                 LinearLayout ll_backgroud = (LinearLayout) convertView.findViewById(R.id.ll_backgroud);
 
@@ -246,15 +231,10 @@ public class adapter_myactivity extends BaseAdapter {
                 // view4 item
 
 
-                final LinearLayout ll_back_view5 = (LinearLayout) convertView.findViewById(R.id.ll_back_view5);
-                final EditText ed_input_chat_view5 = (EditText) convertView.findViewById(R.id.ed_input_chat_view5);
-                final TextView tv_send_view5 = (TextView) convertView.findViewById(R.id.tv_send_view5);
-                final ListView list_chat_view5 = (ListView) convertView.findViewById(R.id.list_chat_view5);
-
                 adapter_ch = new adapater_chat(activity, arr_chat);
                 list_chat_view4.setAdapter(adapter_ch);
-                adapter_ch_private = new adapater_chat(activity, arr_chat_private);
-                list_chat_view5.setAdapter(adapter_ch_private);
+                Scroll_Listview();
+
                 //******************
 
                 class Loading extends AsyncTask<String, String, String> {
@@ -797,7 +777,7 @@ public class adapter_myactivity extends BaseAdapter {
 
                                 view3.setVisibility(View.GONE);
                                 view4.setVisibility(View.GONE);
-                                view5.setVisibility(View.GONE);
+
 
                                 tv_name_view2.setText(firstName);
                                 tv_plan_view2.setText(plan);
@@ -890,22 +870,22 @@ public class adapter_myactivity extends BaseAdapter {
                                         for (int i = 0; i < jarr.length(); i++) {
 
                                             String id = jarr.getJSONObject(i).getString("_id");
-                                            JSONObject profile = jarr.getJSONObject(i).getJSONObject("profile");
+                                            //JSONObject profile = jarr.getJSONObject(i).getJSONObject("profile");
 
-                                            String firstName = profile.getString("firstName");
+                                            String firstName =  jarr.getJSONObject(i).getString("firstName");
 
-                                            String gender = profile.getString("gender");
+                                            String gender =  jarr.getJSONObject(i).getString("gender");
 
-                                            String lastName = profile.getString("lastName");
+                                            String lastName =  jarr.getJSONObject(i).getString("lastName");
 
-                                            String dob = profile.getString("dob");
+                                            String dob =  jarr.getJSONObject(i).getString("dob");
 
-                                            String displayName = profile.getString("displayName");
+                                            String displayName =  jarr.getJSONObject(i).getString("displayName");
 
-                                            String age = profile.getString("age");
+                                            String age =  jarr.getJSONObject(i).getString("age");
                                             String imageUrl="";
                                             try {
-                                                imageUrl =profile.getString("imageUrl");
+                                                imageUrl = jarr.getJSONObject(i).getString("imageUrl");
                                             }catch(JSONException e){
                                                 imageUrl="";
                                                 Log.e("Error,---","TAG_IMAGE_URL");
@@ -958,7 +938,7 @@ public class adapter_myactivity extends BaseAdapter {
                                 view1.setVisibility(View.GONE);
                                 view2.setVisibility(View.GONE);
                                 view4.setVisibility(View.GONE);
-                                view5.setVisibility(View.GONE);
+
                                 view3.setVisibility(View.VISIBLE);
                                 view3.setBackgroundColor(Color.parseColor(activityTypeColor));
                                 ll_back_view3.setBackgroundColor(Color.parseColor(activityTypeColor));
@@ -1312,7 +1292,6 @@ public class adapter_myactivity extends BaseAdapter {
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
-                        // progressDialog = lib_loading.f_init(activity);
                         progressDialog = ProgressDialog.show(activity, "",
                                 "", true);
                     }
@@ -1320,7 +1299,6 @@ public class adapter_myactivity extends BaseAdapter {
                     @Override
                     protected String doInBackground(String... args) {
                         try {
-                            // Looper.prepare(); //For Preparing Message Pool for the child Thread
                             HttpClient client = new DefaultHttpClient();
 
                             JSONObject json = new JSONObject();
@@ -1374,12 +1352,6 @@ public class adapter_myactivity extends BaseAdapter {
                             Log.e("TAG_MESSAGE---", TAG_MESSAGE);
 
                             if (TAG_STATUS.equals("success")) {
-                                //Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
-//                                arr_chat.add(new item_chat("", "", dataString.TAG_FIRSTNAME, "", "", TAG_CONTENT_CHAT
-//                                ));
-//                                adapter_ch = new adapater_chat(activity, arr_chat);
-//                                list_chat_view4.setAdapter(adapter_ch);
-                               // adapter_ch.notifyDataSetChanged();
                                 TAG_CONTENT_CHAT = "";
                                 ed_input_chat_view4.setText("");
                             } else {
@@ -1509,118 +1481,7 @@ public class adapter_myactivity extends BaseAdapter {
 
                 }
 
-                class Load_ListChat_private extends AsyncTask<String, String, String> {
 
-                    ProgressDialog progressDialog;
-
-
-                    @Override
-                    protected void onPreExecute() {
-                        super.onPreExecute();
-                        // progressDialog = lib_loading.f_init(activity);
-                        progressDialog = ProgressDialog.show(activity, "",
-                                "", true);
-                    }
-
-                    @Override
-                    protected String doInBackground(String... args) {
-                        try {
-                            // Looper.prepare(); //For Preparing Message Pool for the child Thread
-                            HttpClient client = new DefaultHttpClient();
-
-                            JSONObject json = new JSONObject();
-
-                            HttpGet post = new HttpGet(HTTP_API.CHAT_LOADLIST + TAG_CONVERSATION);
-                            post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
-                            post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
-
-
-                            HttpResponse response;
-                            response = client.execute(post);
-
-                            if (response != null) {
-                                HttpEntity resEntity = response.getEntity();
-                                if (resEntity != null) {
-                                    String msg = EntityUtils.toString(resEntity);
-                                    Log.v("msg-- cate", msg);
-                                    JSONObject jsonObject = new JSONObject(msg);
-                                    TAG_STATUS = jsonObject.getString("status");
-                                    TAG_MESSAGE = jsonObject.getString("message");
-                                    // mSocket.emit("join",TAG_CONVERSATION)
-                                    //Activity_Flash_Screen.mSocket.emit("join",TAG_CONVERSATION);
-                                    //Activity_Flash_Screen.mSocket.on("message:new",newMessage);
-
-                                    activity.mSocket.emit(TAG_CONVERSATION);
-
-                                    JSONObject jdata = jsonObject.getJSONObject("data");
-
-                                    JSONArray message = jdata.getJSONArray("messages");
-                                    arr_chat_private.clear();
-                                    for (int i = 0; i < message.length(); i++) {
-                                        String _id = message.getJSONObject(i).getString("_id");
-                                        String conversationId = message.getJSONObject(i).getString("conversationId");
-//                                    String fromUser =message.getJSONObject(i).getString("fromUser");
-//
-                                        JSONObject fromUser = message.getJSONObject(i).getJSONObject("fromUser");
-                                        JSONObject profile = fromUser.getJSONObject("profile");
-                                        String firstName = profile.getString("firstName");
-                                        String gender = profile.getString("gender");
-                                        String lastName = profile.getString("lastName");
-                                        String content = message.getJSONObject(i).getString("content");
-                                        item_chat item = new item_chat(_id, conversationId, firstName, gender, lastName, content);
-                                        arr_chat_private.add(item);
-                                    }
-
-                                }
-
-                                if (resEntity != null) {
-                                    resEntity.consumeContent();
-                                }
-
-                                client.getConnectionManager().shutdown();
-
-                            }
-                        } catch (Exception e) {
-                            progressDialog.dismiss();
-
-                        } catch (Throwable t) {
-                            progressDialog.dismiss();
-
-                        }
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(String result) {
-                        progressDialog.dismiss();
-                        try {
-                            Log.e("TAG_STATUS----", TAG_STATUS);
-                            Log.e("TAG_MESSAGE---", TAG_MESSAGE);
-
-                            if (arr_chat_private.size() > 0) {
-                                //  Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
-                                Log.e("arr_chat size", arr_chat.size() + "");
-                                adapater_chat adapter = new adapater_chat(activity, arr_chat_private);
-
-
-                                list_chat_view5.setAdapter(adapter);
-                                list_chat_view5.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-                                list_chat_view5.setStackFromBottom(true);
-
-                            } else {
-                                Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
-                            }
-
-
-                        } catch (Exception e) {
-
-                        } catch (Throwable t) {
-
-                        }
-
-                    }
-
-                }
 
                 class Get_Conversations extends AsyncTask<String, String, String> {
 
@@ -1719,13 +1580,8 @@ public class adapter_myactivity extends BaseAdapter {
                             if (TAG_STATUS.equals("success")) {
 
                                 if (TAG_CONVERSATION.length() > 0) {
-                                    if(chat_private){
-                                        new Load_ListChat_private().execute();
-                                    }
-                                    else{
-                                        new Load_ListChat().execute();
-                                    }
 
+                                    new Load_ListChat().execute();
                                 }
 
                             } else {
@@ -1957,7 +1813,7 @@ public class adapter_myactivity extends BaseAdapter {
                             view2.setVisibility(View.GONE);
                             view3.setVisibility(View.GONE);
                             view4.setVisibility(View.GONE);
-                            view5.setVisibility(View.GONE);
+
 
                             click = false;
 
@@ -2219,7 +2075,7 @@ public class adapter_myactivity extends BaseAdapter {
                             Toast.makeText(activity, "Please input content", Toast.LENGTH_SHORT).show();
                         } else {
                             new Chat_Group().execute();
-                            //activity.addMessage(TAG_CONTENT_CHAT);
+
 
                         }
                     }
@@ -2240,29 +2096,6 @@ public class adapter_myactivity extends BaseAdapter {
 
                 /// view 5 click
 
-                ll_back_view5.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        view1.setVisibility(View.GONE);
-                        view2.setVisibility(View.VISIBLE);
-                        view3.setVisibility(View.GONE);
-                        view4.setVisibility(View.GONE);
-                        view5.setVisibility(View.GONE);
-                    }
-                });
-                tv_send_view5.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String text =ed_input_chat_view5.getText().toString();
-                        if(text.length()==0){
-                            Toast.makeText(activity,"please input content!",Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            new Chat_Private().execute();
-                        }
-
-                    }
-                });
                 //***************************************************************
 
             }

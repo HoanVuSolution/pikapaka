@@ -122,23 +122,23 @@ public class Activity_Members extends AppCompatActivity {
                                 for (int i = 0; i < jarr.length(); i++) {
 
                                     String id = jarr.getJSONObject(i).getString("_id");
-                                    JSONObject profile = jarr.getJSONObject(i).getJSONObject("profile");
+                                   // JSONObject profile = jarr.getJSONObject(i).getJSONObject("profile");
 
-                                    String firstName = profile.getString("firstName");
+                                    String firstName =  jarr.getJSONObject(i).getString("firstName");
 
-                                    String gender = profile.getString("gender");
+                                    String gender =  jarr.getJSONObject(i).getString("gender");
 
-                                    String lastName = profile.getString("lastName");
+                                    String lastName =  jarr.getJSONObject(i).getString("lastName");
 
-                                    String dob = profile.getString("dob");
+                                    String dob =  jarr.getJSONObject(i).getString("dob");
 
-                                    String displayName = profile.getString("displayName");
+                                    String displayName =  jarr.getJSONObject(i).getString("displayName");
 
-                                    String age = profile.getString("age");
+                                    String age =  jarr.getJSONObject(i).getString("age");
 
                                     String imageUrl="";
                                     try {
-                                        imageUrl =profile.getString("imageUrl");
+                                        imageUrl = jarr.getJSONObject(i).getString("imageUrl");
                                     }catch(JSONException e){
                                         imageUrl="";
                                         Log.e("Error,---","TAG_IMAGE_URL");
