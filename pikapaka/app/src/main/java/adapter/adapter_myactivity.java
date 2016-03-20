@@ -1420,12 +1420,20 @@ public class adapter_myactivity extends BaseAdapter {
 //                                    String fromUser =message.getJSONObject(i).getString("fromUser");
 //
                                         JSONObject fromUser = message.getJSONObject(i).getJSONObject("fromUser");
+                                        String id_user = fromUser.getString("_id");
                                         JSONObject profile = fromUser.getJSONObject("profile");
                                         String firstName = profile.getString("firstName");
+
                                         String gender = profile.getString("gender");
                                         String lastName = profile.getString("lastName");
                                         String content = message.getJSONObject(i).getString("content");
-                                        item_chat item = new item_chat(_id, conversationId, firstName, gender, lastName, content);
+                                        String imageUrl="";
+                                        try {
+                                            imageUrl = profile.getString("imageUrl");
+                                        }catch (JSONException e){
+                                            imageUrl="";
+                                        }
+                                        item_chat item = new item_chat(_id, conversationId,id_user, firstName, gender, lastName,imageUrl, content);
                                         arr_chat.add(item);
                                     }
 
@@ -1521,11 +1529,6 @@ public class adapter_myactivity extends BaseAdapter {
                             post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
                             post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
 
-//                        json.put("toGroup", TAG_ID);
-//                        json.put("content", TAG_CONTENT_CHAT);
-//                        StringEntity se = new StringEntity(json.toString());
-//                        se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-//                        post.setEntity(se);
 
                             HttpResponse response;
                             response = client.execute(post);
@@ -1598,99 +1601,7 @@ public class adapter_myactivity extends BaseAdapter {
                     }
 
                 }
-              class Chat_Private extends AsyncTask<String, String, String> {
 
-                    ProgressDialog progressDialog;
-
-                    @Override
-                    protected void onPreExecute() {
-                        super.onPreExecute();
-                        // progressDialog = lib_loading.f_init(activity);
-                        progressDialog = ProgressDialog.show(activity, "",
-                                "", true);
-                    }
-
-                    @Override
-                    protected String doInBackground(String... args) {
-                        try {
-                            // Looper.prepare(); //For Preparing Message Pool for the child Thread
-                            HttpClient client = new DefaultHttpClient();
-
-                            JSONObject json = new JSONObject();
-
-                            HttpPost post = new HttpPost(HTTP_API.CHAT_PRIVATE);
-                            post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
-                            post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
-
-                            json.put("toUser", TAG_ID_USER_CHAT_PPRITE);
-                            json.put("toGroup", TAG_ID);
-                            json.put("content", TAG_CONTENT_CHAT_PRIVATE);
-                            StringEntity se = new StringEntity(json.toString());
-                            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-                            post.setEntity(se);
-
-                            HttpResponse response;
-                            response = client.execute(post);
-
-                            if (response != null) {
-                                HttpEntity resEntity = response.getEntity();
-                                if (resEntity != null) {
-                                    String msg = EntityUtils.toString(resEntity);
-                                    Log.v("msg-- CHAT", msg);
-                                    JSONObject jsonObject = new JSONObject(msg);
-                                    TAG_STATUS = jsonObject.getString("status");
-                                    TAG_MESSAGE = jsonObject.getString("message");
-
-                                }
-
-                                if (resEntity != null) {
-                                    resEntity.consumeContent();
-                                }
-
-                                client.getConnectionManager().shutdown();
-
-                            }
-                        } catch (Exception e) {
-                            progressDialog.dismiss();
-
-                        } catch (Throwable t) {
-                            progressDialog.dismiss();
-
-                        }
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(String result) {
-                        progressDialog.dismiss();
-                        try {
-                            Log.e("TAG_STATUS----", TAG_STATUS);
-                            Log.e("TAG_MESSAGE---", TAG_MESSAGE);
-                            Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
-
-//                            if (TAG_STATUS.equals("success")) {
-////                                arr_chat.add(new item_chat("", "", dataString.TAG_FIRSTNAME, "", "", TAG_CONTENT_CHAT
-////                                ));
-////
-////                                // adapter_ch.notifyDataSetChanged();
-////                                adapter_ch = new adapater_chat(activity, arr_chat);
-////                                list_chat_view4.setAdapter(adapter_ch);
-////                                TAG_CONTENT_CHAT = "";
-////                                ed_input_chat_view4.setText("");
-//                            } else {
-//                                Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
-//                            }
-
-
-                        } catch (Exception e) {
-
-                        } catch (Throwable t) {
-
-                        }
-
-                    }
-
-                }
                 class Delete_Ac extends AsyncTask<String, String, String> {
                     ProgressDialog progressDialog;
 

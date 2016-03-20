@@ -2,12 +2,11 @@ package hoanvusolution.pikapaka;
 
 import android.app.Application;
 
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
-
 import java.net.URISyntaxException;
 
 import api.HTTP_API;
+import io.socket.client.IO;
+import io.socket.client.Socket;
 
 /**
  * Created by MrThanhPhong on 3/18/2016.

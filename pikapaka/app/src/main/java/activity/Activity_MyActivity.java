@@ -14,9 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.Socket;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -35,6 +32,8 @@ import hoanvusolution.pikapaka.MainActivity;
 import hoanvusolution.pikapaka.PikaPakaApplication;
 import hoanvusolution.pikapaka.R;
 import internet.CheckWifi3G;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import item.item_chat;
 import item.item_my_activity;
 import loading.lib_loading;
@@ -65,12 +64,12 @@ public class Activity_MyActivity extends AppCompatActivity implements
     public static String TAG_LONGITUDE="0";
     private GPSTracker gps;
     public Socket mSocket;
-
+private PikaPakaApplication application;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myactivity);
-        PikaPakaApplication application =(PikaPakaApplication)this.getApplication();
+        application =(PikaPakaApplication)this.getApplication();
         mSocket = application.getSocket();
         mSocket.connect();
         mSocket.on("message:new",onMessage);
@@ -286,48 +285,9 @@ public void get_myactivity()throws Exception{
     }
 // _________________________________
 
-//
-//public void addMessage(String message){
-//    JSONObject sendText = new JSONObject();
-//    try{
-//        sendText.put("text",message);
-//        //mSocket.emit("message", sendText);
-//    }catch(JSONException e){
-//
-//    }
-//}
+
 private Emitter.Listener onMessage = new Emitter.Listener() {
-//        @Override
-//        public void call(Object... args) {
-//
-//            String message = args[0].toString();
-//            Log.e("onMessage-----", message);
-//
-//            JSONObject data =(JSONObject) args[0];
-//
-//            String _id=null;
-//            String conversationId=null;
-//            String firstName=null;
-//            String gender=null;
-//            String lastName=null;
-//            String content=null;
-//            try {
-//                _id =data.getString("_id");
-//                conversationId =data.getString("conversationId");
-//                content =data.getString("content");
-//                JSONObject from = data.getJSONObject("fromUser");
-//                firstName=from.getString("firstName");
-//                gender=from.getString("gender");
-//                lastName=from.getString("lastName");
-//            }catch (JSONException e){
-//                e.getStackTrace();
-//            }
-//
-//            item_chat item = new item_chat(_id,conversationId,firstName,gender,lastName,content);
-//
-//
-//            adapter_myactivity.add_message(item);
-//        }
+
 @Override
 public void call(final Object... args) {
     Activity_MyActivity.this.runOnUiThread(new Runnable() {
@@ -340,23 +300,28 @@ public void call(final Object... args) {
 
             String _id=null;
             String conversationId=null;
+            String id_user=null;
             String firstName=null;
             String gender=null;
             String lastName=null;
+            String imageUrl=null;
             String content=null;
             try {
                 _id =data.getString("_id");
                 conversationId =data.getString("conversationId");
+
                 content =data.getString("content");
                 JSONObject from = data.getJSONObject("fromUser");
+                id_user =from.getString("_id");
                 firstName=from.getString("firstName");
                 gender=from.getString("gender");
                 lastName=from.getString("lastName");
+                imageUrl=from.getString("imageUrl");
             }catch (JSONException e){
                 e.getStackTrace();
             }
 
-            item_chat item = new item_chat(_id,conversationId,firstName,gender,lastName,content);
+            item_chat item = new item_chat(_id,conversationId,id_user,firstName,gender,lastName,imageUrl,content);
 
 
             adapter_myactivity.add_message(item);

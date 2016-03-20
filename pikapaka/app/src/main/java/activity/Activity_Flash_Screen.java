@@ -8,9 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -18,8 +15,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
-
-import java.net.URISyntaxException;
 
 import api.HTTP_API;
 import hoanvusolution.pikapaka.MainActivity;
@@ -55,7 +50,7 @@ public class Activity_Flash_Screen extends AppCompatActivity {
 
     private void init()throws Exception{
         get_shapreference();
-        mSocket.connect();
+
     }
     private void get_shapreference() throws Exception {
         try{
@@ -199,26 +194,5 @@ public class Activity_Flash_Screen extends AppCompatActivity {
         }
     }
 
-    public static Socket mSocket;
-    {
-        try {
-            mSocket = IO.socket("http://52.26.102.232:3002/");
-            mSocket.connect();
-            //mSocket.emit("join","11111111111");
-//            IO.Options opts = new IO.Options();
-//            opts.query = "token=" + TAG_AUTH_TOKEN + "&id=" + TAG_USERID;
-//            mSocket = IO.socket("http://52.26.102.232:3002/", opts);
 
-
-        } catch (URISyntaxException e) {
-            Log.e("SOCKET CONNNECT----",e.toString());
-        }
-    }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        mSocket.disconnect();
-        //mSocket.off("new message", onNewMessage);
-    }
 }

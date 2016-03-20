@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
@@ -37,8 +37,7 @@ public class Activity_Members extends AppCompatActivity {
     private  String TAG_STATUS="";
     private  String TAG_MESSAGE="";
     private ProgressDialog progressDialog;
-
-    private LinearLayout ll_back;
+    private RelativeLayout ll_back;
     private ListView list_members;
     public ArrayList<item_user_group> arr_user = new ArrayList<item_user_group>();
 
@@ -60,7 +59,7 @@ public class Activity_Members extends AppCompatActivity {
     }
     private  void get_resource()throws Exception{
         activity=this;
-        ll_back =(LinearLayout)findViewById(R.id.ll_back);
+        ll_back =(RelativeLayout)findViewById(R.id.ll_back);
         list_members=(ListView)findViewById(R.id.list_members);
     }
     private void onClick(){

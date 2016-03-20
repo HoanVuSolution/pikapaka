@@ -2,58 +2,80 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:orientation="horizontal"
+        android:layout_height="80dp"
         android:layout_marginBottom="5dp"
-        >
+        android:orientation="horizontal">
+
         <Round_ImageView.RoundedImageView
             android:id="@+id/img_avatar"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
-            android:src="@drawable/ic_avata_"
-            />
+            android:src="@drawable/ic_avata_" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_marginLeft="10dp"
+            android:weightSum="1"
             >
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:text="name"
-                android:gravity="center_vertical"
-                android:textSize="15sp"
-                android:textColor="@color/text4"
-                android:textStyle="bold"
-                />
-            <TextView
-                android:id="@+id/tv_gender"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:text="man"
-                android:gravity="center_vertical"
-                android:textSize="14sp"
-                android:textColor="@color/text3"
-                />
-            <TextView
-                android:id="@+id/tv_old"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:text="man"
-                android:gravity="center_vertical"
-                android:textSize="14sp"
-                android:textColor="@color/text3"
-                />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical"
+                    android:text="name"
+                    android:textColor="@color/text4"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:gravity="center_vertical"
+                    android:text="man"
+                    android:textColor="@color/text3"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_old"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:gravity="center_vertical"
+                    android:text="man"
+                    android:textColor="@color/text3"
+                    android:textSize="14sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:id="@+id/ic_chat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_chat1"
+                    android:layout_gravity="center"
+                    />
+
+            </LinearLayout>L
         </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

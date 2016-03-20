@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import hoanvusolution.pikapaka.R;
+import image.lib_image_save_original;
 import item.item_chat;
 
 public class adapater_chat extends BaseAdapter{
@@ -56,6 +58,7 @@ public class adapater_chat extends BaseAdapter{
 				res = R.layout.listview_widget_chat;//
 				convertView = mInflater.inflate(res, parent, false);
 			}
+			ImageView img_profile =(ImageView)convertView.findViewById(R.id.img_profile);
 
 			TextView tv_name_sender,tv_msg;
 			tv_name_sender =(TextView)convertView.findViewById(R.id.tv_name_sender);
@@ -64,7 +67,11 @@ public class adapater_chat extends BaseAdapter{
 		
 			tv_name_sender.setText(arItem.get(pos).firstName+":");
 			tv_msg.setText(arItem.get(pos).content);
-		
+			String imageUrl =arItem.get(pos).imageUrl;
+			if(imageUrl.length()>0){
+				new lib_image_save_original(activity,imageUrl,img_profile);
+
+			}
 			
 		
 		} catch (Exception e) {

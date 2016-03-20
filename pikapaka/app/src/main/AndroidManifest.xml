@@ -112,6 +112,11 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
 
         </activity>
+        <activity
+            android:name="activity.Activity_Chat_Private"
+            android:windowSoftInputMode="adjustPan">
+
+        </activity>
 
 
         <!-- GCM -->

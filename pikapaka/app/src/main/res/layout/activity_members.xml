@@ -13,10 +13,10 @@
         android:background="@color/background2">
 
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/ll_back"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_centerVertical="true"
             android:paddingLeft="10dp"
@@ -25,11 +25,11 @@
             >
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_back"
                 android:layout_gravity="center_vertical"
                 />
-        </LinearLayout>
+        </RelativeLayout>
 
 
         <TextView
@@ -45,9 +45,6 @@
             android:textSize="20sp" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"/>
 
     <ListView
         android:id="@+id/list_members"
