@@ -9,6 +9,8 @@ public class HTTP_API {
             public static String SOCKET = "http://52.26.102.232:3002";
 
     public static String LOGIN_SOICAL="52.26.102.232:3000/api/auth/login/local";
+    public static String LOGIN_Google=baseUrl+"api/v1/auth/google/login";
+
     public static String REGISTER=baseUrl+"api/v1/users/create";
     public static String LOGIN=baseUrl+"api/v1/auth/login/local";
     public static String LOGOUT=baseUrl+"api/v1/auth/logout";
@@ -16,6 +18,7 @@ public class HTTP_API {
 
     public static String Request_Token=baseUrl+"api/v1/users/profile/me";
     public static String Request_Token_SOC=baseUrl+"api/v1/auth/facebook/verify";
+    public static String Request_Token_SOC_Google=baseUrl+"api/v1/auth/google/verify";
     public static String GET_ALL_CATEGORIES=baseUrl+"api/v1/categories/get-all";
     public static String CREATE_ACTIVITIES=baseUrl+"api/v1/activities/create";
 

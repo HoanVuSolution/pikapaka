@@ -22,8 +22,13 @@
     <string name="signed_in_fmt">Signed in as: %s</string>
     <string name="loading">Loading…</string>
     <string name="signed_out">Signed out</string>
-    <string name="title_text">Google Sign-In\nQuickstart</string>
+    <string name="title_text">PikaPaka Sign-in\n Quickstart</string>
     <string name="sign_out">Sign Out</string>
     <string name="disconnect">Disconnect</string>
     <string name="desc_google_icon">Google Logo</string>
+    <string name="server_client_id">613376380859-b4i65l0fdgv092r0dctg7l8oiopjheug</string>
+    <string name="auth_code_fmt">Auth Code: %s</string>
+    <string name="id_token_fmt">ID Token: %s</string>
+    <string name="signed_in">Signed in</string>
+
 </resources>

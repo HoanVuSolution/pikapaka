@@ -310,12 +310,12 @@ public class LoginFragment extends FragmentActivity {
 
 
                             JSONObject object =jsonObject.getJSONObject("data");
-                            user_ID =object.getString("userId");
-                            token_RG =object.getString("authToken");
-//                            String user_ID=object.getString("userId");
-//                            String token_RG=object.getString("authToken");
-                            Log.d("userID",user_ID);
-                            Log.d("authToken",token_RG);
+                            if(object.length()>0){
+                                user_ID =object.getString("userId");
+                                token_RG =object.getString("authToken");
+                                Log.d("userID",user_ID);
+                                Log.d("authToken",token_RG);
+                            }
 
 
                             //parseJSON(msg);

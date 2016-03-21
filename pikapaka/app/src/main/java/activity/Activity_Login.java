@@ -46,7 +46,10 @@ import internet.CheckWifi3G;
 import loading.lib_dialog;
 import loading.lib_loading;
 import loginsocial.LoginFragment;
+import loginsocial.LoginGoogle;
+import loginsocial.Login_Twitter;
 import shared_prefs.Commit_Sha;
+import util.Activity_Result;
 
 public class Activity_Login extends AppCompatActivity {
 
@@ -141,15 +144,15 @@ public class Activity_Login extends AppCompatActivity {
         img_switter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Activity_Login.this, "Processing...", Toast.LENGTH_SHORT).show();
-            }
+                Intent in = new Intent(activity, Login_Twitter.class);
+                startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);            }
         });
         img_googleplus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Activity_Login.this, "Processing...", Toast.LENGTH_SHORT).show();
-                //Intent in = new Intent(activity, LoginGoogle.class);
-                //startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);
+                //Toast.makeText(Activity_Login.this, "Processing...", Toast.LENGTH_SHORT).show();
+                Intent in = new Intent(activity, LoginGoogle.class);
+                startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);
 
             }
         });
