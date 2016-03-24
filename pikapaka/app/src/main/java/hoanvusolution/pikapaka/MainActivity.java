@@ -292,16 +292,29 @@ public class MainActivity extends AppCompatActivity {
 
                             if (TAG_STATUS.equals("success")) {
                                 JSONObject data = jsonObject.getJSONObject("data");
-                                dataString.TAG_FIRSTNAME = data.getString("firstName");
-                                dataString.TAG_LASTNAME = data.getString("lastName");
-                                dataString.TAG_DISPLAYNAME = data.getString("displayName");
-                                dataString.TAG_GENDER = data.getString("gender");
-                                dataString.TAG_EMAIL = data.getString("email");
 
+                                if(!data.isNull("firstName")){
+                                    dataString.TAG_FIRSTNAME = data.getString("firstName");
+
+                                }
+                                if(!data.isNull("lastName")){
+                                    dataString.TAG_LASTNAME = data.getString("lastName");
+
+                                }
+
+                                if(!data.isNull("displayName")){
+                                    dataString.TAG_DISPLAYNAME = data.getString("displayName");
+
+                                }
+                                if(!data.isNull("gender")){
+                                    dataString.TAG_GENDER = data.getString("gender");
+                                }
+                                if(!data.isNull("email")){
+                                    dataString.TAG_EMAIL = data.getString("email");
+                                }
                                 if(!data.isNull("age")){
                                     dataString.TAG_AGE = data.getString("age");
                                 }
-
                                 if(!data.isNull("imageUrl")){
                                     TAG_IMAGE_URL =data.getString("imageUrl");
                                     dataString.TAG_IMAGE_URL =TAG_IMAGE_URL;
@@ -323,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
 
                 } catch (Exception e) {
 
-                    Log.e("Error", "Error");
+                    Log.e("Error--", "Erro----r");
 
                 } catch (Throwable t) {
 

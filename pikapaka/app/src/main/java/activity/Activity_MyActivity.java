@@ -172,6 +172,7 @@ public void get_myactivity()throws Exception{
                             JSONArray jsonarray = jsonObject.getJSONArray("data");
                             for(int i=0;i<jsonarray.length();i++){
                                 String _id = jsonarray.getJSONObject(i).getString("_id");
+                                String activityTypeIcon = jsonarray.getJSONObject(i).getString("activityTypeIcon");
                                 String activityType = jsonarray.getJSONObject(i).getString("activityType");
                                 String plan = "";
 //                                if (!jsonarray.getJSONObject(i).getString("plan").isEmpty()) {
@@ -203,6 +204,7 @@ public void get_myactivity()throws Exception{
 
                             item_my_activity item = new item_my_activity(
                                      _id,
+                                    activityTypeIcon,
                                      activityType,
                                      plan,
                                      minNumOfParticipants,

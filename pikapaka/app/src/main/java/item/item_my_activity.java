@@ -5,6 +5,7 @@ package item;
  */
 public class item_my_activity {
     public String _id = "";
+    public String activityTypeIcon = "";
     public String activityType = "";
     public String plan = "";
     public String minNumOfParticipants = "";
@@ -25,6 +26,7 @@ public class item_my_activity {
 
     public item_my_activity(
             String _id,
+            String activityTypeIcon,
             String activityType,
             String plan,
             String minNumOfParticipants,
@@ -45,6 +47,7 @@ public class item_my_activity {
     ) {
 
         this._id=_id;
+        this.activityTypeIcon=activityTypeIcon;
         this.activityType=activityType;
         this.plan=plan;
         this.minNumOfParticipants=minNumOfParticipants;

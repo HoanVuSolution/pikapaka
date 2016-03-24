@@ -140,6 +140,12 @@ public class adapter_myactivity extends BaseAdapter {
                 tv_count_frend.setVisibility(View.GONE);
                 tv_name.setText(arItem.get(pos).activityTypeName.toUpperCase());
                 tv_status.setText(arItem.get(pos).status.toUpperCase());
+                String activityTypeIcon =arItem.get(pos).activityTypeIcon;
+                if(activityTypeIcon.length()>0){
+                    activityTypeIcon=HTTP_API.url_image+activityTypeIcon;
+                    new lib_image_save_original(activity,activityTypeIcon,img_cate);
+
+                }
 
                 final  ImageView img_delete=(ImageView)convertView.findViewById(R.id.img_delete);
 
