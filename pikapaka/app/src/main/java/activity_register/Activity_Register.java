@@ -290,12 +290,6 @@ public class Activity_Register extends AppCompatActivity {
         });
     }
 
-
-
-//
-
-
-
     private String get_datetime_current(){
         //TimeUnit timeUnit = new TimeUnit().;
        // String time = timeUnit.toString();

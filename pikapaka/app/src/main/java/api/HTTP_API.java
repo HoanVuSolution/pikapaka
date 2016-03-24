@@ -6,10 +6,13 @@ package api;
 public class HTTP_API {
         //http://52.26.102.232:3000/
             public static String baseUrl = "http://52.26.102.232:3000/";
+            public static String url_image = "http://52.26.102.232:3000";
             public static String SOCKET = "http://52.26.102.232:3002";
 
     public static String LOGIN_SOICAL="52.26.102.232:3000/api/auth/login/local";
     public static String LOGIN_Google=baseUrl+"api/v1/auth/google/login";
+    public static String LOGIN_Twitter_verify=baseUrl+"api/v1/auth/twitter/verify";
+    public static String LOGIN_Twitter_add_email=baseUrl+"api/v1/auth/twitter/add-email";
 
     public static String REGISTER=baseUrl+"api/v1/users/create";
     public static String LOGIN=baseUrl+"api/v1/auth/login/local";

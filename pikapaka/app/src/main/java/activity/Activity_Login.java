@@ -314,6 +314,9 @@ public class Activity_Login extends AppCompatActivity {
                         Log.e("TAG_AUTH_TOKEN", TAG_AUTH_TOKEN);
 
                         Intent in = new Intent(activity, MainActivity.class);
+                        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(in);
                         finish();
                     } else {

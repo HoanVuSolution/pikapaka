@@ -18,4 +18,5 @@ public class dataString {
     public static String TAG_GENDER="";
     public static String TAG_EMAIL="";
     public static String TAG_IMAGE_URL="";
+    public static String TAG_AGE="";
 }

@@ -1,5 +1,7 @@
 package item;
 
+import org.json.JSONArray;
+
 /**
  * Created by MrThanhPhong on 3/1/2016.
  */
@@ -19,7 +21,7 @@ public class item_search_activity {
     public String age = "";
     public String imageUrl = "";
     public String hasRequest = "";
-
+    public JSONArray arr_group;
     public item_search_activity(
             String _id ,
             String activityType,
@@ -34,7 +36,8 @@ public class item_search_activity {
             String displayName,
             String age,
             String imageUrl,
-            String hasRequest
+            String hasRequest,
+            JSONArray arr_group
 
     ){
 
@@ -57,5 +60,6 @@ public class item_search_activity {
         this.imageUrl=imageUrl;
 
         this.hasRequest=hasRequest;
+        this.arr_group=arr_group;
     }
 }

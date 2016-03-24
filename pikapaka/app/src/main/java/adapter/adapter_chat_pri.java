@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import activity.Activity_Chat_Private;
+import api.HTTP_API;
 import hoanvusolution.pikapaka.R;
 import image.lib_image_save_original;
 import item.item_chat;
@@ -133,7 +134,17 @@ public class adapter_chat_pri extends BaseAdapter {
             tv_msg.setText(arItem.get(pos).content);
             String imageUrl = arItem.get(pos).imageUrl;
             if (imageUrl.length() > 0) {
-                new lib_image_save_original(activity, imageUrl, img_profile);
+                    String check = imageUrl.substring(0,3);
+                    if(check.equals("http")){
+                        new lib_image_save_original(activity,imageUrl,img_profile);
+
+                    }
+                    else{
+                        imageUrl= HTTP_API.url_image+imageUrl;
+                        new lib_image_save_original(activity,imageUrl,img_profile);
+
+                    }
+
 
             }
 

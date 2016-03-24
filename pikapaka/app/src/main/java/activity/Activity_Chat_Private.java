@@ -40,9 +40,6 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import item.item_chat;
 
-/**
- * Created by MrThanhPhong on 3/20/2016.
- */
 public class Activity_Chat_Private extends AppCompatActivity implements
         View.OnFocusChangeListener{
     private AppCompatActivity activity;

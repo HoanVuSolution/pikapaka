@@ -171,12 +171,8 @@
             android:layout_marginRight="5dp"
             android:background="@color/background2"
             android:orientation="vertical"
-            android:visibility="gone"
-
+            android:visibility="visible"
             >
-
-
-
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="260dp"
@@ -191,11 +187,31 @@
                     android:orientation="vertical"
                     >
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="fill_parent"
 
                         android:gravity="center"
                         android:layout_height="140dp">
+
+                        <RelativeLayout
+                            android:id="@+id/rl_img1_2_view1"
+                            android:layout_width="110dp"
+                            android:layout_height="110dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/background_3"
+                            android:gravity="center"
+                            >
+                            <ImageView
+
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:id="@+id/img1_2_view1"
+                                android:src="@drawable/male"
+                                android:scaleType="fitXY"
+                                />
+
+                        </RelativeLayout>
 
                         <LinearLayout
                             android:layout_width="110dp"
@@ -212,7 +228,7 @@
                                 android:id="@+id/img1_view1" />
                         </LinearLayout>
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="fill_parent"
@@ -254,11 +270,31 @@
                     android:orientation="vertical"
                     >
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="fill_parent"
 
                         android:gravity="center"
                         android:layout_height="140dp">
+
+                        <RelativeLayout
+                            android:id="@+id/rl_img2_2_view1"
+                            android:layout_width="110dp"
+                            android:layout_height="110dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/background_3"
+                            android:gravity="center"
+                            >
+                            <ImageView
+
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:id="@+id/img2_2_view1"
+                                android:src="@drawable/male"
+                                android:scaleType="fitXY"
+                                />
+
+                        </RelativeLayout>
 
                         <LinearLayout
                             android:layout_width="110dp"
@@ -270,12 +306,12 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
                                 android:id="@+id/img2_view1"
-                                android:src="@drawable/female"
                                 android:scaleType="fitXY"
+                                android:src="@drawable/female"
                                 />
                         </LinearLayout>
 
-                    </LinearLayout>
+                    </RelativeLayout>
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
@@ -321,7 +357,7 @@
                         android:gravity="center"
                         android:layout_height="140dp">
                         <RelativeLayout
-                            android:id="@+id/rl_img4_view1"
+                            android:id="@+id/rl_img3_2_view1"
                             android:layout_width="110dp"
                             android:layout_height="110dp"
                             android:layout_marginLeft="10dp"
@@ -333,7 +369,7 @@
 
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
-                                android:id="@+id/img4_view1"
+                                android:id="@+id/img3_2_view1"
                                 android:src="@drawable/male"
                                 android:scaleType="fitXY"
                                 />

@@ -693,6 +693,7 @@ public class Activity_Profile extends AppCompatActivity{
     private void get_info()throws Exception{
         class Loading extends AsyncTask<String, String, String> {
 
+            String age_user;
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -726,6 +727,7 @@ public class Activity_Profile extends AppCompatActivity{
                             TAG_FIRSTNAME =data.getString("firstName");
                             TAG_LASTNAME =data.getString("lastName");
                             TAG_DOB =data.getString("dob");
+                            age_user=data.getString("age");
                             //TAG_PROVIDER =data.getString("provider");
                             TAG_DISPLAYNAME =data.getString("displayName");
                             TAG_GENDER =data.getString("gender");
@@ -777,7 +779,7 @@ public class Activity_Profile extends AppCompatActivity{
                 try {
                     if(TAG_STATUS.equals("success")){
                         tv_name.setText(TAG_DISPLAYNAME.toUpperCase());
-                        tv_old.setText(""+TAG_GENDER);
+                        tv_old.setText(age_user+"years old "+TAG_GENDER);
                         tv_share.setText(TAG_SHARECONTACT);
                         tv_max.setText(TAG_MAXNUMOF);
                         tv_min.setText(TAG_MINNUMOF);
@@ -803,7 +805,16 @@ public class Activity_Profile extends AppCompatActivity{
 
                         Log.e("TAG_IMAGE_URL,---",TAG_IMAGE_URL);
                         if(TAG_IMAGE_URL.length()>0){
-                            new lib_image_save_original(activity,TAG_IMAGE_URL,img_profile);
+                            String check = TAG_IMAGE_URL.substring(0,3);
+                            if(check.equals("http")){
+                                new lib_image_save_original(activity,TAG_IMAGE_URL,img_profile);
+
+                            }
+                            else{
+                                TAG_IMAGE_URL=HTTP_API.url_image+TAG_IMAGE_URL;
+                                new lib_image_save_original(activity,TAG_IMAGE_URL,img_profile);
+
+                            }
                         }
                     }
                     else{

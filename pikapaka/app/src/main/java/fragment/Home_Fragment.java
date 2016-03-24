@@ -94,8 +94,18 @@ private adapter_activity_type adapter;
         Log.e("Image fragment",dataString.TAG_IMAGE_URL.toString());
         if(dataString.TAG_IMAGE_URL.length()>0){
 
-            new lib_image_save_original(getActivity(),dataString.TAG_IMAGE_URL,img_profile);
+           // new lib_image_save_original(getActivity(),dataString.TAG_IMAGE_URL,img_profile);
 
+            String check = dataString.TAG_IMAGE_URL.substring(0,3);
+            if(check.equals("http")){
+                new lib_image_save_original(getActivity(),dataString.TAG_IMAGE_URL,img_profile);
+
+            }
+            else{
+                dataString.TAG_IMAGE_URL=HTTP_API.url_image+dataString.TAG_IMAGE_URL;
+                new lib_image_save_original(getActivity(),dataString.TAG_IMAGE_URL,img_profile);
+
+            }
         }
     }
 

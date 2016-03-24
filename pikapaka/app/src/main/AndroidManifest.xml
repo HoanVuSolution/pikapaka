@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="hoanvusolution.pikapaka">
 
-
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -40,10 +42,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+       >
         <activity
             android:name="activity.Activity_Flash_Screen"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,20 +58,23 @@
         <activity
             android:name="hoanvusolution.pikapaka.MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
-            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar"
             >
 
         </activity>
         <activity
         android:name="loginsocial.LoginGoogle"
         android:screenOrientation="portrait"
-        android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+        android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
     </activity>
         <activity
             android:name="loginsocial.Login_Twitter"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
         </activity>
         <activity
             android:name="loginsocial.IdTokenActivity"
@@ -77,12 +84,16 @@
         <activity
             android:name="loginsocial.ServerAuthCodeActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
         </activity>
         <activity
             android:name="loginsocial.LoginFragment"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
         </activity>
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -94,49 +105,65 @@
         <activity
             android:name="activity_register.Activity_Register"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
 
         </activity>
         <activity
             android:name="activity.Activity_Login"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
 
         </activity>
         <activity
             android:name="activity.Activity_Profile"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
 
         </activity>
         <activity
             android:name="activity.Activity_YourActivity"
             android:screenOrientation="portrait"
 
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:theme="@style/AppTheme.NoActionBar"
+            ></activity>
         <activity
             android:name="activity.Activity_MyActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
 
         </activity>
 
         <activity
             android:name="activity.Activity_Rank_Report"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
 
         </activity>
 
         <activity
             android:name="activity.Activity_Members"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
 
         </activity>
         <activity
             android:name="activity.Activity_Chat_Private"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
 
         </activity>
 

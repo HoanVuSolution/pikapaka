@@ -24,7 +24,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import activity.Activity_Login;
@@ -293,23 +292,22 @@ public class MainActivity extends AppCompatActivity {
 
                             if (TAG_STATUS.equals("success")) {
                                 JSONObject data = jsonObject.getJSONObject("data");
-
                                 dataString.TAG_FIRSTNAME = data.getString("firstName");
                                 dataString.TAG_LASTNAME = data.getString("lastName");
                                 dataString.TAG_DISPLAYNAME = data.getString("displayName");
                                 dataString.TAG_GENDER = data.getString("gender");
-
                                 dataString.TAG_EMAIL = data.getString("email");
 
-
-                                try {
-                                    TAG_IMAGE_URL =data.getString("imageUrl");
-                                    dataString.TAG_IMAGE_URL = data.getString("imageUrl");
-                                }catch(JSONException e){
-                                    TAG_IMAGE_URL="";
-                                    Log.e("Error,---","TAG_IMAGE_URL");
-                                    e.getStackTrace();
+                                if(!data.isNull("age")){
+                                    dataString.TAG_AGE = data.getString("age");
                                 }
+
+                                if(!data.isNull("imageUrl")){
+                                    TAG_IMAGE_URL =data.getString("imageUrl");
+                                    dataString.TAG_IMAGE_URL =TAG_IMAGE_URL;
+                                }
+
+
 
                             }
 
@@ -345,12 +343,21 @@ public class MainActivity extends AppCompatActivity {
                         first_name.setText(dataString.TAG_FIRSTNAME);
                         email.setText(dataString.TAG_EMAIL);
                         Log.e("TAG_IMAGE_URL",dataString.TAG_IMAGE_URL);
+
                         if(dataString.TAG_IMAGE_URL.length()>0){
+                            String check = dataString.TAG_IMAGE_URL.substring(0,3);
+                            String url;
+                            if(check.equals("http")){
+                                new lib_image_save_original(MainActivity.this,dataString.TAG_IMAGE_URL,profile_image);
 
-                            new lib_image_save_original(MainActivity.this,dataString.TAG_IMAGE_URL,profile_image);
+                            }
+                            else{
+                                url=HTTP_API.url_image+dataString.TAG_IMAGE_URL;
+                                new lib_image_save_original(MainActivity.this,url,profile_image);
 
-
+                            }
                         }
+//
                     } else {
                         Log.e("get_profile","fail");
                     }

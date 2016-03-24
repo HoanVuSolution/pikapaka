@@ -107,7 +107,7 @@ public class Activity_Rank_Report extends AppCompatActivity {
             tv_fullname.setText(fullname);
             tv_age.setText(age);
             tv_gender.setText(gender);
-
+       // Toast.makeText(activity,TAG_IMAGE,Toast.LENGTH_SHORT).show();
             if(TAG_IMAGE.length()>0){
                 new lib_image_save_original(activity,TAG_IMAGE,img_avatar);
 

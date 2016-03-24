@@ -47,6 +47,7 @@ import hoanvusolution.pikapaka.R;
 import image.lib_image_save_original;
 import internet.CheckWifi3G;
 import item.item_chat;
+import item.item_group_request;
 import item.item_my_activity;
 import item.item_search_activity;
 import item.item_user_group;
@@ -174,12 +175,17 @@ public class adapter_myactivity extends BaseAdapter {
                 final ImageView icon_hasRequest2_view1 = (ImageView) convertView.findViewById(R.id.icon_hasRequest2_view1);
                 final ImageView icon_hasRequest3_view1 = (ImageView) convertView.findViewById(R.id.icon_hasRequest3_view1);
                 final ImageView img1_view1 = (ImageView) convertView.findViewById(R.id.img1_view1);
+                final ImageView img1_2_view1 = (ImageView) convertView.findViewById(R.id.img1_2_view1);
                 final ImageView img2_view1 = (ImageView) convertView.findViewById(R.id.img2_view1);
+                final ImageView img2_2_view1 = (ImageView) convertView.findViewById(R.id.img2_2_view1);
                 final ImageView img3_view1 = (ImageView) convertView.findViewById(R.id.img3_view1);
-                final ImageView img4_view1 = (ImageView) convertView.findViewById(R.id.img4_view1);
-                img4_view1.setVisibility(View.GONE);
-                final RelativeLayout rl_img4_view1 = (RelativeLayout) convertView.findViewById(R.id.rl_img4_view1);
-                rl_img4_view1.setVisibility(View.GONE);
+                final ImageView img3_2_view1 = (ImageView) convertView.findViewById(R.id.img3_2_view1);
+                final RelativeLayout rl_img1_2_view1=(RelativeLayout)convertView.findViewById(R.id.rl_img1_2_view1);
+                final RelativeLayout rl_img2_2_view1=(RelativeLayout)convertView.findViewById(R.id.rl_img2_2_view1);
+                final RelativeLayout rl_img3_2_view1=(RelativeLayout)convertView.findViewById(R.id.rl_img3_2_view1);
+                rl_img1_2_view1.setVisibility(View.GONE);
+                rl_img2_2_view1.setVisibility(View.GONE);
+                rl_img3_2_view1.setVisibility(View.GONE);
 
                 //*********************************************************
                 // View2 item
@@ -238,6 +244,8 @@ public class adapter_myactivity extends BaseAdapter {
                 //******************
 
                 class Loading extends AsyncTask<String, String, String> {
+                     final ArrayList<item_search_activity> users_group = new ArrayList<item_search_activity>();
+                    final ArrayList<item_group_request> j_group = new ArrayList<item_group_request>();
 
 
                     @Override
@@ -285,50 +293,175 @@ public class adapter_myactivity extends BaseAdapter {
 
                                         if (jsonarray.length() > 0) {
                                             for (int i = 0; i < jsonarray.length(); i++) {
+                                                String _id=null;
+                                                String activityType=null;
+                                                String type=null;
+                                                String activityTypeColor=null;
+                                                String active=null;
 
-                                                String _id = jsonarray.getJSONObject(i).getString("_id");
-                                                String activityType = jsonarray.getJSONObject(i).getString("activityType");
-                                                String type = jsonarray.getJSONObject(i).getString("type");
-                                                String activityTypeColor = jsonarray.getJSONObject(i).getString("activityTypeColor");
-                                                String active = jsonarray.getJSONObject(i).getString("active");
-
-                                                JSONObject ob_user =jsonarray.getJSONObject(i).getJSONObject("user");
-                                                String id_= ob_user.getString("_id");
-                                                String firstName = ob_user.getString("firstName");
-                                                String gender_ = ob_user.getString("gender");
-                                                String lastName = ob_user.getString("lastName");
-                                                String dob = ob_user.getString("dob");
-                                                String displayName = ob_user.getString("displayName");
-                                                String age = ob_user.getString("displayName");
-                                               String imageUrl = "";
+                                                String id_=null;
+                                                String firstName=null;
+                                                String gender_=null;
+                                                String lastName=null;
+                                                String dob=null;
+                                                String displayName=null;
+                                                String age=null;
+                                                String imageUrl = "";
                                                 String hasRequest="false";
                                                 try {
-                                                    imageUrl=ob_user.getString("imageUrl");
-                                                    hasRequest=jsonarray.getJSONObject(i).getString("hasRequest");
+                                                    _id = jsonarray.getJSONObject(i).getString("_id");
+                                                     activityType = jsonarray.getJSONObject(i).getString("activityType");
+                                                    type = jsonarray.getJSONObject(i).getString("type");
+                                                   // Log.e("type---",type);
+                                                     activityTypeColor = jsonarray.getJSONObject(i).getString("activityTypeColor");
+                                                     active = jsonarray.getJSONObject(i).getString("active");
+
+                                                    try {
+                                                        if(!jsonarray.getJSONObject(i).isNull("hasRequest")){
+                                                            hasRequest=jsonarray.getJSONObject(i).getString("hasRequest");
+                                                        }
+                                                    }catch (JSONException e){
+                                                         hasRequest="false";
+                                                    }
+
+
+                                                    if(type.equals("request")){
+
+                                                        JSONObject ob_user =jsonarray.getJSONObject(i).getJSONObject("user");
+
+                                                        if(!ob_user.isNull("id_")){
+                                                            id_= ob_user.getString("_id");
+                                                        }
+                                                        if(!ob_user.isNull("firstName")){
+                                                            firstName = ob_user.getString("firstName");
+                                                        }
+                                                        if(!ob_user.isNull("gender")){
+                                                            gender_ = ob_user.getString("gender");
+                                                        }
+                                                        if(!ob_user.isNull("lastName")){
+                                                            lastName = ob_user.getString("lastName");
+                                                        }
+                                                        if(!ob_user.isNull("dob")){
+                                                            dob = ob_user.getString("dob");
+                                                        }
+                                                        if(!ob_user.isNull("displayName")){
+                                                            displayName = ob_user.getString("displayName");
+                                                        }
+                                                        if(!ob_user.isNull("age")){
+                                                            age = ob_user.getString("age");
+                                                        }
+                                                        if(!ob_user.isNull("imageUrl")){
+                                                            imageUrl=ob_user.getString("imageUrl");
+                                                        }
+                                                        item_search_activity item = new item_search_activity(
+                                                                _id,
+                                                                activityType,
+                                                                type,
+                                                                activityTypeColor,
+                                                                active,
+                                                                id_,
+                                                                firstName,
+                                                                gender_,
+                                                                lastName,
+                                                                dob,
+                                                                displayName,
+                                                                age,
+                                                                imageUrl,
+                                                                hasRequest,
+                                                                null
+                                                        );
+                                                        arr_search.add(item);
+                                                    }
+                                                    else{
+                                                        JSONArray jar_user = jsonarray.getJSONObject(i).getJSONArray("users");
+                                                       // Log.e("jar_user---",jar_user.toString());
+//                                                        item_group_request item = new item_group_request(_id,jar_user);
+//                                                        j_group.add(item);
+                                                        item_search_activity item = new item_search_activity(
+                                                                _id,
+                                                                activityType,
+                                                                type,
+                                                                activityTypeColor,
+                                                                active,
+                                                                "",
+                                                                "",
+                                                                "",
+                                                                "",
+                                                                "",
+                                                                "",
+                                                                "",
+                                                                "",
+                                                                hasRequest,
+                                                                jar_user
+                                                        );
+                                                        arr_search.add(item);
+//                                                        if(jar_user.length()>0){
+//                                                            for(int j=0;j<jar_user.length();j++){
+//                                                                JSONObject users = jar_user.getJSONObject(j);
+//                                                                Log.e("--users---",users.toString());
+//                                                                if(!users.isNull("_id")){
+//                                                                    id_= users.getString("_id");
+//                                                                }
+//                                                                if(!users.isNull("firstName")){
+//                                                                    firstName = users.getString("firstName");
+//                                                                }
+//                                                                if(!users.isNull("gender")){
+//                                                                    gender_ = users.getString("gender");
+//                                                                }
+//                                                                if(!users.isNull("lastName")){
+//                                                                    lastName = users.getString("lastName");
+//                                                                }
+//                                                                if(!users.isNull("dob")){
+//                                                                    dob = users.getString("dob");
+//                                                                }
+//                                                                if(!users.isNull("displayName")){
+//                                                                    displayName = users.getString("displayName");
+//                                                                }
+//                                                                if(!users.isNull("age")){
+//                                                                    age = users.getString("age");
+//                                                                }
+//                                                                if(!users.isNull("imageUrl")){
+//                                                                    imageUrl=users.getString("imageUrl");
+//                                                                }
+//
+//                                                                item_search_activity item = new item_search_activity(
+//                                                                        _id,
+//                                                                        activityType,
+//                                                                        type,
+//                                                                        activityTypeColor,
+//                                                                        active,
+//                                                                        id_,
+//                                                                        firstName,
+//                                                                        gender_,
+//                                                                        lastName,
+//                                                                        dob,
+//                                                                        displayName,
+//                                                                        age,
+//                                                                        imageUrl,
+//                                                                        hasRequest
+//
+//                                                                );
+//
+//                                                                users_group.add(item);
+//                                                                Log.e("group---","1");
+//
+//                                                            }
+//
+//
+//                                                        }
+//                                                        else{
+//                                                            Log.e("group---","0");
+//                                                        }
+
+                                                    }
+
+
                                                 }catch (JSONException e){
-                                                    hasRequest="false";
-                                                    imageUrl = "";
+                                                    Log.e("erre---",e.toString());
                                                 }
 
 
-                                                    item_search_activity item = new item_search_activity(
-                                                            _id,
-                                                            activityType,
-                                                            type,
-                                                            activityTypeColor,
-                                                            active,
-                                                            id_,
-                                                            firstName,
-                                                            gender_,
-                                                            lastName,
-                                                            dob,
-                                                            displayName,
-                                                            age,
-                                                            imageUrl,
-                                                            hasRequest
 
-                                                    );
-                                                    arr_search.add(item);
 
                                               //  }
 
@@ -365,263 +498,697 @@ public class adapter_myactivity extends BaseAdapter {
                     protected void onPostExecute(String result) {
                         progressDialog1.dismiss();
                         try {
-                            Log.e("TAG_STATUS----", TAG_STATUS);
-                            Log.e("TAG_MESSAGE---", TAG_MESSAGE);
-                            Log.e("arr_search.size()---", arr_search.size()+"");
-
-                            if (arr_search.size() > 0) {
+//                            Log.e("TAG_STATUS----", TAG_STATUS);
+//                            Log.e("TAG_MESSAGE---", TAG_MESSAGE);
+//                            Log.e("arr_search.size()---", arr_search.size()+"");
+//                            Log.e("j_group---", j_group.size()+"");
+                            for(int i=0;i<arr_search.size();i++){
+                                Log.e("_id---", arr_search.get(i)._id+"");
+                                Log.e("_id---", arr_search.get(i).type+"");
+                            }
+                            if (arr_search.size() > 0){
                                 view1.setVisibility(View.VISIBLE);
                                 // parent.addView(view1);
                                 view1.setBackgroundColor(Color.parseColor(arr_search.get(0).activityTypeColor.toString()));
 
-                                if (arr_search.size() == 1) {
+                                /// 11111111111111111111111111111
+                                if (arr_search.size() == 1)
+                                {
                                     ll_view1_user1.setVisibility(View.VISIBLE);
                                     ll_view1_user2.setVisibility(View.GONE);
                                     ll_view1_user3.setVisibility(View.GONE);
 
-                                    String name =arr_search.get(0).firstName;
-                                    if(name.length()>10){
-                                        tv_name1_view1.setText(arr_search.get(0).firstName.substring(0,9)+"...");
-                                    }
-                                    else{
-                                        tv_name1_view1.setText(arr_search.get(0).firstName);
-                                    }
-
-
                                     if (arr_search.get(0).hasRequest.equals("true")) {
                                         icon_hasRequest1_view1.setImageResource(R.drawable.ic_like);
                                     } else {
                                         icon_hasRequest1_view1.setImageResource(R.drawable.ic_add);
+                                    }
 
+                                    if(arr_search.get(0).type.equals("request")){
+                                        rl_img1_2_view1.setVisibility(View.GONE);
+                                    String name =arr_search.get(0).firstName;
+                                    if(name.length()>10){
+                                        tv_name1_view1.setText(name.substring(0,9)+"...");
+                                    }
+                                    else{
+                                        tv_name1_view1.setText(name);
                                     }
 
                                     String imageUrl =arr_search.get(0).imageUrl;
 
-                                    Log.e("imageUrl",imageUrl);
-                                    if (imageUrl.length()>0) {
-                                        new lib_image_save_original(activity,imageUrl,img1_view1);
+                                        if(imageUrl.length()>0){
+                                            String check = imageUrl.substring(0,3);
+                                            if(check.equals("http")){
+                                                new lib_image_save_original(activity,imageUrl,img1_view1);
+
+                                            }
+                                            else{
+                                                imageUrl=HTTP_API.url_image+imageUrl;
+                                                new lib_image_save_original(activity,imageUrl,img1_view1);
+
+                                            }
+                                        }
+
                                     }
-                                } else if (arr_search.size() == 2) {
+                                    else{
+                                        JSONArray jar_user =arr_search.get(0).arr_group;
+                                        if(jar_user.length()==1){
+                                            rl_img1_2_view1.setVisibility(View.GONE);
+                                            String name =jar_user.getJSONObject(0).getString("firstName");
+                                            if(name.length()>10){
+                                                tv_name1_view1.setText(name.substring(0,9)+"...");
+                                            }
+                                            else{
+                                                tv_name1_view1.setText(name);
+                                            }
+                                            String imageUrl=null;
+                                            if(!jar_user.getJSONObject(0).isNull("imageUrl")){
+                                                imageUrl=jar_user.getJSONObject(0).getString("imageUrl");
+                                            }
+                                            if(imageUrl.length()>0){
+                                                String check = imageUrl.substring(0,3);
+                                                if(check.equals("http")){
+                                                    new lib_image_save_original(activity,imageUrl,img1_view1);
+
+                                                }
+                                                else{
+                                                    imageUrl=HTTP_API.url_image+imageUrl;
+                                                    new lib_image_save_original(activity,imageUrl,img1_view1);
+
+                                                }
+                                            }
+                                        }
+                                        else if(jar_user.length()>1){
+                                            String name =jar_user.getJSONObject(0).getString("firstName")+" and "+jar_user.getJSONObject(1).getString("firstName");
+                                            rl_img1_2_view1.setVisibility(View.VISIBLE);
+                                            if(name.length()>10){
+                                                tv_name1_view1.setText(name.substring(0,9)+"...");
+                                            }
+                                            else{
+                                                tv_name1_view1.setText(name);
+                                            }
+
+                                            String imageUrl=null;
+                                            if(!jar_user.getJSONObject(0).isNull("imageUrl")){
+                                                imageUrl=jar_user.getJSONObject(0).getString("imageUrl");
+                                            }
+                                            if(imageUrl.length()>0){
+                                                String check = imageUrl.substring(0,3);
+                                                if(check.equals("http")){
+                                                    new lib_image_save_original(activity,imageUrl,img1_view1);
+
+                                                }
+                                                else{
+                                                    imageUrl=HTTP_API.url_image+imageUrl;
+                                                    new lib_image_save_original(activity,imageUrl,img1_view1);
+
+                                                }
+                                            }
+                                            String imageUrl1=null;
+                                            if(!jar_user.getJSONObject(1).isNull("imageUrl")){
+                                                imageUrl1=jar_user.getJSONObject(1).getString("imageUrl");
+                                            }
+                                            if(imageUrl1.length()>0){
+                                                String check = imageUrl1.substring(0,3);
+                                                if(check.equals("http")){
+                                                    new lib_image_save_original(activity,imageUrl1,img1_2_view1);
+
+                                                }
+                                                else{
+                                                    imageUrl1=HTTP_API.url_image+imageUrl1;
+                                                    new lib_image_save_original(activity,imageUrl1,img1_2_view1);
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    //----
+
+                                }
+                                /// 2222222222222222222222222222222222222222222
+                                else if (arr_search.size() == 2)
+                                {
                                     ll_view1_user1.setVisibility(View.VISIBLE);
                                     ll_view1_user2.setVisibility(View.VISIBLE);
                                     ll_view1_user3.setVisibility(View.GONE);
 
-                                    tv_name2_view1.setText(arr_search.get(1).firstName);
-
-                                    String name =arr_search.get(0).firstName;
-                                    String name2 =arr_search.get(1).firstName;
-                                    if(name.length()>10){
-                                        tv_name1_view1.setText(arr_search.get(0).firstName.substring(0,9)+"...");
-                                    }
-                                    else{
-                                        tv_name1_view1.setText(arr_search.get(0).firstName);
-
-                                    }
-                                    if(name2.length()>10){
-                                        tv_name2_view1.setText(arr_search.get(1).firstName.substring(0,9)+"...");
-                                    }
-                                    else{
-                                        tv_name2_view1.setText(arr_search.get(1).firstName);
-
-                                    }
-
-
+                                    // 2.1.1
                                     if (arr_search.get(0).hasRequest.equals("true")) {
                                         icon_hasRequest1_view1.setImageResource(R.drawable.ic_like);
                                     } else {
                                         icon_hasRequest1_view1.setImageResource(R.drawable.ic_add);
 
                                     }
-
                                     if (arr_search.get(1).hasRequest.equals("true")) {
                                         icon_hasRequest2_view1.setImageResource(R.drawable.ic_like);
                                     } else {
                                         icon_hasRequest2_view1.setImageResource(R.drawable.ic_add);
 
                                     }
+                                    if(arr_search.get(0).type.equals("request")){
+                                        rl_img1_2_view1.setVisibility(View.GONE);
+                                        String name =arr_search.get(0).firstName;
+                                        if(name.length()>10){
+                                            tv_name1_view1.setText(arr_search.get(0).firstName.substring(0,9)+"...");
+                                        }
+                                        else{
+                                            tv_name1_view1.setText(arr_search.get(0).firstName);
+                                        }
 
-                                    //-------------
+                                        String imageUrl =arr_search.get(0).imageUrl;
+                                        if(imageUrl.length()>0){
+                                            String check = imageUrl.substring(0,3);
+                                            if(check.equals("http")){
+                                                new lib_image_save_original(activity,imageUrl,img1_view1);
 
+                                            }
+                                            else{
+                                                imageUrl=HTTP_API.url_image+imageUrl;
+                                                new lib_image_save_original(activity,imageUrl,img1_view1);
 
-                                    String imageUrl =arr_search.get(0).imageUrl;
-                                    String imageUrl1 =arr_search.get(1).imageUrl;
+                                            }
+                                        }
 
-                                    if (imageUrl.length()>0) {
-
-                                        new lib_image_save_original(activity,imageUrl,img1_view1);
-
-                                    }
-                                    if (imageUrl1.length()>0) {
-
-                                        new lib_image_save_original(activity,imageUrl,img2_view1);
-
-                                    }
-
-//
-
-                                } else if (arr_search.size() == 3) {
-                                    ll_view1_user1.setVisibility(View.VISIBLE);
-                                    ll_view1_user2.setVisibility(View.VISIBLE);
-                                    ll_view1_user3.setVisibility(View.VISIBLE);
-//                                    tv_name1_view1.setText(arr_search.get(0).firstName);
-//                                    tv_name2_view1.setText(arr_search.get(1).firstName);
-//                                    tv_name3_view1.setText(arr_search.get(2).firstName);
-
-                                    String name =arr_search.get(0).firstName;
-                                    String name2 =arr_search.get(1).firstName;
-                                    String name3 =arr_search.get(2).firstName;
-                                    if(name.length()>10){
-                                        tv_name1_view1.setText(arr_search.get(0).firstName.substring(0,9)+"...");
-                                    }
+                                    }// 2.1.2 group
                                     else{
-                                        tv_name1_view1.setText(arr_search.get(0).firstName);
+                                        JSONArray jar_user =arr_search.get(0).arr_group;
+                                        if(jar_user.length()==1){
+                                            rl_img1_2_view1.setVisibility(View.GONE);
+                                            String name =jar_user.getJSONObject(0).getString("firstName");
+                                            if(name.length()>10){
+                                                tv_name1_view1.setText(name.substring(0,9)+"...");
+                                            }
+                                            else{
+                                                tv_name1_view1.setText(name);
+                                            }
 
+                                            String imageUrl=null;
+                                            if(!jar_user.getJSONObject(0).isNull("imageUrl")){
+                                                imageUrl=jar_user.getJSONObject(0).getString("imageUrl");
+                                            }
+                                            if(imageUrl.length()>0){
+                                                String check = imageUrl.substring(0,3);
+                                                if(check.equals("http")){
+                                                    new lib_image_save_original(activity,imageUrl,img1_view1);
+
+                                                }
+                                                else{
+                                                    imageUrl=HTTP_API.url_image+imageUrl;
+                                                    new lib_image_save_original(activity,imageUrl,img1_view1);
+
+                                                }
+                                            }
+
+                                        }
+                                        else if(jar_user.length()>1){
+                                            String name =jar_user.getJSONObject(0).getString("firstName")+" and "+jar_user.getJSONObject(1).getString("firstName");
+                                            rl_img1_2_view1.setVisibility(View.VISIBLE);
+                                            if(name.length()>10){
+                                                tv_name1_view1.setText(name.substring(0,9)+"...");
+                                            }
+                                            else{
+                                                tv_name1_view1.setText(name);
+                                            }
+
+                                        }
+
+                                        String imageUrl=null;
+                                        if(!jar_user.getJSONObject(0).isNull("imageUrl")){
+                                            imageUrl=jar_user.getJSONObject(0).getString("imageUrl");
+                                        }
+                                        if(imageUrl.length()>0){
+                                            String check = imageUrl.substring(0,3);
+                                            if(check.equals("http")){
+                                                new lib_image_save_original(activity,imageUrl,img1_view1);
+
+                                            }
+                                            else{
+                                                imageUrl=HTTP_API.url_image+imageUrl;
+                                                new lib_image_save_original(activity,imageUrl,img1_view1);
+
+                                            }
+                                        }
+                                        String imageUrl1=null;
+                                        if(!jar_user.getJSONObject(1).isNull("imageUrl")){
+                                            imageUrl1=jar_user.getJSONObject(1).getString("imageUrl");
+                                        }
+                                        if(imageUrl1.length()>0){
+                                            String check = imageUrl1.substring(0,3);
+                                            if(check.equals("http")){
+                                                new lib_image_save_original(activity,imageUrl1,img1_2_view1);
+
+                                            }
+                                            else{
+                                                imageUrl1=HTTP_API.url_image+imageUrl1;
+                                                new lib_image_save_original(activity,imageUrl1,img1_2_view1);
+
+                                            }
+                                        }
                                     }
-                                    if(name2.length()>10){
-                                        tv_name2_view1.setText(arr_search.get(1).firstName.substring(0,9)+"...");
-                                    }
+                                    //----
+                                    // 2.2.1 cot 2
+                                    if(arr_search.get(1).type.equals("request")){
+                                        rl_img2_2_view1.setVisibility(View.GONE);
+                                        String name =arr_search.get(1).firstName;
+                                        if(name.length()>10){
+                                            tv_name2_view1.setText(name.substring(0,9)+"...");
+                                        }
+                                        else{
+                                            tv_name2_view1.setText(name);
+                                        }
+
+                                        String imageUrl =arr_search.get(1).imageUrl;
+                                        if(imageUrl.length()>0){
+                                            String check = imageUrl.substring(0,3);
+                                            if(check.equals("http")){
+                                                new lib_image_save_original(activity,imageUrl,img2_view1);
+
+                                            }
+                                            else{
+                                                imageUrl=HTTP_API.url_image+imageUrl;
+                                                new lib_image_save_original(activity,imageUrl,img2_view1);
+
+                                            }
+                                        }
+
+                                    }//2.2.2 group
                                     else{
-                                        tv_name2_view1.setText(arr_search.get(1).firstName);
+                                        JSONArray jar_user =arr_search.get(1).arr_group;
+                                        //2.2.2.1
+                                        if(jar_user.length()==1){
+                                            rl_img2_2_view1.setVisibility(View.GONE);
+                                            String name =jar_user.getJSONObject(0).getString("firstName");
+                                            if(name.length()>10){
+                                                tv_name2_view1.setText(name.substring(0,9)+"...");
+                                            }
+                                            else{
+                                                tv_name2_view1.setText(name);
+                                            }
 
-                                    }
-                                    if(name3.length()>10){
-                                        tv_name3_view1.setText(arr_search.get(2).firstName.substring(0,9)+"...");
-                                    }
-                                    else{
-                                        tv_name3_view1.setText(arr_search.get(2).firstName);
+                                            String imageUrl=null;
+                                            if(!jar_user.getJSONObject(0).isNull("imageUrl")){
+                                                imageUrl=jar_user.getJSONObject(0).getString("imageUrl");
+                                            }
+                                            if(imageUrl.length()>0){
+                                                String check = imageUrl.substring(0,3);
+                                                if(check.equals("http")){
+                                                    new lib_image_save_original(activity,imageUrl,img2_view1);
 
-                                    }
+                                                }
+                                                else{
+                                                    imageUrl=HTTP_API.url_image+imageUrl;
+                                                    new lib_image_save_original(activity,imageUrl,img2_view1);
 
+                                                }
+                                            }
 
-                                    if (arr_search.get(0).hasRequest.equals("true")) {
-                                        icon_hasRequest1_view1.setImageResource(R.drawable.ic_like);
-                                    } else {
-                                        icon_hasRequest1_view1.setImageResource(R.drawable.ic_add);
+                                        }
+                                        //2.2.2.2
+                                        else if(jar_user.length()>1){
+                                            String name =jar_user.getJSONObject(0).getString("firstName")+" and "+jar_user.getJSONObject(1).getString("firstName");
+                                            rl_img2_2_view1.setVisibility(View.VISIBLE);
+                                            if(name.length()>10){
+                                                tv_name2_view1.setText(name.substring(0,9)+"...");
+                                            }
+                                            else{
+                                                tv_name2_view1.setText(name);
+                                            }
 
-                                    }
+                                            String imageUrl=null;
+                                            if(!jar_user.getJSONObject(0).isNull("imageUrl")){
+                                                imageUrl=jar_user.getJSONObject(0).getString("imageUrl");
+                                            }
+                                            if(imageUrl.length()>0){
+                                                String check = imageUrl.substring(0,3);
+                                                if(check.equals("http")){
+                                                    new lib_image_save_original(activity,imageUrl,img2_view1);
 
-                                    if (arr_search.get(1).hasRequest.equals("true")) {
-                                        icon_hasRequest2_view1.setImageResource(R.drawable.ic_like);
-                                    } else {
-                                        icon_hasRequest2_view1.setImageResource(R.drawable.ic_add);
+                                                }
+                                                else{
+                                                    imageUrl=HTTP_API.url_image+imageUrl;
+                                                    new lib_image_save_original(activity,imageUrl,img2_view1);
 
-                                    }
-                                    if (arr_search.get(2).hasRequest.equals("true")) {
-                                        icon_hasRequest3_view1.setImageResource(R.drawable.ic_like);
-                                    } else {
-                                        icon_hasRequest3_view1.setImageResource(R.drawable.ic_add);
+                                                }
+                                            }
+                                            String imageUrl1=null;
+                                            if(!jar_user.getJSONObject(1).isNull("imageUrl")){
+                                                imageUrl1=jar_user.getJSONObject(1).getString("imageUrl");
+                                            }
+                                            if(imageUrl1.length()>0){
+                                                String check = imageUrl1.substring(0,3);
+                                                if(check.equals("http")){
+                                                    new lib_image_save_original(activity,imageUrl1,img2_2_view1);
 
-                                    }
+                                                }
+                                                else{
+                                                    imageUrl1=HTTP_API.url_image+imageUrl1;
+                                                    new lib_image_save_original(activity,imageUrl1,img2_2_view1);
 
+                                                }
+                                            }
 
-                                    String imageUrl =arr_search.get(0).imageUrl;
-                                    String imageUrl1 =arr_search.get(1).imageUrl;
-                                    String imageUrl2 =arr_search.get(2).imageUrl;
-
-                                    if (imageUrl.length()>0) {
-
-                                        new lib_image_save_original(activity,imageUrl,img1_view1);
-
-                                    }
-                                    if (imageUrl1.length()>0) {
-
-                                        new lib_image_save_original(activity,imageUrl,img2_view1);
-
-                                    }
-                                    if (imageUrl2.length()>0) {
-
-                                        new lib_image_save_original(activity,imageUrl,img3_view1);
-
-                                    }
-                                } else if (arr_search.size() > 3) {
-
-
-
-                                    ll_view1_user1.setVisibility(View.VISIBLE);
-                                    ll_view1_user2.setVisibility(View.VISIBLE);
-                                    ll_view1_user3.setVisibility(View.VISIBLE);
-//                                    tv_name1_view1.setText(arr_search.get(0).firstName);
-//                                    tv_name2_view1.setText(arr_search.get(1).firstName);
-//                                    tv_name3_view1.setText(arr_search.get(2).firstName + " & " + arr_search.get(3).lastName);
-
-                                    String name =arr_search.get(0).firstName;
-                                    String name2 =arr_search.get(1).firstName;
-                                    String name3 =arr_search.get(2).firstName+arr_search.get(3).firstName;
-                                    if(name.length()>10){
-                                        tv_name1_view1.setText(arr_search.get(0).firstName.substring(0,9)+"...");
-                                    }
-                                    else{
-                                        tv_name1_view1.setText(arr_search.get(0).firstName);
-
-                                    }
-                                    if(name2.length()>10){
-                                        tv_name2_view1.setText(arr_search.get(1).firstName.substring(0,9)+"...");
-                                    }
-                                    else{
-                                        tv_name2_view1.setText(arr_search.get(1).firstName);
-
-                                    }
-                                    if(name3.length()>10){
-                                        tv_name3_view1.setText(arr_search.get(2).firstName.substring(0,9)+" + ...");
-                                    }
-                                    else{
-                                        tv_name3_view1.setText(arr_search.get(2).firstName);
-
+                                        }
                                     }
 
-
-                                    if (arr_search.get(0).hasRequest.equals("true")) {
-                                        icon_hasRequest1_view1.setImageResource(R.drawable.ic_like);
-                                    } else {
-                                        icon_hasRequest1_view1.setImageResource(R.drawable.ic_add);
-
-                                    }
-
-                                    if (arr_search.get(1).hasRequest.equals("true")) {
-                                        icon_hasRequest2_view1.setImageResource(R.drawable.ic_like);
-                                    } else {
-                                        icon_hasRequest2_view1.setImageResource(R.drawable.ic_add);
-
-                                    }
-                                    if (arr_search.get(2).hasRequest.equals("true")) {
-                                        icon_hasRequest3_view1.setImageResource(R.drawable.ic_like);
-                                    } else {
-                                        icon_hasRequest3_view1.setImageResource(R.drawable.ic_add);
-
-                                    }
-
-                                    //---
-                                    rl_img4_view1.setVisibility(View.VISIBLE);
-                                    img4_view1.setVisibility(View.VISIBLE);
-
-                                    String imageUrl =arr_search.get(0).imageUrl;
-                                    String imageUrl1 =arr_search.get(1).imageUrl;
-                                    String imageUrl2 =arr_search.get(2).imageUrl;
-                                    String imageUrl3 =arr_search.get(3).imageUrl;
-
-                                    if (imageUrl.length()>0) {
-
-                                        new lib_image_save_original(activity,imageUrl,img1_view1);
-
-                                    }
-                                    if (imageUrl1.length()>0) {
-
-                                        new lib_image_save_original(activity,imageUrl,img2_view1);
-
-                                    }
-                                    if (imageUrl2.length()>0) {
-
-                                        new lib_image_save_original(activity,imageUrl,img3_view1);
-
-                                    }
-                                    if (imageUrl3.length()>0) {
-
-                                        new lib_image_save_original(activity,imageUrl,img4_view1);
-
-                                    }
                                 }
+                                /// 333333333333333
+                                else if (arr_search.size()>2)
+                                {
+                                    ll_view1_user1.setVisibility(View.VISIBLE);
+                                    ll_view1_user2.setVisibility(View.VISIBLE);
+                                    ll_view1_user3.setVisibility(View.VISIBLE);
 
-                            } else {
+                                    // 2.1.1
+                                    if (arr_search.get(0).hasRequest.equals("true")) {
+                                        icon_hasRequest1_view1.setImageResource(R.drawable.ic_like);
+                                    } else {
+                                        icon_hasRequest1_view1.setImageResource(R.drawable.ic_add);
+
+                                    }
+                                    if (arr_search.get(1).hasRequest.equals("true")) {
+                                        icon_hasRequest2_view1.setImageResource(R.drawable.ic_like);
+                                    } else {
+                                        icon_hasRequest2_view1.setImageResource(R.drawable.ic_add);
+
+                                    }
+                                    if(arr_search.get(0).type.equals("request")){
+                                        rl_img1_2_view1.setVisibility(View.GONE);
+                                        String name =arr_search.get(0).firstName;
+                                        if(name.length()>10){
+                                            tv_name1_view1.setText(arr_search.get(0).firstName.substring(0,9)+"...");
+                                        }
+                                        else{
+                                            tv_name1_view1.setText(arr_search.get(0).firstName);
+                                        }
+
+                                        String imageUrl =arr_search.get(0).imageUrl;
+                                        if(imageUrl.length()>0){
+                                            String check = imageUrl.substring(0,3);
+                                            if(check.equals("http")){
+                                                new lib_image_save_original(activity,imageUrl,img1_view1);
+
+                                            }
+                                            else{
+                                                imageUrl=HTTP_API.url_image+imageUrl;
+                                                new lib_image_save_original(activity,imageUrl,img1_view1);
+
+                                            }
+                                        }
+
+                                    }// 2.1.2 group
+                                    else{
+                                        JSONArray jar_user =arr_search.get(0).arr_group;
+                                        if(jar_user.length()==1){
+                                            rl_img1_2_view1.setVisibility(View.GONE);
+                                            String name =jar_user.getJSONObject(0).getString("firstName");
+                                            if(name.length()>10){
+                                                tv_name1_view1.setText(name.substring(0,9)+"...");
+                                            }
+                                            else{
+                                                tv_name1_view1.setText(name);
+                                            }
+
+                                            String imageUrl=null;
+                                            if(!jar_user.getJSONObject(0).isNull("imageUrl")){
+                                                imageUrl=jar_user.getJSONObject(0).getString("imageUrl");
+                                            }
+                                            if(imageUrl.length()>0){
+                                                String check = imageUrl.substring(0,3);
+                                                if(check.equals("http")){
+                                                    new lib_image_save_original(activity,imageUrl,img1_view1);
+
+                                                }
+                                                else{
+                                                    imageUrl=HTTP_API.url_image+imageUrl;
+                                                    new lib_image_save_original(activity,imageUrl,img1_view1);
+
+                                                }
+                                            }
+
+                                        }
+                                        else if(jar_user.length()>1){
+                                            String name =jar_user.getJSONObject(0).getString("firstName")+" and "+jar_user.getJSONObject(1).getString("firstName");
+                                            rl_img1_2_view1.setVisibility(View.VISIBLE);
+                                            if(name.length()>10){
+                                                tv_name1_view1.setText(name.substring(0,9)+"...");
+                                            }
+                                            else{
+                                                tv_name1_view1.setText(name);
+                                            }
+
+                                        }
+
+                                        String imageUrl=null;
+                                        if(!jar_user.getJSONObject(0).isNull("imageUrl")){
+                                            imageUrl=jar_user.getJSONObject(0).getString("imageUrl");
+                                        }
+                                        if(imageUrl.length()>0){
+                                            String check = imageUrl.substring(0,3);
+                                            if(check.equals("http")){
+                                                new lib_image_save_original(activity,imageUrl,img1_view1);
+
+                                            }
+                                            else{
+                                                imageUrl=HTTP_API.url_image+imageUrl;
+                                                new lib_image_save_original(activity,imageUrl,img1_view1);
+
+                                            }
+                                        }
+                                        String imageUrl1=null;
+                                        if(!jar_user.getJSONObject(1).isNull("imageUrl")){
+                                            imageUrl1=jar_user.getJSONObject(1).getString("imageUrl");
+                                        }
+                                        if(imageUrl1.length()>0){
+                                            String check = imageUrl1.substring(0,3);
+                                            if(check.equals("http")){
+                                                new lib_image_save_original(activity,imageUrl1,img1_2_view1);
+
+                                            }
+                                            else{
+                                                imageUrl1=HTTP_API.url_image+imageUrl1;
+                                                new lib_image_save_original(activity,imageUrl1,img1_2_view1);
+
+                                            }
+                                        }
+                                    }
+                                    //----
+                                    // 2.2.1 cot 2
+                                    if(arr_search.get(1).type.equals("request")){
+                                        rl_img2_2_view1.setVisibility(View.GONE);
+                                        String name =arr_search.get(1).firstName;
+                                        if(name.length()>10){
+                                            tv_name2_view1.setText(name.substring(0,9)+"...");
+                                        }
+                                        else{
+                                            tv_name2_view1.setText(name);
+                                        }
+
+                                        String imageUrl =arr_search.get(1).imageUrl;
+                                        if(imageUrl.length()>0){
+                                            String check = imageUrl.substring(0,3);
+                                            if(check.equals("http")){
+                                                new lib_image_save_original(activity,imageUrl,img2_view1);
+
+                                            }
+                                            else{
+                                                imageUrl=HTTP_API.url_image+imageUrl;
+                                                new lib_image_save_original(activity,imageUrl,img2_view1);
+
+                                            }
+                                        }
+
+                                    }//2.2.2 group
+                                    else{
+                                        JSONArray jar_user =arr_search.get(1).arr_group;
+                                        //2.2.2.1
+                                        if(jar_user.length()==1){
+                                            rl_img2_2_view1.setVisibility(View.GONE);
+                                            String name =jar_user.getJSONObject(0).getString("firstName");
+                                            if(name.length()>10){
+                                                tv_name2_view1.setText(name.substring(0,9)+"...");
+                                            }
+                                            else{
+                                                tv_name2_view1.setText(name);
+                                            }
+
+                                            String imageUrl=null;
+                                            if(!jar_user.getJSONObject(0).isNull("imageUrl")){
+                                                imageUrl=jar_user.getJSONObject(0).getString("imageUrl");
+                                            }
+                                            if(imageUrl.length()>0){
+                                                String check = imageUrl.substring(0,3);
+                                                if(check.equals("http")){
+                                                    new lib_image_save_original(activity,imageUrl,img2_view1);
+
+                                                }
+                                                else{
+                                                    imageUrl=HTTP_API.url_image+imageUrl;
+                                                    new lib_image_save_original(activity,imageUrl,img2_view1);
+
+                                                }
+                                            }
+
+                                        }
+                                        //2.2.2.2
+                                        else if(jar_user.length()>1){
+                                            String name =jar_user.getJSONObject(0).getString("firstName")+" and "+jar_user.getJSONObject(1).getString("firstName");
+                                            rl_img2_2_view1.setVisibility(View.VISIBLE);
+                                            if(name.length()>10){
+                                                tv_name2_view1.setText(name.substring(0,9)+"...");
+                                            }
+                                            else{
+                                                tv_name2_view1.setText(name);
+                                            }
+
+                                            String imageUrl=null;
+                                            if(!jar_user.getJSONObject(0).isNull("imageUrl")){
+                                                imageUrl=jar_user.getJSONObject(0).getString("imageUrl");
+                                            }
+                                            if(imageUrl.length()>0){
+                                                String check = imageUrl.substring(0,3);
+                                                if(check.equals("http")){
+                                                    new lib_image_save_original(activity,imageUrl,img2_view1);
+
+                                                }
+                                                else{
+                                                    imageUrl=HTTP_API.url_image+imageUrl;
+                                                    new lib_image_save_original(activity,imageUrl,img2_view1);
+
+                                                }
+                                            }
+                                            String imageUrl1=null;
+                                            if(!jar_user.getJSONObject(1).isNull("imageUrl")){
+                                                imageUrl1=jar_user.getJSONObject(1).getString("imageUrl");
+                                            }
+                                            if(imageUrl1.length()>0){
+                                                String check = imageUrl1.substring(0,3);
+                                                if(check.equals("http")){
+                                                    new lib_image_save_original(activity,imageUrl1,img2_2_view1);
+
+                                                }
+                                                else{
+                                                    imageUrl1=HTTP_API.url_image+imageUrl1;
+                                                    new lib_image_save_original(activity,imageUrl1,img2_2_view1);
+
+                                                }
+                                            }
+
+                                        }
+                                    }
+
+                                    // 3.1
+                                    if(arr_search.get(2).type.equals("request")){
+                                        rl_img3_2_view1.setVisibility(View.GONE);
+                                        String name =arr_search.get(2).firstName;
+                                        if(name.length()>10){
+                                            tv_name3_view1.setText(name.substring(0,9)+"...");
+                                        }
+                                        else{
+                                            tv_name3_view1.setText(name);
+                                        }
+                                        String imageUrl =arr_search.get(2).imageUrl;
+                                        if(imageUrl.length()>0){
+                                            String check = imageUrl.substring(0,3);
+                                            if(check.equals("http")){
+                                                new lib_image_save_original(activity,imageUrl,img3_view1);
+
+                                            }
+                                            else{
+                                                imageUrl=HTTP_API.url_image+imageUrl;
+                                                new lib_image_save_original(activity,imageUrl,img3_view1);
+
+                                            }
+                                        }
+
+
+                                    }//3.2 group
+                                    else{
+                                        JSONArray jar_user =arr_search.get(2).arr_group;
+                                        //2.2.2.1
+                                        if(jar_user.length()==1){
+                                            rl_img3_2_view1.setVisibility(View.GONE);
+                                            String name =jar_user.getJSONObject(0).getString("firstName");
+                                            if(name.length()>10){
+                                                tv_name3_view1.setText(name.substring(0,9)+"...");
+                                            }
+                                            else{
+                                                tv_name3_view1.setText(name);
+                                            }
+
+                                            String imageUrl=null;
+                                            if(!jar_user.getJSONObject(0).isNull("imageUrl")){
+                                                imageUrl=jar_user.getJSONObject(0).getString("imageUrl");
+                                            }
+                                            if(imageUrl.length()>0){
+                                                String check = imageUrl.substring(0,3);
+                                                if(check.equals("http")){
+                                                    new lib_image_save_original(activity,imageUrl,img3_view1);
+
+                                                }
+                                                else{
+                                                    imageUrl=HTTP_API.url_image+imageUrl;
+                                                    new lib_image_save_original(activity,imageUrl,img3_view1);
+
+                                                }
+                                            }
+
+                                        }
+                                        //2.2.2.2
+                                        else if(jar_user.length()>1){
+                                            String name =jar_user.getJSONObject(0).getString("firstName")+" and "+jar_user.getJSONObject(1).getString("firstName");
+                                            rl_img3_2_view1.setVisibility(View.VISIBLE);
+                                            if(name.length()>10){
+                                                tv_name3_view1.setText(name.substring(0,9)+"...");
+                                            }
+                                            else{
+                                                tv_name3_view1.setText(name);
+                                            }
+
+
+                                            String imageUrl=null;
+                                            if(!jar_user.getJSONObject(0).isNull("imageUrl")){
+                                                imageUrl=jar_user.getJSONObject(0).getString("imageUrl");
+                                            }
+                                            if(imageUrl.length()>0){
+                                                String check = imageUrl.substring(0,3);
+                                                if(check.equals("http")){
+                                                    new lib_image_save_original(activity,imageUrl,img3_view1);
+
+                                                }
+                                                else{
+                                                    imageUrl=HTTP_API.url_image+imageUrl;
+                                                    new lib_image_save_original(activity,imageUrl,img3_view1);
+
+                                                }
+                                            }
+                                            String imageUr1l=null;
+                                            if(!jar_user.getJSONObject(1).isNull("imageUrl")){
+                                                imageUrl=jar_user.getJSONObject(1).getString("imageUrl");
+                                            }
+                                            if(imageUrl.length()>0){
+                                                String check = imageUrl.substring(0,3);
+                                                if(check.equals("http")){
+                                                    new lib_image_save_original(activity,imageUrl,img3_2_view1);
+
+                                                }
+                                                else{
+                                                    imageUrl=HTTP_API.url_image+imageUrl;
+                                                    new lib_image_save_original(activity,imageUrl,img3_2_view1);
+
+                                                }
+                                            }
+
+                                        }
+                                    }
+
+                                }
+                                //
+
+
+                            }
+
+
+                            else {
                                 Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
                             }
 
@@ -730,12 +1297,10 @@ public class adapter_myactivity extends BaseAdapter {
                                         dob = jo.getString("dob");
                                         displayName = jo.getString("displayName");
                                         age = jo.getString("age");
-
-                                        try {
+                                        if(jo.isNull("imageUrl")){
                                             imageUrl= jo.getString("imageUrl");
-                                        }catch (JSONException e){
-                                            imageUrl="";
                                         }
+
 
                                         hasRequest = "hasRequest";
 
@@ -884,13 +1449,11 @@ public class adapter_myactivity extends BaseAdapter {
 
                                             String age =  jarr.getJSONObject(i).getString("age");
                                             String imageUrl="";
-                                            try {
+
+                                            if(!jarr.getJSONObject(i).isNull("imageUrl")){
                                                 imageUrl = jarr.getJSONObject(i).getString("imageUrl");
-                                            }catch(JSONException e){
-                                                imageUrl="";
-                                                Log.e("Error,---","TAG_IMAGE_URL");
-                                                e.getStackTrace();
                                             }
+
 
                                             item_user_group item = new item_user_group(
                                                     id,
@@ -1006,12 +1569,14 @@ public class adapter_myactivity extends BaseAdapter {
                                     String fullname = arr_user.get(1).displayName;
                                     String age =arr_user.get(1).age;
                                     String gender =arr_user.get(1).gender;
+                                    String imageUrl =arr_user.get(1).imageUrl;
 
                                     Intent in = new Intent(activity, Activity_Rank_Report.class);
                                     in.putExtra("id_user",id_user);
                                     in.putExtra("fullname",fullname);
                                     in.putExtra("age",age);
                                     in.putExtra("gender",gender);
+                                    in.putExtra("imageUrl",imageUrl);
                                     activity.startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);
                                 }
                             });
@@ -1775,19 +2340,28 @@ public class adapter_myactivity extends BaseAdapter {
                 //--********************************
                 //*********************
 
-// -------------nview1 click
+ //-------------nview1 click
                 img1_view1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         TAG_ID=arItem.get(pos)._id;
                         TAG_ID_SINGLE = arr_search.get(0)._id;
-
                         Log.e("TAG_ID_SINGLE---",TAG_ID_SINGLE);
                         TAG_COLER_VIEW_CHAT = arItem.get(pos).activityTypeColor;
                         TAG_ID_USER_CHAT_PPRITE= arr_search.get(0).id_user;
+
+                        String type = arr_search.get(0).type;
+                        Log.e("type",type);
                         if (CheckWifi3G.isConnected(activity)) {
-                            new Get_Single().execute();
+                            if(type.equals("request")){
+                                new Get_Single().execute();
+                            }
+                            else{
+                                TAG_ID=arr_search.get(0)._id;
+                                new Get_Group().execute();
+                            }
+
                         } else {
                             Toast.makeText(activity, "Error Connect Internet!", Toast.LENGTH_SHORT).show();
                         }
@@ -1799,7 +2373,7 @@ public class adapter_myactivity extends BaseAdapter {
 
                         TAG_ID=arItem.get(pos)._id;
                         //TAG_ID_SINGLE = arr_search.get(1).id_user;
-                        TAG_ID_SINGLE = arr_search.get(0)._id;
+                        TAG_ID_SINGLE = arr_search.get(1)._id;
                         TAG_COLER_VIEW_CHAT = arItem.get(pos).activityTypeColor;
                         TAG_ID_USER_CHAT_PPRITE= arr_search.get(1).id_user;
                         if (CheckWifi3G.isConnected(activity)) {
@@ -1815,7 +2389,7 @@ public class adapter_myactivity extends BaseAdapter {
                     public void onClick(View v) {
                         TAG_ID=arItem.get(pos)._id;
                        // TAG_ID_SINGLE = arr_search.get(2).id_user;
-                        TAG_ID_SINGLE = arr_search.get(0)._id;
+                        TAG_ID_SINGLE = arr_search.get(2)._id;
                         TAG_COLER_VIEW_CHAT = arItem.get(pos).activityTypeColor;
                         TAG_ID_USER_CHAT_PPRITE= arr_search.get(2).id_user;
                         if (CheckWifi3G.isConnected(activity)) {

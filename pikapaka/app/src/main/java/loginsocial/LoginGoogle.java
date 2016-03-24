@@ -351,8 +351,12 @@ public class LoginGoogle extends AppCompatActivity implements
                         userId="";
                         authToken="";
                         Intent in = new Intent(LoginGoogle.this, MainActivity.class);
-                        in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(in);
+                        finish();
+
 
 
                     }
