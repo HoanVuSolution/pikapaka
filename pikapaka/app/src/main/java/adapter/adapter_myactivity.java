@@ -147,12 +147,7 @@ public class adapter_myactivity extends BaseAdapter {
 
                 }
 
-                final  ImageView img_delete=(ImageView)convertView.findViewById(R.id.img_delete);
 
-                String type =arItem.get(pos).type;
-                if(type.equals("group")){
-                    img_delete.setVisibility(View.GONE);
-                }
                 //--------
 
                 final LinearLayout view1, view2, view3, view4,view5;
@@ -167,8 +162,8 @@ public class adapter_myactivity extends BaseAdapter {
                 view3.setVisibility(View.GONE);
                 view4.setVisibility(View.GONE);
 
-                LinearLayout ll_backgroud = (LinearLayout) convertView.findViewById(R.id.ll_backgroud);
-
+                final LinearLayout ll_backgroud = (LinearLayout) convertView.findViewById(R.id.ll_backgroud);
+                final View bg = (LinearLayout) convertView.findViewById(R.id.ll_backgroud);
                 ll_backgroud.setBackgroundColor(Color.parseColor(arItem.get(pos).activityTypeColor.toString()));
                 //View1 item**********************************************
                 final LinearLayout ll_view1_user1 = (LinearLayout) convertView.findViewById(R.id.ll_view1_user1);
@@ -265,7 +260,6 @@ public class adapter_myactivity extends BaseAdapter {
                     @Override
                     protected String doInBackground(String... args) {
                         try {
-                            // Looper.prepare(); //For Preparing Message Pool for the child Thread
                             HttpClient client = new DefaultHttpClient();
                             arr_search.clear();
                             JSONObject json = new JSONObject();
@@ -1973,14 +1967,11 @@ public class adapter_myactivity extends BaseAdapter {
                                 HttpEntity resEntity = response.getEntity();
                                 if (resEntity != null) {
                                     String msg = EntityUtils.toString(resEntity);
-                                    Log.v("msg-- cate", msg);
+                                    Log.e("msg-- cate", msg);
                                     JSONObject jsonObject = new JSONObject(msg);
                                     TAG_STATUS = jsonObject.getString("status");
                                     TAG_MESSAGE = jsonObject.getString("message");
                                     activity.mSocket.emit("join",TAG_CONVERSATION);
-
-
-
                                     JSONObject jdata = jsonObject.getJSONObject("data");
 
                                     JSONArray message = jdata.getJSONArray("messages");
@@ -1994,7 +1985,6 @@ public class adapter_myactivity extends BaseAdapter {
                                         String id_user = fromUser.getString("_id");
                                         JSONObject profile = fromUser.getJSONObject("profile");
                                         String firstName = profile.getString("firstName");
-
                                         String gender = profile.getString("gender");
                                         String lastName = profile.getString("lastName");
                                         String content = message.getJSONObject(i).getString("content");
@@ -2039,10 +2029,10 @@ public class adapter_myactivity extends BaseAdapter {
                                 Log.e("arr_chat size", arr_chat.size() + "");
 //                                adapter_ch = new adapater_chat(activity, arr_chat);
 //
-//                                list_chat_view4.setAdapter(adapter_ch);
-//                                list_chat_view4.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-//                                list_chat_view4.setStackFromBottom(true);
-                                adapter_ch.notifyDataSetChanged();
+                                list_chat_view4.setAdapter(adapter_ch);
+                                list_chat_view4.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+                                list_chat_view4.setStackFromBottom(true);
+                                //adapter_ch.notifyDataSetChanged();
                                 Scroll_Listview();
 
                             } else {
@@ -2257,6 +2247,12 @@ public class adapter_myactivity extends BaseAdapter {
                     }
 
                 }
+//                bg.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Toast.makeText(activity, "aassa", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
                 ll_backgroud.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -2304,45 +2300,7 @@ public class adapter_myactivity extends BaseAdapter {
                 });
 
 
-                img_delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        TAG_ACTIVITY_DELETE =arItem.get(pos).activityTypeName;
-                        TAG_ID = arItem.get(pos)._id;
-                        //dialog_delete();
-                        final Dialog dialog = new Dialog(activity);
-                        dialog.requestWindowFeature(dialog.getWindow().FEATURE_NO_TITLE);
-                        dialog.setContentView(R.layout.dialog_delete);
 
-
-                        final TextView tv_name=(TextView)dialog.findViewById(R.id.tv_name);
-                        final TextView tv_no=(TextView)dialog.findViewById(R.id.tv_no);
-                        final TextView tv_yes=(TextView)dialog.findViewById(R.id.tv_yes);
-
-                        tv_name.setText(TAG_ACTIVITY_DELETE);
-                        tv_no.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
-                        tv_yes.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                new Delete_Ac().execute();
-
-                                dialog.dismiss();
-                            }
-                        });
-
-
-
-
-                        dialog.show();
-                    }
-
-                });
                 //--********************************
                 //*********************
 
@@ -2540,7 +2498,7 @@ public class adapter_myactivity extends BaseAdapter {
                         ll_policy_view4.setBackgroundColor(Color.parseColor(TAG_COLER_VIEW_CHAT.toString()));
                         ll_member_view4.setBackgroundColor(Color.parseColor(TAG_COLER_VIEW_CHAT.toString()));
                         ll_more_view4.setBackgroundColor(Color.parseColor(TAG_COLER_VIEW_CHAT.toString()));
-
+                        Log.e("TAG_ID--",TAG_ID);
 
                         new Get_Conversations().execute();
                     }
@@ -2575,7 +2533,36 @@ public class adapter_myactivity extends BaseAdapter {
                 ll_leave_view4.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new Leave_Group().execute();
+                        final Dialog dialog = new Dialog(activity);
+                        dialog.requestWindowFeature(dialog.getWindow().FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.dialog_notify_leave);
+
+
+                        final TextView tv_no =(TextView)dialog.findViewById(R.id.tv_no);
+                        final TextView tv_yes =(TextView)dialog.findViewById(R.id.tv_yes);
+
+                        tv_yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(CheckWifi3G.isConnected(activity)){
+                                    new Leave_Group().execute();
+                                    dialog.dismiss();
+                                }
+                                else{
+                                    Toast.makeText(activity, "Error connect internet!", Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            }
+                        });
+                        tv_no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        dialog.show();
                     }
                 });
                 list_chat_view4.setOnTouchListener(new View.OnTouchListener() {
@@ -2607,5 +2594,9 @@ public class adapter_myactivity extends BaseAdapter {
     private static void Scroll_Listview(){
         list_chat_view4.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         list_chat_view4.setStackFromBottom(true);
+    }
+
+    private void dialog_leave(){
+
     }
 }

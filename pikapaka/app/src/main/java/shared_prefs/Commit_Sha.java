@@ -34,6 +34,7 @@ public class Commit_Sha {
 		dataString.TAG_EMAIL="";
 		dataString.TAG_USERID="";
 		dataString.TAG_IMAGE_URL="";
+		dataString.TAG_AGE="0";
 
 	}
 

@@ -34,7 +34,7 @@
                 android:lineSpacingExtra="5dp"
                 android:text="Grab a drink"
                 android:textColor="@color/text4"
-                android:textSize="19sp"
+                android:textSize="17sp"
 
                 android:typeface="serif" />
 

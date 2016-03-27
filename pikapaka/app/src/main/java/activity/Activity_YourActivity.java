@@ -44,6 +44,8 @@ import item.item_custom_fields;
 import item.item_selection_custom;
 import loading.lib_loading;
 import location_gps.GPSTracker;
+import util.dataString;
+
 /**
  * Created by MrThanhPhong on 2/18/2016.
  */
@@ -146,6 +148,8 @@ public class Activity_YourActivity extends AppCompatActivity {
         Log.e("_id", TAG_ID);
 
         tv_name = (TextView) findViewById(R.id.tv_name);
+        tv_name.setText("");
+        tv_desciption.setText("");
         tv_count_friend = (TextView) findViewById(R.id.tv_count_friend);
         tv_count_msg = (TextView) findViewById(R.id.tv_count_msg);
         tv_count_friend.setVisibility(View.GONE);
@@ -819,15 +823,15 @@ public class Activity_YourActivity extends AppCompatActivity {
                         if(minNumOfParticipants.length()==0){
                             maxNumOfParticipants="2";
                         }
-                        if(ageFrom.length()==0){
-                            ageFrom="23";
-                        }
-                        if(ageTo.length()==0){
-                            ageTo="32";
-                        }
-                        if(gender.length()==0){
-                            gender="Man";
-                        }
+//                        if(ageFrom.length()==0){
+//                            ageFrom="23";
+//                        }
+//                        if(ageTo.length()==0){
+//                            ageTo="32";
+//                        }
+//                        if(gender.length()==0){
+//                            gender="Man";
+//                        }
                         if(distance.length()==0){
                             distance="10";
                         }
@@ -835,14 +839,21 @@ public class Activity_YourActivity extends AppCompatActivity {
                             expiredHours="12";
                         }
 
-
+                        int age = Integer.parseInt(dataString.TAG_AGE);
+                        int age_form=0;
+                        int age_to=0;
+                        if(age>0){
+                             age_form =age-7;
+                            age_to=age+7;
+                        }
                         tv_name.setText(name);
                         tv_desciption.setText(description);
                         tv_max.setText(maxNumOfParticipants);
                         tv_min.setText(minNumOfParticipants);
-                        tv_minage.setText(ageFrom);
-                        tv_maxage.setText(ageTo);
-                        tv_part_gender.setText(gender);
+                        tv_minage.setText(age_form+"");
+                        tv_maxage.setText(age_to+"");
+                        //tv_part_gender.setText(gender);
+                        tv_part_gender.setText("Anything gose");
                         tv_km.setText(distance);
                         tv_hours.setText(expiredHours + " Hours");
 

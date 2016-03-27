@@ -3,20 +3,30 @@ package activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
@@ -49,7 +59,8 @@ public class Activity_MyActivity extends AppCompatActivity implements
     private String TAG_ID="";
 
     private AppCompatActivity activity;
-    private ListView list;
+    private  SwipeMenuListView mListView;
+   // private ListView list;
     public ArrayList<item_my_activity> arItem = new ArrayList<item_my_activity>() ;
     private ProgressDialog progressDialog;
     private ProgressDialog progressDialog1;
@@ -83,7 +94,7 @@ private PikaPakaApplication application;
     private void init()throws Exception{
         get_resource();
         get_shapreference();
-
+        init_wrap_list();
         Get_GPS();
 
     }
@@ -106,8 +117,9 @@ private PikaPakaApplication application;
         tv_count_f.setVisibility(View.GONE);
 
         img_home=(ImageView)findViewById(R.id.img_home);
-        list=(ListView)findViewById(R.id.list);
-        list.setItemsCanFocus(true);
+        mListView=(SwipeMenuListView)findViewById(R.id.list);
+        //list=(ListView)findViewById(R.id.list);
+        //mListView.setItemsCanFocus(true);
         img_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -257,7 +269,7 @@ public void get_myactivity()throws Exception{
 
                     adapter_myactivity adapter = new adapter_myactivity(Activity_MyActivity.this,arItem);
                //MyAdapter adapter = new MyAdapter(Activity_MyActivity.this,arItem);
-                    list.setAdapter(adapter);
+                    mListView.setAdapter(adapter);
                 } else {
                     Log.i("ERROR ","GET DATA");
                 }
@@ -311,7 +323,6 @@ public void call(final Object... args) {
             try {
                 _id =data.getString("_id");
                 conversationId =data.getString("conversationId");
-
                 content =data.getString("content");
                 JSONObject from = data.getJSONObject("fromUser");
                 id_user =from.getString("_id");
@@ -393,4 +404,216 @@ public void call(final Object... args) {
 
     }
 
+    private void init_wrap_list(){
+// step 1. create a MenuCreator
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+
+            @Override
+            public void create(SwipeMenu menu) {
+                // create "open" item
+//                SwipeMenuItem openItem = new SwipeMenuItem(
+//                        getApplicationContext());
+//                // set item background
+//                openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
+//                        0xCE)));
+//                // set item width
+//                openItem.setWidth(dp2px(50));
+//                // set item title
+//                openItem.setTitle("Open");
+//                // set item title fontsize
+//                openItem.setTitleSize(18);
+//                // set item title font color
+//                openItem.setTitleColor(Color.WHITE);
+//                // add to menu
+//                menu.addMenuItem(openItem);
+
+                // create "delete" item
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getApplicationContext());
+                // set item background
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xFF,
+                        0xFF, 0xFF)));
+
+                // set item width
+                deleteItem.setWidth(dp2px(150));
+
+                // set a icon
+                deleteItem.setIcon(R.drawable.delete);
+                // add to menu
+                menu.addMenuItem(deleteItem);
+            }
+        };
+        // set creator
+        mListView.setMenuCreator(creator);
+
+        // step 2. listener item click event
+        mListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+              //  ApplicationInfo item = arItem.get(position);
+                switch (index) {
+//                    case 0:
+//                        // open
+//                       // open(item);
+//                        Toast.makeText(activity,"Open",Toast.LENGTH_SHORT).show();
+//                        break;
+                    case 0:
+                        // delete
+//					delete(item);
+//                        mAppList.remove(position);
+//                        mAdapter.notifyDataSetChanged();
+                        Toast.makeText(activity,"Delete",Toast.LENGTH_SHORT).show();
+                        TAG_ID =arItem.get(position)._id;
+                        break;
+                }
+                return false;
+            }
+        });
+
+//        // set SwipeListener
+//        mListView.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
+//
+//            @Override
+//            public void onSwipeStart(int position) {
+//                // swipe start
+//            }
+//
+//            @Override
+//            public void onSwipeEnd(int position) {
+//                // swipe end
+//            }
+//        });
+//
+//        // set MenuStateChangeListener
+//        mListView.setOnMenuStateChangeListener(new SwipeMenuListView.OnMenuStateChangeListener() {
+//            @Override
+//            public void onMenuOpen(int position) {
+//            }
+//
+//            @Override
+//            public void onMenuClose(int position) {
+//            }
+//        });
+    }
+
+    private int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                getResources().getDisplayMetrics());
+    }
+
+    private void delete(){
+        class Delete_Ac extends AsyncTask<String, String, String> {
+            ProgressDialog progressDialog;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                // progressDialog = lib_loading.f_init(activity);
+                progressDialog = ProgressDialog.show(activity, "",
+                        "", true);
+            }
+
+            @Override
+            protected String doInBackground(String... args) {
+                try {
+                    // Looper.prepare(); //For Preparing Message Pool for the child Thread
+                    HttpClient client = new DefaultHttpClient();
+
+                    JSONObject json = new JSONObject();
+
+                    HttpDelete post = new HttpDelete(HTTP_API.DELETE_AC+TAG_ID);
+                    post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
+                    post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+
+//                            json.put("groupId", TAG_ID);
+//                            json.put("userId", Activity_MyActivity.TAG_USERID);
+//                            StringEntity se = new StringEntity(json.toString());
+//                            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+//                           // post.setEntity(se);
+
+                    HttpResponse response;
+                    response = client.execute(post);
+
+                    if (response != null) {
+                        HttpEntity resEntity = response.getEntity();
+                        if (resEntity != null) {
+                            String msg = EntityUtils.toString(resEntity);
+                            Log.e("delete-- cate", msg);
+                            JSONObject jsonObject = new JSONObject(msg);
+                            TAG_STATUS = jsonObject.getString("status");
+                            TAG_MESSAGE = jsonObject.getString("message");
+
+                        }
+
+                        if (resEntity != null) {
+                            resEntity.consumeContent();
+                        }
+
+                        client.getConnectionManager().shutdown();
+
+                    }
+                } catch (Exception e) {
+                    progressDialog.dismiss();
+
+                } catch (Throwable t) {
+                    progressDialog.dismiss();
+
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                progressDialog.dismiss();
+                try {
+                    Log.e("TAG_STATUS----", TAG_STATUS);
+                    Log.e("TAG_MESSAGE---", TAG_MESSAGE);
+                    Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+
+                    if (TAG_STATUS.equals("success")) {
+                        get_myactivity();
+                    } else {
+                        Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } catch (Exception e) {
+
+                } catch (Throwable t) {
+
+                }
+
+            }
+
+        }
+        if(CheckWifi3G.isConnected(activity)){
+            new Delete_Ac().execute();
+
+        }
+        else{
+            Toast.makeText(Activity_MyActivity.this, "Error connect internet!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_left) {
+            mListView.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
+            return true;
+        }
+        if (id == R.id.action_right) {
+            mListView.setSwipeDirection(SwipeMenuListView.DIRECTION_RIGHT);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -93,15 +93,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1" >
 
-                        <ImageView
-                            android:id="@+id/img_delete"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/delete"
-                           android:layout_alignParentRight="true"
 
-
-                            />
 
 
                         <RelativeLayout
