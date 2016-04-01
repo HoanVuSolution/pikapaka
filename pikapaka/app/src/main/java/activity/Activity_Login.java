@@ -265,9 +265,7 @@ public class Activity_Login extends AppCompatActivity {
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                            Log.i("msg-- cate", msg);
-
-
+                          //  Log.i("msg-- cate", msg);
                             JSONObject jsonObject = new JSONObject(msg);
                             TAG_STATUS = jsonObject.getString("status");
                             TAG_MESSENG = jsonObject.getString("message");
@@ -309,11 +307,7 @@ public class Activity_Login extends AppCompatActivity {
 
                         new Commit_Sha().Write_TokenID(Activity_Login.this, TAG_USERID, TAG_AUTH_TOKEN,TAG_EMAIL,TAG_PASSWORD);
                         Toast.makeText(Activity_Login.this, "You have successfully logged in", Toast.LENGTH_SHORT).show();
-
-                        Log.e("TAG_USERID", TAG_USERID);
-                        Log.e("TAG_AUTH_TOKEN", TAG_AUTH_TOKEN);
-
-                        Intent in = new Intent(activity, MainActivity.class);
+                                              Intent in = new Intent(activity, MainActivity.class);
                         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                                 | Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -356,10 +350,6 @@ public class Activity_Login extends AppCompatActivity {
         TAG_AUTH_TOKEN = sha_Token.getString(
                 "auth_token", "");
 
-        Log.d("id_user-----", TAG_USERID);
-        Log.d("token-----", TAG_AUTH_TOKEN);
-
-
 
     }
 
@@ -391,7 +381,7 @@ class RegisterBackground extends AsyncTask<String,String,String>{
     @Override
     protected void onPostExecute(String msg) {
        // mDisplay.append(msg + "\n");
-        Log.d("msg-----",msg);
+      //  Log.d("msg-----",msg);
 
     }
 

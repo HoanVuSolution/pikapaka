@@ -91,7 +91,7 @@ private adapter_activity_type adapter;
     @Override
     public void onStart() {
         super.onStart();
-        Log.e("Image fragment",dataString.TAG_IMAGE_URL.toString());
+
         if(dataString.TAG_IMAGE_URL.length()>0){
 
            // new lib_image_save_original(getActivity(),dataString.TAG_IMAGE_URL,img_profile);
@@ -214,20 +214,16 @@ private adapter_activity_type adapter;
     }
 
     private void get_shapreference() throws Exception {
-
         SharedPreferences sha_IDuser;
         SharedPreferences sha_Token;
-
         sha_IDuser = getActivity().getSharedPreferences("ID_user", 0);
         sha_Token = getActivity().getSharedPreferences("auth_token", 0);
-
         TAG_USERID = sha_IDuser.getString(
                 "ID_user", "");
         TAG_TOKEN = sha_Token.getString(
                 "auth_token", "");
-
-        Log.e("TAG_USERID-!", TAG_USERID);
-        Log.e("TAG_AUTH_TOKEN--!", TAG_TOKEN);
+//        Log.e("TAG_USERID",TAG_USERID);
+//        Log.e("TAG_TOKEN",TAG_TOKEN);
 
     }
 
@@ -276,7 +272,6 @@ private adapter_activity_type adapter;
                                 //JSONObject defaultValue = null;
                                 JSONArray jsonarray = jsonObject.getJSONArray("data");
                                 for (int i = 0; i < jsonarray.length(); i++) {
-
                                     _id = jsonarray.getJSONObject(i).getString("_id");
                                     name = jsonarray.getJSONObject(i).getString("name");
                                     description = jsonarray.getJSONObject(i).getString("description");
@@ -321,11 +316,10 @@ private adapter_activity_type adapter;
                     }
                 } catch (Exception e) {
                     progressDialog.dismiss();
-                    Log.i("ERROR ", "ERROR1");
+                    Log.e("ERROR ", "ERROR1");
 
                 } catch (Throwable t) {
                     progressDialog.dismiss();
-                    Log.i("ERROR ", "ERROR2");
 
                 }
                 return null;
@@ -344,7 +338,7 @@ private adapter_activity_type adapter;
                         }
 
                     } else {
-                        Log.v("No data", "Nodata");
+                      //  Log.v("No data", "Nodata");
 
                     }
                 } catch (Exception e) {
@@ -368,7 +362,7 @@ private adapter_activity_type adapter;
         Log.e("_idCate-", _idCate);
         if (arr_activty.size() > 0) {
             for (int i = 0; i < arr_activty.size(); i++) {
-                Log.i("name-" + arr_activty.get(i).name, "categoryId-" + arr_activty.get(i).categoryId);
+               // Log.i("name-" + arr_activty.get(i).name, "categoryId-" + arr_activty.get(i).categoryId);
                 if (arr_activty.get(i).categoryId.equals(_idCate)) {
                     arr_activty_search.add(new item_activity_types(
                             arr_activty.get(i)._id,
@@ -383,31 +377,22 @@ private adapter_activity_type adapter;
                     ));
                 }
             }
-          //  adapter.notifyDataSetChanged();
-            // adapter1.notifyDataSetChanged();
+
         }
 
-        //
-        Log.e("arr_activty_search size",arr_activty_search.size()+"");
-
-        if(arr_activty_search.size()>0){
+       // if(arr_activty_search.size()>0){
             load_slider();
 
-        }
+        //}
     }
 
     private void load_slider(){
 
-
         ArrayList<item_activity_types> a = new ArrayList<item_activity_types>();
-
-
         for(int i = 0; i < arr_activty_search.size(); i++) {
             a.add(arr_activty_search.get(i));
 
         }
-
-
         Iterator<item_activity_types> it = a.iterator();
 
         List<GridFragment> gridFragments = new ArrayList<GridFragment>();
@@ -509,9 +494,7 @@ private adapter_activity_type adapter;
             @Override
             protected String doInBackground(String... args) {
                 try {
-                    //Looper.prepare(); //For Preparing Message Pool for the child Thread
                     HttpClient client = new DefaultHttpClient();
-                    // HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); //Timeout Limit
                     HttpResponse response;
                     HttpGet post = null;
                     if (check_favorites == 1) {
@@ -532,12 +515,12 @@ private adapter_activity_type adapter;
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                            Log.i("msg-- cate", msg);
+                            //Log.i("msg-- cate", msg);
 
                             JSONObject jsonObject = new JSONObject(msg);
                             String status = jsonObject.getString("status");
 
-                            Log.e("status--", status);
+                           // Log.e("status--", status);
 
                             if (status.equals("success")) {
                                 JSONArray jsonarray = jsonObject.getJSONArray("data");
@@ -580,11 +563,11 @@ private adapter_activity_type adapter;
                     }
                 } catch (Exception e) {
                     progressDialog.dismiss();
-                    Log.i("ERROR ", "ERROR1");
+                    Log.e("ERROR ", "ERROR1");
 
                 } catch (Throwable t) {
                     progressDialog.dismiss();
-                    Log.i("ERROR ", "ERROR2");
+
 
                 }
                 return null;
@@ -596,6 +579,9 @@ private adapter_activity_type adapter;
                 try {
                     //adapter.notifyDataSetChanged();
                     //adapter1.notifyDataSetChanged();
+                    //if(arr_activty_search.size()>0){
+                        load_slider();
+                    //}
                 } catch (Exception e) {
 
                 } catch (Throwable t) {
@@ -630,4 +616,6 @@ private adapter_activity_type adapter;
             return this.fragments.size();
         }
     }
+
+
 }

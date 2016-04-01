@@ -1,4 +1,4 @@
-package fragment;
+package request_activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,18 +15,15 @@ import android.widget.GridView;
 import activity.Activity_YourActivity;
 import hoanvusolution.pikapaka.R;
 
-public class GridFragment extends Fragment{
-	
+public class GridFragment_RQ extends Fragment{
 	private GridView mGridView;
-	private GridAdapter mGridAdapter;
-	GridItems[] gridItems = {};
+	private GridAdapter_RQ mGridAdapter;
+	GridItem_RQ[] gridItems = {};
 	private Activity activity;
-	
-	public GridFragment(GridItems[] gridItems, Activity activity) {
+	public GridFragment_RQ(GridItem_RQ[] gridItems, Activity activity) {
 		this.gridItems = gridItems;
 		this.activity = activity;
 	}
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,7 +43,7 @@ public class GridFragment extends Fragment{
 		
 		if(activity != null) {
 			
-			mGridAdapter = new GridAdapter(activity, gridItems);
+			mGridAdapter = new GridAdapter_RQ(activity, gridItems);
 			
 			if(mGridView != null){
 				mGridView.setAdapter(mGridAdapter);
@@ -66,7 +63,7 @@ public class GridFragment extends Fragment{
 	
 	public void onGridItemClick(GridView g, View v, int pos, long id) {
 		Activity_YourActivity.TAG_ID = gridItems[pos].ac_type._id;
-		Activity_YourActivity.TAG_COLOR = gridItems[pos].ac_type.color;
+		Activity_YourActivity.TAG_COLOR = gridItems[pos].ac_type.activityTypeColor;
 		Intent in = new Intent(getActivity(), Activity_YourActivity.class);
 		startActivityForResult(in, 100);
 

@@ -589,7 +589,7 @@ public class Activity_Profile extends AppCompatActivity{
                     float km = Float.parseFloat(tv_km.getText().toString());
                     double miles = km / 1.6;
                     TAG_DISTANCE = miles + "";
-                    Log.e("TAG_DISTANCE", TAG_DISTANCE);
+                 //   Log.e("TAG_DISTANCE", TAG_DISTANCE);
                 }
 
                 int max = Integer.parseInt(tv_max.getText().toString());
@@ -675,8 +675,7 @@ public class Activity_Profile extends AppCompatActivity{
         TAG_TOKEN = sha_Token.getString(
                 "auth_token", "");
 
-        Log.d("TAG_USERID-----", TAG_USERID);
-        Log.d("token-----", TAG_TOKEN);
+
         if(TAG_TOKEN.length()>0&& TAG_TOKEN.length()>0){
             try {
                 get_info();
@@ -685,7 +684,7 @@ public class Activity_Profile extends AppCompatActivity{
             }
         }
         else{
-            Log.i("Token +UserID = ", "NULL");
+         //   Log.i("Token +UserID = ", "NULL");
         }
 
 
@@ -711,14 +710,14 @@ public class Activity_Profile extends AppCompatActivity{
                     HttpGet post = new HttpGet(HTTP_API.GET_PROFILE+"/"+TAG_USERID);
                     post.addHeader("X-User-Id", TAG_USERID);
                     post.addHeader("X-Auth-Token", TAG_TOKEN);
-                    Log.i("idUser-------", TAG_USERID);
-                    Log.i("token--------", TAG_TOKEN);
+//                    Log.i("idUser-------", TAG_USERID);
+//                    Log.i("token--------", TAG_TOKEN);
                     response = client.execute(post);
                     if (response != null) {
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                            Log.i("msg-- cate", msg);
+                         //   Log.i("msg-- cate", msg);
 
                             JSONObject jsonObject = new JSONObject(msg);
                             TAG_STATUS = jsonObject.getString("status");
@@ -788,7 +787,7 @@ public class Activity_Profile extends AppCompatActivity{
                         tv_part_gender.setText(TAG_GENDER_PARTNER);
                        // tv_km.setText(TAG_DISTANCE);
                         double distan =Double.parseDouble(TAG_DISTANCE);
-                        Log.e("distan", distan + "");
+                       // Log.e("distan", distan + "");
                         if(distan%2==0){
                             tv_km.setText(TAG_DISTANCE);
                             tv_type_dis.setText("kilometers");
@@ -796,14 +795,14 @@ public class Activity_Profile extends AppCompatActivity{
                         else{
                             distan*=1.6;
                             int mile =(int)distan;
-                            Log.e("distan--", "miles");
+                          //  Log.e("distan--", "miles");
                             tv_km.setText(mile + "");
                             tv_type_dis.setText("miles");
                         }
                         tv_hours.setText(TAG_EXPRIEDHOURS);
                         TAG_MESSAGE="";
 
-                        Log.e("TAG_IMAGE_URL,---",TAG_IMAGE_URL);
+                      //  Log.e("TAG_IMAGE_URL,---",TAG_IMAGE_URL);
                         if(TAG_IMAGE_URL.length()>0){
                             String check = TAG_IMAGE_URL.substring(0,3);
                             if(check.equals("http")){
@@ -843,7 +842,7 @@ public class Activity_Profile extends AppCompatActivity{
 
 
 private void Save_Change(){
-    Log.i("msg-- cate", "cate");
+   // Log.i("msg-- cate", "cate");
     class Update extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
@@ -887,7 +886,7 @@ private void Save_Change(){
                     HttpEntity resEntity = response.getEntity();
                     if (resEntity != null) {
                         String msg = EntityUtils.toString(resEntity);
-                        Log.i("msg-- cate", msg);
+                     //   Log.i("msg-- cate", msg);
 
                         JSONObject jsonObject = new JSONObject(msg);
                         TAG_STATUS = jsonObject.getString("status");
@@ -1126,9 +1125,7 @@ private void Save_Change(){
             String MESSAGE="";
             @Override
             protected void onPreExecute() {
-                // setting progress bar to zero
-                // progressBar.setProgress(0);
-                //super.onPreExecute();
+
 
                 progressDialog = lib_loading.f_init(activity);
             }
@@ -1184,7 +1181,7 @@ private void Save_Change(){
                     httppost.addHeader("X-User-Id", TAG_USERID);
                     httppost.addHeader("X-Auth-Token", TAG_TOKEN);
                     httppost.setEntity(entity);
-                    Log.e("sourceFile  ----",sourceFile.getPath());
+                    //Log.e("sourceFile  ----",sourceFile.getPath());
                     // Making server call
                     HttpResponse response = httpclient.execute(httppost);
                     HttpEntity r_entity = response.getEntity();
@@ -1226,13 +1223,13 @@ private void Save_Change(){
 
             @Override
             protected void onPostExecute(String result) {
-                Log.e("---", "Response from server: " + result);
+              //  Log.e("---", "Response from server: " + result);
                 progressDialog.dismiss();
                 // showing the server response in an alert dialog
                 // showAlert(result);
 
                 Toast.makeText(Activity_Profile.this, MESSAGE, Toast.LENGTH_SHORT).show();
-                Log.e("STATUS---------------",STATUS);
+              //  Log.e("STATUS---------------",STATUS);
                 file_path="";
                 super.onPostExecute(result);
 
@@ -1281,7 +1278,7 @@ private void Save_Change(){
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                            Log.e("msg-- respost-------", msg);
+                        //   Log.e("msg-- respost-------", msg);
                             JSONObject json = new JSONObject(msg);
                             mess = json.getString("message");
                             status = json.getString("status");

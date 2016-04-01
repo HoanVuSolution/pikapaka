@@ -144,9 +144,7 @@ public class LoginFragment extends FragmentActivity {
                 if (AccessToken.getCurrentAccessToken() != null) {
                     share.setVisibility(View.INVISIBLE);
                     details.setVisibility(View.INVISIBLE);
-                    profile.setProfileId(null);
-
-//
+                    profile.setProfileId(null);//
 
 
                    // 52.26.102.232:3000/api/auth/login/local
@@ -162,6 +160,8 @@ public class LoginFragment extends FragmentActivity {
             @Override
             public void onClick(View view) {
                 ShareLinkContent content = new ShareLinkContent.Builder()
+                        .setContentTitle("Pikapaka")
+                        .setContentDescription("application android")
                         .build();
                 shareDialog.show(content);
 
@@ -241,11 +241,9 @@ public class LoginFragment extends FragmentActivity {
         parameters.putString("fields", "id,name,link,email,picture");
         request.setParameters(parameters);
         request.executeAsync();
-
         AccessToken token = AccessToken.getCurrentAccessToken();
         String _token=token.getToken().toString();
         TAG_TOKEN=token.getToken().toString();
-
         Login_PikaPaka(TAG_TOKEN);
 
 

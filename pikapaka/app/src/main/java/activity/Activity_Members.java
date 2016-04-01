@@ -104,7 +104,7 @@ public class Activity_Members extends AppCompatActivity {
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                            Log.e("group - cate", msg);
+                          //  Log.e("group - cate", msg);
                             JSONObject jsonObject = new JSONObject(msg);
                             TAG_STATUS = jsonObject.getString("status");
                             TAG_MESSAGE = jsonObject.getString("message");
@@ -112,14 +112,11 @@ public class Activity_Members extends AppCompatActivity {
                                 JSONObject data = jsonObject.getJSONObject("data");
                                 _id = data.getString("_id");
                                 activityType = data.getString("activityType");
-
                                 activityTypeName = data.getString("activityTypeName");
                                 activityTypeColor = data.getString("activityTypeColor");
-
                                 active = data.getString("active");
                                 JSONArray jarr = data.getJSONArray("users");
                                 for (int i = 0; i < jarr.length(); i++) {
-
                                     String id = jarr.getJSONObject(i).getString("_id");
                                    // JSONObject profile = jarr.getJSONObject(i).getJSONObject("profile");
 
@@ -140,7 +137,7 @@ public class Activity_Members extends AppCompatActivity {
                                         imageUrl = jarr.getJSONObject(i).getString("imageUrl");
                                     }catch(JSONException e){
                                         imageUrl="";
-                                        Log.e("Error,---","TAG_IMAGE_URL");
+                                       // Log.e("Error,---","TAG_IMAGE_URL");
                                         e.getStackTrace();
                                     }
 
@@ -183,9 +180,7 @@ public class Activity_Members extends AppCompatActivity {
             protected void onPostExecute(String result) {
                 progressDialog.dismiss();
                 try {
-                    Log.e("group---", arr_user.size()+"");
-
-
+                   // Log.e("group---", arr_user.size()+"");
                     if (arr_user.size()>0) {
                         adapter_members adapter = new adapter_members(activity,arr_user);
 

@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -109,7 +108,17 @@ public class Activity_Rank_Report extends AppCompatActivity {
             tv_gender.setText(gender);
        // Toast.makeText(activity,TAG_IMAGE,Toast.LENGTH_SHORT).show();
             if(TAG_IMAGE.length()>0){
-                new lib_image_save_original(activity,TAG_IMAGE,img_avatar);
+
+                String check = TAG_IMAGE.substring(0,3);
+                if(check.equals("http")){
+                    new lib_image_save_original(activity,TAG_IMAGE,img_avatar);
+
+                }
+                else{
+                    TAG_IMAGE=HTTP_API.url_image+TAG_IMAGE;
+                    new lib_image_save_original(activity,TAG_IMAGE,img_avatar);
+
+                }
 
             }
         }
@@ -301,7 +310,7 @@ public class Activity_Rank_Report extends AppCompatActivity {
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                            Log.d("msg-- cate", msg);
+                        //    Log.d("msg-- cate", msg);
                             JSONObject jsonObject = new JSONObject(msg);
                             TAG_STATUS = jsonObject.getString("status");
                             TAG_MESSAGE = jsonObject.getString("message");
@@ -365,10 +374,6 @@ public class Activity_Rank_Report extends AppCompatActivity {
         TAG_TOKEN = sha_Token.getString(
                 "auth_token", "");
 
-        Log.d("TAG_USERID-----", TAG_USERID);
-        Log.d("token-----", TAG_TOKEN);
-
-
 
     }
 
@@ -401,7 +406,7 @@ public class Activity_Rank_Report extends AppCompatActivity {
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                            Log.i("msg-- cate", msg);
+                        //    Log.i("msg-- cate", msg);
 
                             JSONObject jsonObject = new JSONObject(msg);
                             TAG_STATUS = jsonObject.getString("status");
@@ -421,9 +426,9 @@ public class Activity_Rank_Report extends AppCompatActivity {
                                 }
 
                             }
-                            else{
-                                Log.e("TAG_MESSAGE",TAG_MESSAGE);
-                            }
+//                            else{
+//                                Log.e("TAG_MESSAGE",TAG_MESSAGE);
+//                            }
 
 
                         }
@@ -449,14 +454,10 @@ public class Activity_Rank_Report extends AppCompatActivity {
             protected void onPostExecute(String result) {
              //   progressDialog.dismiss();
                 try {
-                    Log.e("arr_reason.size()--",arr_reason.size()+"");
                     if(TAG_STATUS.equals("success")){
-                        Log.e("TAG_MESSAGE--",TAG_MESSAGE);
 
                     }
-                    else{
-                       Log.e("fail--","get reason");
-                    }
+
 
                 } catch (Exception e) {
 
@@ -507,7 +508,7 @@ public class Activity_Rank_Report extends AppCompatActivity {
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                            Log.i("msg-- cate", msg);
+                         //   Log.i("msg-- cate", msg);
 
                             JSONObject jsonObject = new JSONObject(msg);
                             TAG_STATUS = jsonObject.getString("status");
@@ -515,10 +516,10 @@ public class Activity_Rank_Report extends AppCompatActivity {
 
                             if(TAG_STATUS.equals("success")){
                                // JSONObject data =jsonObject.getJSONObject("data");
-                                Log.e("TAG_MESSAGE",TAG_MESSAGE);
+                               // Log.e("TAG_MESSAGE",TAG_MESSAGE);
                             }
                             else{
-                                Log.e("TAG_MESSAGE",TAG_MESSAGE);
+                             //   Log.e("TAG_MESSAGE",TAG_MESSAGE);
                             }
 
 
@@ -546,7 +547,7 @@ public class Activity_Rank_Report extends AppCompatActivity {
                 progressDialog.dismiss();
                 try {
                     if(TAG_STATUS.equals("success")){
-                        Log.e("TAG_MESSAGE--",TAG_MESSAGE);
+                        //Log.e("TAG_MESSAGE--",TAG_MESSAGE);
                         ed_input.setText("");
                         dialog.dismiss();
                     }

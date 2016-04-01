@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import activity.Activity_Chat_Private;
 import activity.Activity_Members;
+import activity.Activity_MyActivity;
 import hoanvusolution.pikapaka.R;
 import image.lib_image_save_original;
 import item.item_user_group;
@@ -73,6 +74,10 @@ public class adapter_members extends BaseAdapter {
                 tv_name.setText(arItem.get(pos).displayName);
                 tv_gender.setText(arItem.get(pos).gender);
                 tv_old.setText(arItem.get(pos).age+" year old");
+            String my_id = arItem.get(pos)._id;
+            if(my_id.equals(Activity_MyActivity.TAG_USERID)){
+                ic_chat.setVisibility(View.GONE);
+            }
 
             String url_image = arItem.get(pos).imageUrl;
             if(url_image.length()>0){

@@ -145,7 +145,7 @@
             android:divider="@color/background1"
             android:dividerHeight="0dp"
             tools:listitem="@layout/listview_widget_my_activity"
-            android:transcriptMode="alwaysScroll"
+
             >
 
         </com.baoyz.swipemenulistview.SwipeMenuListView>

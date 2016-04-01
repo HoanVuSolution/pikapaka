@@ -305,7 +305,6 @@ public class Activity_Register extends AppCompatActivity {
 
 
     protected void sendJson() {
-
         class Loading extends AsyncTask<String, String, String> {
             String status="";
              String message="";
@@ -341,9 +340,8 @@ public class Activity_Register extends AppCompatActivity {
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                            Log.i("msg-- cate", msg);
-
-                            Log.i("msg-- cate", msg);
+//                            Log.i("msg-- cate", msg);
+//                            Log.i("msg-- cate", msg);
                             JSONObject jsonObject = new JSONObject(msg);
                              status = jsonObject.getString("status");
                              message = jsonObject.getString("message");

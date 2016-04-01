@@ -136,7 +136,7 @@ public class Activity_YourActivity extends AppCompatActivity {
         get_resource();
 
         get_shapreference();
-        //mSocket.connect();
+
         Get_Info();
         Onclick();
 
@@ -145,18 +145,17 @@ public class Activity_YourActivity extends AppCompatActivity {
     private void get_resource() throws Exception {
 
         activity = this;
-        Log.e("_id", TAG_ID);
+      //  Log.e("_id", TAG_ID);
 
         tv_name = (TextView) findViewById(R.id.tv_name);
         tv_name.setText("");
-        tv_desciption.setText("");
+
         tv_count_friend = (TextView) findViewById(R.id.tv_count_friend);
         tv_count_msg = (TextView) findViewById(R.id.tv_count_msg);
         tv_count_friend.setVisibility(View.GONE);
         tv_count_msg.setVisibility(View.GONE);
-
-
         tv_desciption = (TextView) findViewById(R.id.tv_desciption);
+        tv_desciption.setText("");
         ll_bg = (LinearLayout) findViewById(R.id.ll_bg);
         ll_1 = (LinearLayout) findViewById(R.id.ll_1);
         if (TAG_COLOR.length() > 0) {
@@ -600,7 +599,6 @@ public class Activity_YourActivity extends AppCompatActivity {
         final AlertDialog.Builder Select = new AlertDialog.Builder(
                 activity);
         Select.setTitle("Age");
-
         final ListView List_age = new ListView(activity);
         ViewGroup.LayoutParams dialogTxt_idLayoutParams = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -710,7 +708,7 @@ public class Activity_YourActivity extends AppCompatActivity {
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                            Log.v("msg-- cate", msg);
+                       //     Log.e("msg-- cate", msg);
                             JSONObject jsonObject = new JSONObject(msg);
                             TAG_STATUS = jsonObject.getString("status");
                             TAG_MESSAGE = jsonObject.getString("message");
@@ -746,12 +744,8 @@ public class Activity_YourActivity extends AppCompatActivity {
                                     expiredHours="12";
                                     gender="Man";
                                 }
-
-
-                                Log.e("jarr", "11");
-
                                  jarr = data.getJSONArray("customFields");
-                                Log.e("jarr", jarr.length()+"");
+                                //Log.e("jarr", jarr.length()+"");
                                 if (jarr.length() > 0) {
                                     for (int i = 0; i < jarr.length(); i++) {
                                         String isRequired = jarr.getJSONObject(i).getString("isRequired");
@@ -787,7 +781,7 @@ public class Activity_YourActivity extends AppCompatActivity {
                                     }
 
                                 } else {
-                                    Log.e("jarr", "gbfgbfgfgfgn");
+                               //     Log.e("jarr", "gbfgbfgfgfgn");
                                 }
                             }
                         }
@@ -800,10 +794,12 @@ public class Activity_YourActivity extends AppCompatActivity {
 
                     }
                 } catch (Exception e) {
+                    Log.e("Error","1");
                     progressDialog1.dismiss();
 
                 } catch (Throwable t) {
                     progressDialog1.dismiss();
+                    Log.e("Error","2");
 
                 }
                 return null;
@@ -813,8 +809,8 @@ public class Activity_YourActivity extends AppCompatActivity {
             protected void onPostExecute(String result) {
                 progressDialog1.dismiss();
                 try {
-                    Log.e("arr_Icustom-----", arr_Icustom.size() + "");
-                    Log.e("arr_I_seelctiom-----", arr_I_seelctiom.size() + "");
+                   // Log.e("arr_Icustom-----", arr_Icustom.size() + "");
+                  //  Log.e("arr_I_seelctiom-----", arr_I_seelctiom.size() + "");
                     if (TAG_STATUS.equals("success")) {
 
                         if(maxNumOfParticipants.length()==0){
@@ -852,7 +848,7 @@ public class Activity_YourActivity extends AppCompatActivity {
                         tv_min.setText(minNumOfParticipants);
                         tv_minage.setText(age_form+"");
                         tv_maxage.setText(age_to+"");
-                        //tv_part_gender.setText(gender);
+                        tv_part_gender.setText(gender);
                         tv_part_gender.setText("Anything gose");
                         tv_km.setText(distance);
                         tv_hours.setText(expiredHours + " Hours");
@@ -897,7 +893,7 @@ public class Activity_YourActivity extends AppCompatActivity {
         boolean test = false;
         float distance = Float.parseFloat(tv_km.getText().toString());
 
-        Log.e("TAG_ID",TAG_ID);
+        //Log.e("TAG_ID",TAG_ID);
         if(Get_GPS()){
             new http.create_activities().SEND(
                     activity, TAG_USERID, TAG_TOKEN, TAG_ID, TAG_PLAN, min_num, max_num, age_form, age_to, TAG_PARTNERGEGER
@@ -920,7 +916,7 @@ public class Activity_YourActivity extends AppCompatActivity {
 
                 TAG_LATITUDE = String.valueOf(latitude_);
                 TAG_LONGITUDE = String.valueOf(longitude_);
-                Log.e("location----","lat:"+ TAG_LATITUDE +" - lng:"+ TAG_LONGITUDE);
+         //       Log.e("location----","lat:"+ TAG_LATITUDE +" - lng:"+ TAG_LONGITUDE);
 
                 check=  true;
             }

@@ -41,9 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private String TAG_STATUS;
     private String TAG_IMAGE_URL="";
 
-    //    private String TAG_USERID = "";
-//    private String TAG_TOKEN = "";
-    //Defining Variables
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -64,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         //Initializing NavigationView
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
@@ -207,9 +203,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -242,21 +236,7 @@ public class MainActivity extends AppCompatActivity {
         TextView tv_noty_mail=(TextView)findViewById(R.id.tv_noty_mail);
         tv_noty_mail.setVisibility(View.GONE);
     }
-//    private void Profile(){
-//       View header =navigationView.inflateHeaderView(R.layout.header);
-//        ImageView profile_image =(ImageView)header.findViewById(R.id.profile_image);
-//        TextView first_name=(TextView)header.findViewById(R.id.first_name);
-//        TextView email=(TextView)header.findViewById(R.id.email);
-//        first_name.setText(dataString.TAG_FIRSTNAME);
-//        email.setText(dataString.TAG_EMAIL);
-//        profile_image.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent in = new Intent(MainActivity.this, Activity_Profile.class);
-//                startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);
-//            }
-//        });
-//    }
+
 
     public void Get_Profile(final Context context, final String TAG_USERID, final String TAG_AUTH_TOKEN)throws Exception {
         class Request extends AsyncTask<String, String, String> {
@@ -285,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                            Log.e("msg--", msg);
+                           // Log.e("msg--", msg);
 
                             JSONObject jsonObject = new JSONObject(msg);
                             TAG_STATUS = jsonObject.getString("status");
@@ -352,10 +332,10 @@ public class MainActivity extends AppCompatActivity {
                 try {
 
                     if (TAG_STATUS.equals("success")) {
-                        Log.e("get_profile","success");
+                  //      Log.e("get_profile","success");
                         first_name.setText(dataString.TAG_FIRSTNAME);
                         email.setText(dataString.TAG_EMAIL);
-                        Log.e("TAG_IMAGE_URL",dataString.TAG_IMAGE_URL);
+                      //  Log.e("TAG_IMAGE_URL",dataString.TAG_IMAGE_URL);
 
                         if(dataString.TAG_IMAGE_URL.length()>0){
                             String check = dataString.TAG_IMAGE_URL.substring(0,3);
@@ -416,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                            Log.e("msg--", msg);
+                        //    Log.e("msg--", msg);
 
                             JSONObject jsonObject = new JSONObject(msg);
                             TAG_STATUS = jsonObject.getString("status");
@@ -454,18 +434,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(String result) {
-
                 try {
-
                     if (TAG_STATUS.equals("success")) {
-                        Log.e("get_profile","success");
-
-
-                        Log.e("get_profile","success");
                     } else {
-                        Log.e("get_profile","fail");
                     }
-
 
                 } catch (Exception e) {
 

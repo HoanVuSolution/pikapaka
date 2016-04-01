@@ -2,9 +2,6 @@ package item;
 
 import org.json.JSONArray;
 
-/**
- * Created by MrThanhPhong on 3/1/2016.
- */
 public class item_search_activity {
     public String _id = "";
     public String activityType = "";

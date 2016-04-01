@@ -34,7 +34,9 @@ public class HTTP_API {
 
     public static String CHAT_GROUP=baseUrl+"api/v1/chat/send/group";
     public static String CHAT_PRIVATE=baseUrl+"api/v1/chat/send/private";
-    public static String CHAT_GET_CONVERSATION=baseUrl+"/api/v1/chat/conversations/";
+    public static String CHAT_GET_CONVERSATIONS=baseUrl+"/api/v1/chat/conversations/";
+    public static String CHAT_GET_CONVERSATION=baseUrl+"/api/v1/chat/conversation/";
+    public static String CHAT_GET_CONVERSATION_BYUSER=baseUrl+"/api/v1/chat/get-by-user/";
     public static String CHAT_LOADLIST=baseUrl+"api/v1/chat/conversation/";
     public static String LEAVE_GROUP=baseUrl+"api/v1/activities/group/leave";
 

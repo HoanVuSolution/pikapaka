@@ -1,5 +1,6 @@
 package activity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,14 +35,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import adapter.adapter_myactivity;
 import api.HTTP_API;
 import hoanvusolution.pikapaka.MainActivity;
-import hoanvusolution.pikapaka.PikaPakaApplication;
 import hoanvusolution.pikapaka.R;
 import internet.CheckWifi3G;
+import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import item.item_chat;
@@ -49,16 +51,14 @@ import item.item_my_activity;
 import loading.lib_loading;
 import location_gps.GPSTracker;
 
-/**
- * Created by MrThanhPhong on 2/18/2016.
- */
 public class Activity_MyActivity extends AppCompatActivity implements
         View.OnFocusChangeListener {
     public  static  String TAG_USERID = "";
     public static String TAG_TOKEN = "";
     private String TAG_ID="";
+    private String TAG_NAME_ACT="";
 
-    private AppCompatActivity activity;
+    public static AppCompatActivity activity;
     private  SwipeMenuListView mListView;
    // private ListView list;
     public ArrayList<item_my_activity> arItem = new ArrayList<item_my_activity>() ;
@@ -74,14 +74,26 @@ public class Activity_MyActivity extends AppCompatActivity implements
     public static String TAG_LATITUDE="0";
     public static String TAG_LONGITUDE="0";
     private GPSTracker gps;
-    public Socket mSocket;
-private PikaPakaApplication application;
+//    public Socket mSocket;
+//private PikaPakaApplication application;
+
+public Socket mSocket;
+    {
+        try {
+            mSocket = IO.socket(HTTP_API.SOCKET);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+//    public  Activity_MyActivity(){
+//
+//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myactivity);
-        application =(PikaPakaApplication)this.getApplication();
-        mSocket = application.getSocket();
+//        application =(PikaPakaApplication)this.getApplication();
+//        mSocket = application.getSocket();
         mSocket.connect();
         mSocket.on("message:new",onMessage);
         try {
@@ -104,8 +116,6 @@ private PikaPakaApplication application;
         mSocket.disconnect();
 
     }
-
-
     private void get_resource()throws Exception{
 
         activity =this;
@@ -146,36 +156,28 @@ private PikaPakaApplication application;
                 "auth_token", "");
         get_myactivity();
     }
-
 public void get_myactivity()throws Exception{
     class Loading extends AsyncTask<String, String, String> {
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = lib_loading.f_init(Activity_MyActivity.this);
-
         }
 
         @Override
         protected String doInBackground(String... args) {
             try {
-                //Looper.prepare(); //For Preparing Message Pool for the child Thread
                 HttpClient client = new DefaultHttpClient();
                 HttpResponse response;
-
-
                 HttpGet post = new HttpGet(HTTP_API.MY_ACTIVITY);
                 post.addHeader("X-User-Id", TAG_USERID);
                 post.addHeader("X-Auth-Token", TAG_TOKEN);
-
                 response = client.execute(post);
-
                 if (response != null) {
                     HttpEntity resEntity = response.getEntity();
                     if (resEntity != null) {
                         String msg = EntityUtils.toString(resEntity);
-                        Log.e("activity created--", msg);
+
                         JSONObject jsonObject = new JSONObject(msg);
                         TAG_STATUS = jsonObject.getString("status");
                         TAG_MESSAGE = jsonObject.getString("message");
@@ -197,11 +199,11 @@ public void get_myactivity()throws Exception{
                                 String gender = jsonarray.getJSONObject(i).getString("gender");
                                 String distance = jsonarray.getJSONObject(i).getString("distance");
                                 String expiredHours = "";
-                                Log.i("expiredHours",expiredHours);
+
 //                                if (jsonarray.getJSONObject(i).getString("expiredHours")!=null) {
 //                                    expiredHours = jsonarray.getJSONObject(i).getString("expiredHours");
 //                                }
-                                Log.i("expiredHours1",expiredHours);
+
                                 String meetConfirm = jsonarray.getJSONObject(i).getString("meetConfirm");
                                 String publishToSocial = jsonarray.getJSONObject(i).getString("publishToSocial");
                                 String userId ="";
@@ -249,12 +251,12 @@ public void get_myactivity()throws Exception{
                 }
             } catch (Exception e) {
                 progressDialog.dismiss();
-                Log.i("ERROR ", "ERROR1");
+                Log.e("ERROR ", "ERROR1");
 
 
             } catch (Throwable t) {
                 progressDialog.dismiss();
-                Log.i("ERROR ", "ERROR2");
+                Log.e("ERROR ", "ERROR2");
 
             }
             return null;
@@ -264,12 +266,10 @@ public void get_myactivity()throws Exception{
         protected void onPostExecute(String result) {
             progressDialog.dismiss();
             try {
-                Log.e("arItem create size =",arItem.size()+"");
-                if (arItem.size()>0){
 
+                if (arItem.size()>0){
                     adapter_myactivity adapter = new adapter_myactivity(Activity_MyActivity.this,arItem);
-               //MyAdapter adapter = new MyAdapter(Activity_MyActivity.this,arItem);
-                    mListView.setAdapter(adapter);
+              mListView.setAdapter(adapter);
                 } else {
                     Log.i("ERROR ","GET DATA");
                 }
@@ -309,7 +309,6 @@ public void call(final Object... args) {
         public void run() {
                         String message = args[0].toString();
             Log.e("onMessage-----", message);
-
             JSONObject data =(JSONObject) args[0];
 
             String _id=null;
@@ -392,7 +391,7 @@ public void call(final Object... args) {
 
             TAG_LATITUDE = String.valueOf(latitude_);
             TAG_LONGITUDE = String.valueOf(longitude_);
-            Log.e("location----","lat:"+ TAG_LATITUDE +" - lng:"+ TAG_LONGITUDE);
+            //Log.e("location----","lat:"+ TAG_LATITUDE +" - lng:"+ TAG_LONGITUDE);
 
 
         }
@@ -431,8 +430,9 @@ public void call(final Object... args) {
                 SwipeMenuItem deleteItem = new SwipeMenuItem(
                         getApplicationContext());
                 // set item background
-                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xFF,
-                        0xFF, 0xFF)));
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xefefef,
+                        0xefefef, 0xefefef)));
+              //  deleteItem.setBackground(Color.parseColor("#35000000"));
 
                 // set item width
                 deleteItem.setWidth(dp2px(150));
@@ -462,38 +462,51 @@ public void call(final Object... args) {
 //					delete(item);
 //                        mAppList.remove(position);
 //                        mAdapter.notifyDataSetChanged();
-                        Toast.makeText(activity,"Delete",Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(activity,"Delete",Toast.LENGTH_SHORT).show();
                         TAG_ID =arItem.get(position)._id;
+                        TAG_NAME_ACT =arItem.get(position).activityTypeName;
+                        if(arItem.get(position).type.equals("group")){
+                            Toast.makeText(activity,"Can't delete Group",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            try {
+                                dialog();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
                         break;
                 }
                 return false;
             }
         });
 
-//        // set SwipeListener
-//        mListView.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
-//
-//            @Override
-//            public void onSwipeStart(int position) {
-//                // swipe start
-//            }
-//
-//            @Override
-//            public void onSwipeEnd(int position) {
-//                // swipe end
-//            }
-//        });
-//
-//        // set MenuStateChangeListener
-//        mListView.setOnMenuStateChangeListener(new SwipeMenuListView.OnMenuStateChangeListener() {
-//            @Override
-//            public void onMenuOpen(int position) {
-//            }
-//
-//            @Override
-//            public void onMenuClose(int position) {
-//            }
-//        });
+
+        // set SwipeListener
+        mListView.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
+
+            @Override
+            public void onSwipeStart(int position) {
+                // swipe start
+            }
+
+            @Override
+            public void onSwipeEnd(int position) {
+                // swipe end
+            }
+        });
+
+        // set MenuStateChangeListener
+        mListView.setOnMenuStateChangeListener(new SwipeMenuListView.OnMenuStateChangeListener() {
+            @Override
+            public void onMenuOpen(int position) {
+            }
+
+            @Override
+            public void onMenuClose(int position) {
+            }
+        });
     }
 
     private int dp2px(int dp) {
@@ -502,6 +515,7 @@ public void call(final Object... args) {
     }
 
     private void delete(){
+
         class Delete_Ac extends AsyncTask<String, String, String> {
             ProgressDialog progressDialog;
 
@@ -566,8 +580,7 @@ public void call(final Object... args) {
             protected void onPostExecute(String result) {
                 progressDialog.dismiss();
                 try {
-                    Log.e("TAG_STATUS----", TAG_STATUS);
-                    Log.e("TAG_MESSAGE---", TAG_MESSAGE);
+
                     Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
 
                     if (TAG_STATUS.equals("success")) {
@@ -615,5 +628,35 @@ public void call(final Object... args) {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void dialog()throws Exception{
+        final Dialog dialog = new Dialog(activity);
+        dialog.requestWindowFeature(dialog.getWindow().FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_delete);
+
+        final TextView tv_name=(TextView)dialog.findViewById(R.id.tv_name);
+        final TextView tv_no=(TextView)dialog.findViewById(R.id.tv_no);
+        final TextView tv_yes=(TextView)dialog.findViewById(R.id.tv_yes);
+        tv_name.setText(TAG_NAME_ACT);
+        tv_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        tv_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                delete();
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    //----
+    public void supor(){
+
     }
 }

@@ -1,11 +1,11 @@
 package activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import org.apache.http.HttpEntity;
@@ -27,7 +27,7 @@ import util.dataString;
 /**
  * Created by MrThanhPhong on 3/6/2016.
  */
-public class Activity_Flash_Screen extends AppCompatActivity {
+public class Activity_Flash_Screen extends Activity {
     private ProgressDialog progressDialog;
 
     public static String TAG_STATUS = "";
@@ -65,8 +65,7 @@ public class Activity_Flash_Screen extends AppCompatActivity {
             TAG_AUTH_TOKEN = sha_Token.getString(
                     "auth_token", "");
 
-            Log.d("id_user-----", TAG_USERID);
-            Log.d("token-----", TAG_AUTH_TOKEN);
+
             if (TAG_USERID.length() > 0 && TAG_AUTH_TOKEN.length() > 0) {
                 Request_Token();
             } else {
@@ -96,17 +95,14 @@ public class Activity_Flash_Screen extends AppCompatActivity {
 
             @Override
             protected String doInBackground(String... args) {
-               // Looper.prepare(); //For Preparing Message Pool for the child Thread
+
                 HttpClient client = new DefaultHttpClient();
-                //HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); //Timeout Limit
                 HttpResponse response;
                 try {
                     HttpGet post = new HttpGet(HTTP_API.Request_Token);
                     post.addHeader("X-User-Id", TAG_USERID);
                     post.addHeader("X-Auth-Token", TAG_AUTH_TOKEN);
-//                    Log.i("idUser-------", idUser);
-//                    Log.i("token--------", token);
-                    Log.i("URL--------", post.getAllHeaders().toString());
+//
                     response = client.execute(post);
                     if (response != null) {
 
@@ -163,7 +159,6 @@ public class Activity_Flash_Screen extends AppCompatActivity {
                 try {
 
                     if (TAG_STATUS.equals("success")) {
-                        Log.e("TAG_FIRSTNAME--", dataString.TAG_LASTNAME);
                         Intent in = new Intent(Activity_Flash_Screen.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                                 | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(in);
