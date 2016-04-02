@@ -12,6 +12,7 @@ public class item_user_group {
     public String displayName;
     public String age;
     public String imageUrl;
+    public String rank;
 
 
     public item_user_group(
@@ -23,7 +24,8 @@ public class item_user_group {
             String dob,
             String displayName,
             String age,
-            String imageUrl
+            String imageUrl,
+            String rank
     ){
         this._id=_id;
         this.firstName=firstName;
@@ -33,6 +35,7 @@ public class item_user_group {
         this.displayName=displayName;
         this.age=age;
         this.imageUrl=imageUrl;
+        this.rank=rank;
 
     }
 }

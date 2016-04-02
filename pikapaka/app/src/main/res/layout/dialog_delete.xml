@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="30dp"
@@ -16,9 +15,6 @@
         android:textColor="#5bc0ec"
         android:typeface="serif"
         android:textSize="22sp" />
-
-
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:orientation="horizontal"

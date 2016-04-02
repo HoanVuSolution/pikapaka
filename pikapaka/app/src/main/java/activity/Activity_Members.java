@@ -131,6 +131,8 @@ public class Activity_Members extends AppCompatActivity {
                                     String displayName =  jarr.getJSONObject(i).getString("displayName");
 
                                     String age =  jarr.getJSONObject(i).getString("age");
+                                    String rank =  jarr.getJSONObject(i).getString("rank");
+
 
                                     String imageUrl="";
                                     try {
@@ -149,7 +151,8 @@ public class Activity_Members extends AppCompatActivity {
                                             dob,
                                             displayName,
                                             age,
-                                            imageUrl
+                                            imageUrl,
+                                            rank
                                     );
                                     arr_user.add(item);
                                 }

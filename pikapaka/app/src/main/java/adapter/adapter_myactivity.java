@@ -45,13 +45,11 @@ import hoanvusolution.pikapaka.R;
 import image.lib_image_save_original;
 import internet.CheckWifi3G;
 import item.item_chat;
-import item.item_group_request;
 import item.item_my_activity;
 import item.item_search_activity;
 import item.item_user_group;
 import lib_horizontall_listview.HorizontalListView;
 import util.Activity_Result;
-
 public class adapter_myactivity extends BaseAdapter {
     private String TAG_STATUS = "";
     private String TAG_MESSAGE = "";
@@ -70,16 +68,27 @@ public class adapter_myactivity extends BaseAdapter {
     private String TAG_TYPE = "";
     private String TAG_COLER_VIEW_CHAT="";
     private String TAG_CONTENT_CHAT="";
-    private String TAG_CONTENT_CHAT_PRIVATE="";
     private String TAG_CONVERSATION="";
-    private String TAG_ID_USER_CHAT_PPRITE="";
-    private String TAG_ACTIVITY_DELETE="";
     private static   ArrayList<item_chat>arr_chat= new ArrayList<item_chat>();
     private static adapater_chat adapter_ch;
-
+    //
+    //private static  LinearLayout view1, view2, view3, view4;
+//    //----------------- view 2
+//    protected ImageView img_view2 ;
+//    protected TextView tv_old_view2 ;
+//    protected TextView tv_plan_view2;
+//    protected TextView tv_name_view2;
+//    protected TextView tv_age_gender_view2;
+//    protected TextView tv_level_view2 ;
+//    protected TextView tv_venue;
+//    protected LinearLayout ll_back_view ;
+//    protected LinearLayout ll_prifile_view2;
+//    protected LinearLayout ll_chat_view2;
+//    protected LinearLayout ll_join_view2;
     //---------------------------
     //-------------------------
-
+    //public static LinearLayout view1, view2, view3, view4;
+    //public static View convertView;
     public adapter_myactivity(Activity_MyActivity activity,
                               ArrayList<item_my_activity> arItem) {
         mInflater = (LayoutInflater) activity
@@ -88,35 +97,32 @@ public class adapter_myactivity extends BaseAdapter {
         this.arItem = arItem;
         this.activity = activity;
     }
-
     public int getCount() {
         return arItem.size();
     }
-
     public item_my_activity getItem(int position) {
         return arItem.get(position);
     }
-
     public long getItemId(int position) {
         return position;
     }
-
     public int getItemViewType(int position) {
         return 1;
     }
-
     public int getViewTypeCount() {
         return 1;
     }
     @SuppressLint({"InflateParams", "CutPasteId"})
     public View getView(int position, View convertView, final ViewGroup parent) {
         final int pos = position;
+       // convertView =conver_view;
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.listview_widget_my_activity,
                         null);
+
+
                 String activityType = arItem.get(pos).activityType;
                 ImageView img_cate = (ImageView) convertView.findViewById(R.id.img_cate);
-
                 TextView tv_name = (TextView) convertView.findViewById(R.id.tv_name);
                 TextView tv_status = (TextView) convertView.findViewById(R.id.tv_status);
                 ImageView img_search = (ImageView) convertView.findViewById(R.id.img_search);
@@ -128,27 +134,23 @@ public class adapter_myactivity extends BaseAdapter {
                 if(activityTypeIcon.length()>0){
                     activityTypeIcon=HTTP_API.url_image+activityTypeIcon;
                     new lib_image_save_original(activity,activityTypeIcon,img_cate);
-
                 }
                 //--------
-
-                final LinearLayout view1, view2, view3, view4;
+            final LinearLayout view1, view2, view3, view4;
                 view1 = (LinearLayout) convertView.findViewById(R.id.view1);
                 view2 = (LinearLayout) convertView.findViewById(R.id.view2);
                 view3 = (LinearLayout) convertView.findViewById(R.id.view3);
                 view4 = (LinearLayout) convertView.findViewById(R.id.view4);
-
                 // ***************************************
                 view1.setVisibility(View.GONE);
                 view2.setVisibility(View.GONE);
                 view3.setVisibility(View.GONE);
                 view4.setVisibility(View.GONE);
                 final LinearLayout ll_backgroud = (LinearLayout) convertView.findViewById(R.id.ll_backgroud);
+                final LinearLayout ll_click = (LinearLayout) convertView.findViewById(R.id.ll_click);
                 ll_backgroud.setBackgroundColor(Color.parseColor(arItem.get(pos).activityTypeColor.toString()));
                 //View1 item**********************************************
-              //  awesomePager=(ViewPager)convertView.findViewById(R.id.pager_);
                 final HorizontalListView mHlvCustomList_ = (HorizontalListView)convertView. findViewById(R.id.hlvCustomListWithDividerAndFadingEdge);
-
                 //*********************************************************
                 // View2 item
                 final ImageView img_view2 = (ImageView) convertView.findViewById(R.id.img_view2);
@@ -162,6 +164,8 @@ public class adapter_myactivity extends BaseAdapter {
                 final LinearLayout ll_prifile_view2 = (LinearLayout) convertView.findViewById(R.id.ll_prifile_view2);
                 final LinearLayout ll_chat_view2 = (LinearLayout) convertView.findViewById(R.id.ll_chat_view2);
                 final LinearLayout ll_join_view2 = (LinearLayout) convertView.findViewById(R.id.ll_join_view2);
+
+
                 //*********************************
                 //View3 item
                 final ImageView img1_view3 = (ImageView) convertView.findViewById(R.id.img1_view3);
@@ -197,8 +201,8 @@ public class adapter_myactivity extends BaseAdapter {
 //                Scroll_Listview();
                 //******************
                 class Loading extends AsyncTask<String, String, String> {
-                     final ArrayList<item_search_activity> users_group = new ArrayList<item_search_activity>();
-                    final ArrayList<item_group_request> j_group = new ArrayList<item_group_request>();
+//                     final ArrayList<item_search_activity> users_group = new ArrayList<item_search_activity>();
+//                    final ArrayList<item_group_request> j_group = new ArrayList<item_group_request>();
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
@@ -231,7 +235,7 @@ public class adapter_myactivity extends BaseAdapter {
                                     JSONObject jsonObject = new JSONObject(msg);
                                     TAG_STATUS = jsonObject.getString("status");
                                     TAG_MESSAGE = jsonObject.getString("message");
-                                  // Log.e("loadding-- ",msg);
+                              //    Log.e("loadding-- ",msg);
                                     if (TAG_STATUS.equals("success")) {
                                         //arr_search.clear();
                                         JSONArray jsonarray = jsonObject.getJSONArray("data");
@@ -240,6 +244,7 @@ public class adapter_myactivity extends BaseAdapter {
                                             for (int i = 0; i < jsonarray.length(); i++) {
                                                 String _id=null;
                                                 String activityType=null;
+                                                String activityName=null;
                                                 String type=null;
                                                 String activityTypeColor=null;
                                                 String active=null;
@@ -251,10 +256,12 @@ public class adapter_myactivity extends BaseAdapter {
                                                 String displayName=null;
                                                 String age=null;
                                                 String imageUrl = "";
+                                                String rank = "";
                                                 String hasRequest="false";
                                                 try {
                                                     _id = jsonarray.getJSONObject(i).getString("_id");
                                                      activityType = jsonarray.getJSONObject(i).getString("activityType");
+                                                    activityName = jsonarray.getJSONObject(i).getString("activityTypeName");
                                                     type = jsonarray.getJSONObject(i).getString("type");
                                                      activityTypeColor = jsonarray.getJSONObject(i).getString("activityTypeColor");
                                                      active = jsonarray.getJSONObject(i).getString("active");
@@ -289,12 +296,17 @@ public class adapter_myactivity extends BaseAdapter {
                                                         if(!ob_user.isNull("age")){
                                                             age = ob_user.getString("age");
                                                         }
-                                                        if(!ob_user.isNull("imageUrl")){
-                                                            imageUrl=ob_user.getString("imageUrl");
+                                                        if(!ob_user.isNull("rank")){
+                                                            rank=ob_user.getString("rank");
                                                         }
+                                                        if(!ob_user.isNull("rank")){
+                                                            imageUrl=ob_user.getString("rank");
+                                                        }
+
                                                         item_search_activity item = new item_search_activity(
                                                                 _id,
                                                                 activityType,
+                                                                activityName,
                                                                 type,
                                                                 activityTypeColor,
                                                                 active,
@@ -306,6 +318,7 @@ public class adapter_myactivity extends BaseAdapter {
                                                                 displayName,
                                                                 age,
                                                                 imageUrl,
+                                                                rank,
                                                                 hasRequest,
                                                                 null
                                                         );
@@ -316,9 +329,11 @@ public class adapter_myactivity extends BaseAdapter {
                                                                                                                item_search_activity item = new item_search_activity(
                                                                 _id,
                                                                 activityType,
+                                                                  activityName,
                                                                 type,
                                                                 activityTypeColor,
                                                                 active,
+                                                                "",
                                                                 "",
                                                                 "",
                                                                 "",
@@ -391,7 +406,7 @@ public class adapter_myactivity extends BaseAdapter {
 
                 }
 
-                class Get_Single extends AsyncTask<String, String, String> {
+                 class Get_Single extends AsyncTask<String, String, String> {
                     // view2
                     String _id;
                     String minNumOfParticipants;
@@ -516,8 +531,6 @@ public class adapter_myactivity extends BaseAdapter {
                     protected void onPostExecute(String result) {
                         progressDialog1.dismiss();
                         try {
-                            Log.e("TAG_STATUS----", TAG_STATUS);
-                            Log.e("TAG_MESSAGE---", TAG_MESSAGE);
 
                             if (TAG_STATUS.equals("success")) {
                                 view1.setVisibility(View.GONE);
@@ -605,45 +618,32 @@ public class adapter_myactivity extends BaseAdapter {
                                 HttpEntity resEntity = response.getEntity();
                                 if (resEntity != null) {
                                     String msg = EntityUtils.toString(resEntity);
-//                                    Log.e("group - cate", msg);
+                                    Log.e("group - cate", msg);
                                     JSONObject jsonObject = new JSONObject(msg);
                                     TAG_STATUS = jsonObject.getString("status");
                                     TAG_MESSAGE = jsonObject.getString("message");
                                     if (TAG_STATUS.equals("success")) {
                                         JSONObject data = jsonObject.getJSONObject("data");
                                         _id = data.getString("_id");
-
                                         activityType = data.getString("activityType");
-
                                         activityTypeName = data.getString("activityTypeName");
                                         activityTypeColor = data.getString("activityTypeColor");
-
                                         active = data.getString("active");
-
                                         JSONArray jarr = data.getJSONArray("users");
                                         for (int i = 0; i < jarr.length(); i++) {
-
                                             String id = jarr.getJSONObject(i).getString("_id");
                                             //JSONObject profile = jarr.getJSONObject(i).getJSONObject("profile");
-
                                             String firstName =  jarr.getJSONObject(i).getString("firstName");
-
                                             String gender =  jarr.getJSONObject(i).getString("gender");
-
                                             String lastName =  jarr.getJSONObject(i).getString("lastName");
-
                                             String dob =  jarr.getJSONObject(i).getString("dob");
-
                                             String displayName =  jarr.getJSONObject(i).getString("displayName");
-
                                             String age =  jarr.getJSONObject(i).getString("age");
+                                            String rank =  jarr.getJSONObject(i).getString("rank");
                                             String imageUrl="";
-
                                             if(!jarr.getJSONObject(i).isNull("imageUrl")){
                                                 imageUrl = jarr.getJSONObject(i).getString("imageUrl");
                                             }
-
-
                                             item_user_group item = new item_user_group(
                                                     id,
                                                     firstName,
@@ -652,20 +652,17 @@ public class adapter_myactivity extends BaseAdapter {
                                                     dob,
                                                     displayName,
                                                     age,
-                                                    imageUrl
+                                                    imageUrl,
+                                                    rank
                                             );
                                             arr_user.add(item);
                                         }
-
                                     }
                                 }
-
                                 if (resEntity != null) {
                                     resEntity.consumeContent();
                                 }
-
                                 client.getConnectionManager().shutdown();
-
                             }
                         } catch (Exception e) {
                             Log.e("Error---","1");
@@ -674,31 +671,25 @@ public class adapter_myactivity extends BaseAdapter {
                         } catch (Throwable t) {
                             progressDialog1.dismiss();
                             Log.e("Error--","2");
-
                         }
                         return null;
                     }
-
                     @Override
                     protected void onPostExecute(String result) {
                         progressDialog1.dismiss();
                         try {
-
                             Log.e("group---", arr_user.size()+"");
                             if (TAG_STATUS.equals("success")) {
                                 view1.setVisibility(View.GONE);
                                 view2.setVisibility(View.GONE);
                                 view4.setVisibility(View.GONE);
-
                                 view3.setVisibility(View.VISIBLE);
                                 view3.setBackgroundColor(Color.parseColor(activityTypeColor));
                                 ll_back_view3.setBackgroundColor(Color.parseColor(activityTypeColor));
                                 ll_member_view3.setBackgroundColor(Color.parseColor(activityTypeColor));
                                 ll_join_view3.setBackgroundColor(Color.parseColor(activityTypeColor));
                                 ll_chat_view3.setBackgroundColor(Color.parseColor(activityTypeColor));
-
                                 tv_plan_view3.setText("");
-
                                 if (arr_user.size() >= 2) {
                                     tv_name1_view3.setText(arr_user.get(0).lastName);
                                     tv_name2_view3.setText(arr_user.get(1).lastName);
@@ -933,7 +924,9 @@ public class adapter_myactivity extends BaseAdapter {
                                     JSONObject jsonObject = new JSONObject(msg);
                                     TAG_STATUS = jsonObject.getString("status");
                                     TAG_MESSAGE = jsonObject.getString("message");
-
+                                    JSONObject jdata = jsonObject.getJSONObject("data");
+                                    JSONObject jlastmsg = jdata.getJSONObject("lastMessage");
+                                    TAG_CONVERSATION =jlastmsg.getString("conversationId");
                                 }
 
                                 if (resEntity != null) {
@@ -961,6 +954,7 @@ public class adapter_myactivity extends BaseAdapter {
                             if (TAG_STATUS.equals("success")) {
                                 TAG_CONTENT_CHAT = "";
                                 ed_input_chat_view4.setText("");
+                                activity.mSocket.emit("join",TAG_CONVERSATION);
                             } else {
                                 Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
                             }
@@ -1107,6 +1101,7 @@ public class adapter_myactivity extends BaseAdapter {
                                     TAG_STATUS = jsonObject.getString("status");
                                     TAG_MESSAGE = jsonObject.getString("message");
                                     JSONArray jarr = jsonObject.getJSONArray("data");
+                                    Log.e("jarr",jarr.toString());
                                     for (int i = 0; i < jarr.length(); i++) {
                                         _id = jarr.getJSONObject(i).getString("_id");
                                         type = jarr.getJSONObject(i).getString("type");
@@ -1160,7 +1155,7 @@ public class adapter_myactivity extends BaseAdapter {
                     }
 
                 }
-                ll_backgroud.setOnClickListener(new View.OnClickListener() {
+                ll_click.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         TAG_ID = arItem.get(pos)._id;
@@ -1471,11 +1466,7 @@ public class adapter_myactivity extends BaseAdapter {
             }
         return convertView;
     }
-
-
     // Socket
-
-
     public static void add_message(item_chat item){
         arr_chat.add(item);
        adapter_ch.notifyDataSetChanged();
@@ -1483,112 +1474,426 @@ public class adapter_myactivity extends BaseAdapter {
         //Scroll_Listview();
     }
 
-//    private static void Scroll_Listview(){
-//        list_chat_view4.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-//        list_chat_view4.setStackFromBottom(true);
-//    }
+    public static  void get_single(final String id_single){
+        class Get_Single extends AsyncTask<String, String, String> {
+            ProgressDialog progressDialog1;
+         String   TAG_STATUS = "";
+            String  TAG_MESSAGE = "";
+            // view2
+            String _id;
+            String minNumOfParticipants;
+            String ageTo;
+            String maxNumOfParticipants;
+            String distance;
+            String ageFrom;
+            String plan;
+            String publishToSocial;
+            String expiredHours;
+            String meetConfirm;
+            String gender;
+            String activityType;
+            String userId;
+            String status;
+            String type;
+            String activityTypeName;
+            String activityTypeColor;
+            String createdAt;
+            String active;
+
+            String firstName;
+            String gender_;
+            String lastName;
+            String dob;
+            String displayName;
+            String age;                   //
+            String imageUrl;                   //
+            String hasRequest;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                // progressDialog = lib_loading.f_init(activity);
+                progressDialog1 = ProgressDialog.show(activity, "",
+                        "", true);
+            }
+
+            @Override
+            protected String doInBackground(String... args) {
+                try {
+                    HttpClient client = new DefaultHttpClient();
+
+                    JSONObject json = new JSONObject();
+
+                    //HttpGet post = new HttpGet(HTTP_API.GET_SINGLE_ACTIVITY + "/" + TAG_ID_SINGLE);
+                    HttpGet post = new HttpGet(HTTP_API.GET_SINGLE_ACTIVITY + "/" + id_single);
+                    post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
+                    post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+
+                    JSONObject jlocation = new JSONObject();
+
+                    HttpResponse response;
+
+                    response = client.execute(post);
+
+                    if (response != null) {
+                        HttpEntity resEntity = response.getEntity();
+                        if (resEntity != null) {
+                            String msg = EntityUtils.toString(resEntity);
+                            Log.e("single-- cate", msg);
+                            JSONObject jsonObject = new JSONObject(msg);
+                            TAG_STATUS = jsonObject.getString("status");
+                            TAG_MESSAGE = jsonObject.getString("message");
+                            if (TAG_STATUS.equals("success")) {
+                                //arr_search.clear();
+                                // JSONArray jsonarray = jsonObject.getJSONArray("data");
+                                JSONObject data = jsonObject.getJSONObject("data");
+                                _id = data.getString("_id");
+                                minNumOfParticipants = data.getString("minNumOfParticipants");
+                                ageTo = data.getString("ageTo");
+                                maxNumOfParticipants = data.getString("maxNumOfParticipants");
+                                distance = data.getString("distance");
+                                ageFrom = data.getString("ageFrom");
+                                plan = data.getString("plan");
+                                publishToSocial = data.getString("publishToSocial");
+                                expiredHours = data.getString("expiredHours");
+                                meetConfirm = data.getString("meetConfirm");
+                                gender = data.getString("gender");
+                                activityType = data.getString("activityType");
+                                //  userId = data.getString("userId");
+                                status = data.getString("status");
+                                type = data.getString("type");
+                                activityTypeName = data.getString("activityTypeName");
+                                activityTypeColor = data.getString("activityTypeColor");
+                                createdAt = data.getString("createdAt");
+                                active = data.getString("active");
+                                JSONObject jo = data.getJSONObject("user");
+                                firstName = jo.getString("firstName");
+                                gender_ = jo.getString("gender");
+                                lastName = jo.getString("lastName");
+                                dob = jo.getString("dob");
+                                displayName = jo.getString("displayName");
+                                age = jo.getString("age");
+                                if(jo.isNull("imageUrl")){
+                                    imageUrl= jo.getString("imageUrl");
+                                }
 
 
+                                hasRequest = "hasRequest";
 
-//----------
-//private void load_slider(){
-//    ArrayList<item_search_activity> a = new ArrayList<item_search_activity>();
-//    for(int i = 0; i < arr_search.size(); i++) {
-//        a.add(arr_search.get(i));
-//
-//    }
-//   // Log.e("a---",a.size()+"");
-//
-//    Iterator<item_search_activity> it = a.iterator();
-//    List<GridFragment_AC> gridFragments = new ArrayList<GridFragment_AC>();
-//    it = a.iterator();
-//    int i = 0;
-//    while(it.hasNext()) {
-//
-//        ArrayList<GridItems_AC> imLst = new ArrayList<GridItems_AC>();
-//        GridItems_AC itm = new GridItems_AC(0,it.next());
-//        imLst.add(itm);
-//        i = i + 1;
-//        if(it.hasNext()) {
-//            GridItems_AC itm1 = new GridItems_AC(1, it.next());
-//            imLst.add(itm1);
-//            i = i + 1;
-//        }
-//        if(it.hasNext()) {
-//            GridItems_AC itm2 =new GridItems_AC(2, it.next());
-//            imLst.add(itm2);
-//            i = i + 1;
-//        }
-//
-//        GridItems_AC[] gp = {};
-//        GridItems_AC[] gridPage = imLst.toArray(gp);
-//        gridFragments.add(new GridFragment_AC(gridPage, activity));
-//
-//    }
-//    Log.e("gridFragments---",gridFragments.size()+"");
-//    pm = new PagerAdapter_AC(activity.getSupportFragmentManager(), gridFragments);
-//    awesomePager.setAdapter(pm);
-//}
+                            }
+                        }
 
-//    private void load_slider(){
-//        ArrayList<item_search_activity> a = new ArrayList<item_search_activity>();
-//        for(int i = 0; i < arr_search.size(); i++) {
-//            a.add(arr_search.get(i));
+                        if (resEntity != null) {
+                            resEntity.consumeContent();
+                        }
+
+                        client.getConnectionManager().shutdown();
+
+                    }
+                } catch (Exception e) {
+                    progressDialog1.dismiss();
+
+                } catch (Throwable t) {
+                    progressDialog1.dismiss();
+
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                progressDialog1.dismiss();
+                try {
+                    if (TAG_STATUS.equals("success")) {
+//                        view1.setVisibility(View.GONE);
+//                        view2.setVisibility(View.VISIBLE);
+//                        view2.setBackgroundColor(Color.parseColor(activityTypeColor));
+//                        ll_back_view.setBackgroundColor(Color.parseColor(activityTypeColor));
+//                        ll_prifile_view2.setBackgroundColor(Color.parseColor(activityTypeColor));
+//                        ll_chat_view2.setBackgroundColor(Color.parseColor(activityTypeColor));
+//                        ll_join_view2.setBackgroundColor(Color.parseColor(activityTypeColor));
 //
-//        }
-//        Iterator<item_search_activity> it = a.iterator();
-//
-//        List<GridFragment_RQ> gridFragments = new ArrayList<GridFragment_RQ>();
-//        it = a.iterator();
-//
-//        int i = 0;
-//        while(it.hasNext()) {
-//            ArrayList<GridItem_RQ> imLst = new ArrayList<GridItem_RQ>();
-//
-//            GridItem_RQ itm = new GridItem_RQ(0,it.next());
-//            imLst.add(itm);
-//            i = i + 1;
-//
-//            if(it.hasNext()) {
-//                GridItem_RQ itm1 = new GridItem_RQ(1, it.next());
-//                imLst.add(itm1);
-//                i = i + 1;
-//            }
-//
-//            if(it.hasNext()) {
-//                GridItem_RQ itm2 =new GridItem_RQ(2, it.next());
-//                imLst.add(itm2);
-//                i = i + 1;
-//            }
+//                        view3.setVisibility(View.GONE);
+//                        view4.setVisibility(View.GONE);
 //
 //
-//            GridItem_RQ[] gp = {};
-//            GridItem_RQ[] gridPage = imLst.toArray(gp);
-//            gridFragments.add(new GridFragment_RQ(gridPage, activity));
-//        }
+//                        tv_name_view2.setText(firstName);
+//                        tv_plan_view2.setText(plan);
+//                        tv_old_view2.setText(age + " years old" + "," + gender_);
+//                        tv_age_gender_view2.setText("Demography:" + " Ages " + ageFrom + " to " + ageTo + " " + gender);
 //
-//        pm = new PagerAdapter_RQ(activity.getSupportFragmentManager(), gridFragments);
-//        awesomePager.setAdapter(pm);
-//    }
-//private class PagerAdapter_RQ extends FragmentStatePagerAdapter {
 //
-//    private List<GridFragment_RQ> fragments;
+//                        if(imageUrl.length()>0){
+////                                        new lib_image_save_original(activity,imageUrl,img_view2);
+//                            String check = imageUrl.substring(0,3);
+//                            if(check.equals("http")){
+//                                new lib_image_save_original(activity,imageUrl,img_view2);
 //
-//    public PagerAdapter_RQ(FragmentManager fm, List<GridFragment_RQ> fragments) {
-//        super(fm);
-//        this.fragments = fragments;
-//    }
+//                            }
+//                            else{
+//                                imageUrl=HTTP_API.url_image+imageUrl;
+//                                new lib_image_save_original(activity,imageUrl,img_view2);
 //
-//    @Override
-//    public Fragment getItem(int pos) {
-//        return this.fragments.get(pos);
-//    }
+//                            }
+//                        }
 //
-//    @Override
-//    public int getCount() {
-//        return this.fragments.size();
-//    }
-//}
+//
+//                    } else {
+//                        Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+//                    }
+
+                    }
+                } catch (Exception e) {
+
+                } catch (Throwable t) {
+
+                }
+
+            }
+
+        }
+        if(CheckWifi3G.isConnected(activity)){
+            new Get_Single().execute();
+        }
+    }
+    public static void get_group(final String id_group){
+        class Get_Group extends AsyncTask<String, String, String> {
+            ProgressDialog progressDialog1;
+            String   TAG_STATUS = "";
+            String  TAG_MESSAGE = "";
+            // view3
+            ArrayList<item_user_group> arr_user = new ArrayList<item_user_group>();
+
+            String _id;
+            String activityType;
+            String activityTypeName;
+            String activityTypeColor;
+            String active;
 
 
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                progressDialog1 = ProgressDialog.show(activity, "",
+                        "", true);
+            }
+
+            @Override
+            protected String doInBackground(String... args) {
+                try {
+                    HttpClient client = new DefaultHttpClient();
+
+                    //JSONObject json = new JSONObject();
+
+                    HttpGet post = new HttpGet(HTTP_API.GET_SINGLE_ACTIVITY + "/" + id_group);
+                    post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
+                    post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+                    HttpResponse response;
+                    response = client.execute(post);
+                    if (response != null) {
+                        HttpEntity resEntity = response.getEntity();
+                        if (resEntity != null) {
+                            String msg = EntityUtils.toString(resEntity);
+                                    Log.e("group - cate", msg);
+                            JSONObject jsonObject = new JSONObject(msg);
+                            TAG_STATUS = jsonObject.getString("status");
+                            TAG_MESSAGE = jsonObject.getString("message");
+                            if (TAG_STATUS.equals("success")) {
+                                JSONObject data = jsonObject.getJSONObject("data");
+                                _id = data.getString("_id");
+                                activityType = data.getString("activityType");
+                                activityTypeName = data.getString("activityTypeName");
+                                activityTypeColor = data.getString("activityTypeColor");
+                                active = data.getString("active");
+                                //JSONArray jarr = data.getJSONArray("users");
+                                JSONArray jarr = data.getJSONArray("users");
+                                for (int i = 0; i < jarr.length(); i++) {
+                                    String id = jarr.getJSONObject(i).getString("_id");
+                                    //JSONObject profile = jarr.getJSONObject(i).getJSONObject("profile");
+                                    String firstName =  jarr.getJSONObject(i).getString("firstName");
+                                    String gender =  jarr.getJSONObject(i).getString("gender");
+                                    String lastName =  jarr.getJSONObject(i).getString("lastName");
+                                    String dob =  jarr.getJSONObject(i).getString("dob");
+                                    String displayName =  jarr.getJSONObject(i).getString("displayName");
+                                    String age =  jarr.getJSONObject(i).getString("age");
+                                    String rank =  jarr.getJSONObject(i).getString("rank");
+                                    String imageUrl="";
+                                    if(!jarr.getJSONObject(i).isNull("imageUrl")){
+                                        imageUrl = jarr.getJSONObject(i).getString("imageUrl");
+                                    }
+                                    item_user_group item = new item_user_group(
+                                            id,
+                                            firstName,
+                                            gender,
+                                            lastName,
+                                            dob,
+                                            displayName,
+                                            age,
+                                            imageUrl,
+                                            rank
+                                    );
+                                    arr_user.add(item);
+                                }
+
+                            }
+                        }
+
+                        if (resEntity != null) {
+                            resEntity.consumeContent();
+                        }
+
+                        client.getConnectionManager().shutdown();
+
+                    }
+                } catch (Exception e) {
+                    Log.e("Error---","1");
+                    progressDialog1.dismiss();
+
+                } catch (Throwable t) {
+                    progressDialog1.dismiss();
+                    Log.e("Error--","2");
+
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                progressDialog1.dismiss();
+                try {
+                    Log.e("group---", arr_user.size()+"");
+                    Log.e("TAG_STATUS---",TAG_STATUS);
+                    if (TAG_STATUS.equals("success")) {
+//                        final  LinearLayout view1 = (LinearLayout) conver_view.findViewById(R.id.view1);
+//                        final LinearLayout view2 = (LinearLayout) conver_view.findViewById(R.id.view2);
+//                        final LinearLayout view3 = (LinearLayout) conver_view.findViewById(R.id.view3);
+//                        final LinearLayout view4 = (LinearLayout) conver_view.findViewById(R.id.view4);
+
+//                        view1.setVisibility(View.GONE);
+//                        view2.setVisibility(View.GONE);
+//                        view4.setVisibility(View.GONE);
+//
+//                        view3.setVisibility(View.VISIBLE);
+//                        view3.setBackgroundColor(Color.parseColor(activityTypeColor));
+//                        ll_back_view3.setBackgroundColor(Color.parseColor(activityTypeColor));
+//                        ll_member_view3.setBackgroundColor(Color.parseColor(activityTypeColor));
+//                        ll_join_view3.setBackgroundColor(Color.parseColor(activityTypeColor));
+//                        ll_chat_view3.setBackgroundColor(Color.parseColor(activityTypeColor));
+//
+//                        tv_plan_view3.setText("");
+
+//                        if (arr_user.size() >= 2) {
+//                            tv_name1_view3.setText(arr_user.get(0).lastName);
+//                            tv_name2_view3.setText(arr_user.get(1).lastName);
+//                            tv_old1_view3.setText(arr_user.get(0).age + " years old, " + arr_user.get(0).gender);
+//                            tv_old2_view3.setText(arr_user.get(1).age + " years old, " + arr_user.get(1).gender);
+//                            ll_user2_view3.setVisibility(View.VISIBLE);
+//                            //img1_view3
+//                            String urlImage1 =arr_user.get(0).imageUrl;
+//
+//                            String urlImage2 =arr_user.get(1).imageUrl;
+//
+//                            if(urlImage1.length()>0){
+////                                        new lib_image_save_original(activity,urlImage1,img1_view3);
+//                                String check = urlImage1.substring(0,3);
+//                                if(check.equals("http")){
+//                                    new lib_image_save_original(activity,urlImage1,img1_view3);
+//
+//                                }
+//                                else{
+//                                    urlImage1=HTTP_API.url_image+urlImage1;
+//                                    new lib_image_save_original(activity,urlImage1,img1_view3);
+//
+//                                }
+//                            }
+//                            if(urlImage2.length()>0){
+////                                        new lib_image_save_original(activity,urlImage2,img2_view3);
+//                                String check = urlImage2.substring(0,3);
+//                                if(check.equals("http")){
+//                                    new lib_image_save_original(activity,urlImage2,img2_view3);
+//
+//                                }
+//                                else{
+//                                    urlImage2=HTTP_API.url_image+urlImage2;
+//                                    new lib_image_save_original(activity,urlImage2,img2_view3);
+//
+//                                }
+//                            }
+//
+//                        } else {
+//                            tv_name1_view3.setText(arr_user.get(0).lastName);
+//                            tv_old1_view3.setText(arr_user.get(0).age + " years old, " + arr_user.get(0).gender);
+//                            ll_user2_view3.setVisibility(View.INVISIBLE);
+//
+//                            String urlImage1 =arr_user.get(0).imageUrl;
+//                            if(urlImage1.length()>0){
+//                                // new lib_image_save_original(activity,urlImage1,img1_view3);
+//                                String check = urlImage1.substring(0,3);
+//                                if(check.equals("http")){
+//                                    new lib_image_save_original(activity,urlImage1,img1_view3);
+//
+//                                }
+//                                else{
+//                                    urlImage1=HTTP_API.url_image+urlImage1;
+//                                    new lib_image_save_original(activity,urlImage1,img1_view3);
+//
+//                                }
+//                            }
+//                        }
+//                    } else {
+//                        Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    img1_view3.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            String id_user =arr_user.get(0)._id;
+//                            String fullname = arr_user.get(0).displayName;
+//                            String age =arr_user.get(0).age;
+//                            String gender =arr_user.get(0).gender;
+//                            String imageUrl =arr_user.get(0).imageUrl;
+//
+//                            Intent in = new Intent(activity, Activity_Rank_Report.class);
+//                            in.putExtra("id_user",id_user);
+//                            in.putExtra("fullname",fullname);
+//                            in.putExtra("age",age);
+//                            in.putExtra("gender",gender);
+//                            in.putExtra("imageUrl",imageUrl);
+//                            activity.startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);
+//                        }
+//                    });
+//                    img2_view3.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            String id_user =arr_user.get(1)._id;
+//                            String fullname = arr_user.get(1).displayName;
+//                            String age =arr_user.get(1).age;
+//                            String gender =arr_user.get(1).gender;
+//                            String imageUrl =arr_user.get(1).imageUrl;
+//
+//                            Intent in = new Intent(activity, Activity_Rank_Report.class);
+//                            in.putExtra("id_user",id_user);
+//                            in.putExtra("fullname",fullname);
+//                            in.putExtra("age",age);
+//                            in.putExtra("gender",gender);
+//                            in.putExtra("imageUrl",imageUrl);
+//                            activity.startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);
+//                        }
+//                    });
+
+                    }
+                } catch (Exception e) {
+
+                } catch (Throwable t) {
+
+                }
+
+            }
+
+        }
+        if(CheckWifi3G.isConnected(activity)){
+            new Get_Group().execute();
+        }
+    }
 }

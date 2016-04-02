@@ -60,7 +60,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             >
-
         </activity>
         <activity
         android:name="loginsocial.LoginGoogle"
@@ -108,7 +107,6 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:theme="@style/AppTheme.NoActionBar"
             >
-
         </activity>
         <activity
             android:name="activity.Activity_Login"
@@ -116,7 +114,6 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:theme="@style/AppTheme.NoActionBar"
             >
-
         </activity>
         <activity
             android:name="activity.Activity_Profile"
@@ -124,12 +121,10 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:theme="@style/AppTheme.NoActionBar"
             >
-
         </activity>
         <activity
             android:name="activity.Activity_YourActivity"
             android:screenOrientation="portrait"
-
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:theme="@style/AppTheme.NoActionBar"
             ></activity>
@@ -164,27 +159,32 @@
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.NoActionBar"
             >
-
         </activity>
-
-
+        <activity
+            android:name="activity.Activity_Other_Activity"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+        </activity>
+        <activity
+            android:name="activity.Activity_Other_Group"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+        </activity>
         <!-- GCM -->
         <!-- GCM -->
-
         <receiver
             android:name="gcm.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
-
                 <!-- Receives the actual messages. -->
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
                 <category android:name="hoanvusolution.pikapaka" />
             </intent-filter>
         </receiver>
-
         <service android:name="gcm.GcmIntentService" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

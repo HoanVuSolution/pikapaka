@@ -464,7 +464,6 @@ public class Activity_Chat_Private extends AppCompatActivity implements
                     try {
                         _id =data.getString("_id");
                         conversationId =data.getString("conversationId");
-
                         content =data.getString("content");
                         JSONObject from = data.getJSONObject("fromUser");
                         id_user =from.getString("_id");

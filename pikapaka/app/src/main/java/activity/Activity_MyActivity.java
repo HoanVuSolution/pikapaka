@@ -4,8 +4,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +19,6 @@ import android.widget.Toast;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
-import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import org.apache.http.HttpEntity;
@@ -269,6 +266,7 @@ public void get_myactivity()throws Exception{
 
                 if (arItem.size()>0){
                     adapter_myactivity adapter = new adapter_myactivity(Activity_MyActivity.this,arItem);
+                    //adapter_my_activity adapter = new adapter_my_activity(Activity_MyActivity.this,arItem);
               mListView.setAdapter(adapter);
                 } else {
                     Log.i("ERROR ","GET DATA");
@@ -427,45 +425,72 @@ public void call(final Object... args) {
 //                menu.addMenuItem(openItem);
 
                 // create "delete" item
-                SwipeMenuItem deleteItem = new SwipeMenuItem(
-                        getApplicationContext());
-                // set item background
-                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xefefef,
-                        0xefefef, 0xefefef)));
-              //  deleteItem.setBackground(Color.parseColor("#35000000"));
-
-                // set item width
-                deleteItem.setWidth(dp2px(150));
-
-                // set a icon
-                deleteItem.setIcon(R.drawable.delete);
-                // add to menu
-                menu.addMenuItem(deleteItem);
+//                SwipeMenuItem deleteItem = new SwipeMenuItem(
+//                        getApplicationContext());
+//                // set item background
+//                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xefefef,
+//                        0xefefef, 0xefefef)));
+//              //  deleteItem.setBackground(Color.parseColor("#35000000"));
+//
+//                // set item width
+//                deleteItem.setWidth(dp2px(150));
+//
+//                // set a icon
+//                deleteItem.setIcon(R.drawable.delete);
+//                // add to menu
+//                menu.addMenuItem(deleteItem);
             }
         };
         // set creator
         mListView.setMenuCreator(creator);
 
         // step 2. listener item click event
-        mListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-              //  ApplicationInfo item = arItem.get(position);
-                switch (index) {
+//        mListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+//              //  ApplicationInfo item = arItem.get(position);
+//                switch (index) {
+////                    case 0:
+////                        // open
+////                       // open(item);
+////                        Toast.makeText(activity,"Open",Toast.LENGTH_SHORT).show();
+////                        break;
 //                    case 0:
-//                        // open
-//                       // open(item);
-//                        Toast.makeText(activity,"Open",Toast.LENGTH_SHORT).show();
+//                        // delete
+////					delete(item);
+////                        mAppList.remove(position);
+////                        mAdapter.notifyDataSetChanged();
+//                       // Toast.makeText(activity,"Delete",Toast.LENGTH_SHORT).show();
+//                        TAG_ID =arItem.get(position)._id;
+//                        TAG_NAME_ACT =arItem.get(position).activityTypeName;
+//                        if(arItem.get(position).type.equals("group")){
+//                            Toast.makeText(activity,"Can't delete Group",Toast.LENGTH_SHORT).show();
+//                        }
+//                        else{
+//                            try {
+//                                dialog();
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//
 //                        break;
-                    case 0:
-                        // delete
-//					delete(item);
-//                        mAppList.remove(position);
-//                        mAdapter.notifyDataSetChanged();
-                       // Toast.makeText(activity,"Delete",Toast.LENGTH_SHORT).show();
-                        TAG_ID =arItem.get(position)._id;
-                        TAG_NAME_ACT =arItem.get(position).activityTypeName;
-                        if(arItem.get(position).type.equals("group")){
+//                }
+//                return false;
+//            }
+//        });
+
+
+        // set SwipeListener
+        mListView.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
+
+            @Override
+            public void onSwipeStart(int position) {
+                // swipe start
+                TAG_ID =arItem.get(position)._id;
+                TAG_NAME_ACT =arItem.get(position).activityTypeName;
+                //Toast.makeText(activity,"Slide",Toast.LENGTH_SHORT).show();
+                                        if(arItem.get(position).type.equals("group")){
                             Toast.makeText(activity,"Can't delete Group",Toast.LENGTH_SHORT).show();
                         }
                         else{
@@ -475,20 +500,6 @@ public void call(final Object... args) {
                                 e.printStackTrace();
                             }
                         }
-
-                        break;
-                }
-                return false;
-            }
-        });
-
-
-        // set SwipeListener
-        mListView.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
-
-            @Override
-            public void onSwipeStart(int position) {
-                // swipe start
             }
 
             @Override
