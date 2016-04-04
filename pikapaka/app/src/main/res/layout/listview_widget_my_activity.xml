@@ -111,7 +111,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_alignParentRight="true"
-                                android:layout_marginRight="15dp" >
+                                android:layout_marginRight="10dp" >
 
                                 <ImageView
                                     android:layout_width="30dp"
@@ -245,7 +245,7 @@
             android:layout_marginLeft="5dp"
             android:layout_margin="5dp"
             android:background="@color/background2"
-            android:visibility="visible"
+            android:visibility="gone"
             >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -323,6 +323,8 @@
                             >
 
                             <TextView
+                                android:id="@+id/tv_rank_view2"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
@@ -639,7 +641,7 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:layout_marginTop="3dp"
-                                    android:text="86%\nRANK"
+                                    android:text="0%\nRANK"
                                     android:background="@color/background0"
                                     />
 
@@ -940,15 +942,29 @@
                 android:orientation="vertical"
                 >
 
-                <TextView
-                    android:layout_width="fill_parent"
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="GROUP CHAT"
-                    android:textColor="@color/text4"
-                    android:layout_margin="10dp"
-                    android:textStyle="bold"
-                    android:textSize="13sp"
-                    />
+                    >
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="GROUP CHAT"
+                        android:textColor="@color/text4"
+                        android:layout_margin="10dp"
+                        android:textStyle="bold"
+                        android:textSize="13sp"
+                        />
+                    <ProgressBar
+                        android:id="@+id/probar"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="25dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        />
+                </RelativeLayout>
 
                 <ScrollView
                     android:layout_width="fill_parent"
@@ -1181,5 +1197,7 @@
 
 
     </LinearLayout>
+
+
 
 </LinearLayout>

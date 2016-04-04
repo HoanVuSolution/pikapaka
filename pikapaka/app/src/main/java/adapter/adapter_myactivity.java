@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,8 @@ import java.util.ArrayList;
 
 import activity.Activity_Members;
 import activity.Activity_MyActivity;
+import activity.Activity_Other_Activity;
+import activity.Activity_Other_Group;
 import activity.Activity_Rank_Report;
 import api.HTTP_API;
 import hoanvusolution.pikapaka.R;
@@ -119,8 +122,6 @@ public class adapter_myactivity extends BaseAdapter {
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.listview_widget_my_activity,
                         null);
-
-
                 String activityType = arItem.get(pos).activityType;
                 ImageView img_cate = (ImageView) convertView.findViewById(R.id.img_cate);
                 TextView tv_name = (TextView) convertView.findViewById(R.id.tv_name);
@@ -192,6 +193,8 @@ public class adapter_myactivity extends BaseAdapter {
                 final EditText ed_input_chat_view4 = (EditText) convertView.findViewById(R.id.ed_input_chat_view4);
                 final TextView tv_send_view4 = (TextView) convertView.findViewById(R.id.tv_send_view4);
                 final  ListView list_chat_view4 = (ListView) convertView.findViewById(R.id.list_chat_view4);
+                final ProgressBar probar=(ProgressBar) convertView.findViewById(R.id.probar);
+                probar.setVisibility(View.GONE);
                 // VIEW 5
                 // view4 item
                 adapter_ch = new adapater_chat(activity, arr_chat);
@@ -201,8 +204,9 @@ public class adapter_myactivity extends BaseAdapter {
 //                Scroll_Listview();
                 //******************
                 class Loading extends AsyncTask<String, String, String> {
-//                     final ArrayList<item_search_activity> users_group = new ArrayList<item_search_activity>();
-//                    final ArrayList<item_group_request> j_group = new ArrayList<item_group_request>();
+
+                    String message;
+                    String status;
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
@@ -233,10 +237,10 @@ public class adapter_myactivity extends BaseAdapter {
                                 if (resEntity != null) {
                                     String msg = EntityUtils.toString(resEntity);
                                     JSONObject jsonObject = new JSONObject(msg);
-                                    TAG_STATUS = jsonObject.getString("status");
-                                    TAG_MESSAGE = jsonObject.getString("message");
+                                    status = jsonObject.getString("status");
+                                    message = jsonObject.getString("message");
                               //    Log.e("loadding-- ",msg);
-                                    if (TAG_STATUS.equals("success")) {
+                                    if (status.equals("success")) {
                                         //arr_search.clear();
                                         JSONArray jsonarray = jsonObject.getJSONArray("data");
 
@@ -359,14 +363,12 @@ public class adapter_myactivity extends BaseAdapter {
 
                                         }
 
-
                                     }
                                 }
 
                                 if (resEntity != null) {
                                     resEntity.consumeContent();
                                 }
-
                                 client.getConnectionManager().shutdown();
 
                             }
@@ -386,7 +388,7 @@ public class adapter_myactivity extends BaseAdapter {
                     protected void onPostExecute(String result) {
                         progressDialog1.dismiss();
                         try {
-                            Log.e("arr_search size",arr_search.size()+"");
+                            //Log.e("arr_search size",arr_search.size()+"");
                             if(arr_search.size()>0) {
                                 view1.setVisibility(View.VISIBLE);
                             view1.setBackgroundColor(Color.parseColor(arr_search.get(0).activityTypeColor.toString()));
@@ -396,6 +398,7 @@ public class adapter_myactivity extends BaseAdapter {
                                 mHlvCustomList_.setAdapter(adapter);
 
                             }
+                            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
                             Log.e("gridFragments---","Error");
                         } catch (Throwable t) {
@@ -864,12 +867,12 @@ public class adapter_myactivity extends BaseAdapter {
                     protected void onPostExecute(String result) {
                         progressDialog.dismiss();
                         try {
-                            Log.e("TAG_STATUS----", TAG_STATUS);
-                            Log.e("TAG_MESSAGE---", TAG_MESSAGE);
+//                            Log.e("TAG_STATUS----", TAG_STATUS);
+//                            Log.e("TAG_MESSAGE---", TAG_MESSAGE);
 
                             if (TAG_STATUS.equals("success")) {
                                 Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
-
+                                activity.get_myactivity();
                             } else {
                                 Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
                             }
@@ -887,13 +890,13 @@ public class adapter_myactivity extends BaseAdapter {
 
                 class Chat_Group extends AsyncTask<String, String, String> {
 
-                    ProgressDialog progressDialog;
+                    //ProgressDialog progressDialog;
 
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
-                        progressDialog = ProgressDialog.show(activity, "",
-                                "", true);
+//                        progressDialog = ProgressDialog.show(activity, "",
+//                                "", true);
                     }
 
                     @Override
@@ -937,10 +940,10 @@ public class adapter_myactivity extends BaseAdapter {
 
                             }
                         } catch (Exception e) {
-                            progressDialog.dismiss();
+                         //   progressDialog.dismiss();
 
                         } catch (Throwable t) {
-                            progressDialog.dismiss();
+                          //  progressDialog.dismiss();
 
                         }
                         return null;
@@ -948,7 +951,7 @@ public class adapter_myactivity extends BaseAdapter {
 
                     @Override
                     protected void onPostExecute(String result) {
-                        progressDialog.dismiss();
+                        //progressDialog.dismiss();
                         try {
 
                             if (TAG_STATUS.equals("success")) {
@@ -972,20 +975,23 @@ public class adapter_myactivity extends BaseAdapter {
 
                 class Load_ListChat extends AsyncTask<String, String, String> {
 
-                    ProgressDialog progressDialog;
+                   // ProgressDialog progressDialog;
 
 
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
                         // progressDialog = lib_loading.f_init(activity);
-                        progressDialog = ProgressDialog.show(activity, "",
-                                "", true);
+//                        progressDialog = ProgressDialog.show(activity, "",
+//                                "", true);
+                        probar.setVisibility(View.VISIBLE);
                     }
 
                     @Override
                     protected String doInBackground(String... args) {
                         try {
+                            arr_chat.clear();
+                            adapter_ch.notifyDataSetChanged();
                             HttpClient client = new DefaultHttpClient();
                             JSONObject json = new JSONObject();
                             HttpGet post = new HttpGet(HTTP_API.CHAT_LOADLIST + TAG_CONVERSATION);
@@ -1001,10 +1007,10 @@ public class adapter_myactivity extends BaseAdapter {
                                     JSONObject jsonObject = new JSONObject(msg);
                                     TAG_STATUS = jsonObject.getString("status");
                                     TAG_MESSAGE = jsonObject.getString("message");
-                                    activity.mSocket.emit("join",TAG_CONVERSATION);
+//                                    activity.mSocket.emit("join",TAG_CONVERSATION);
                                     JSONObject jdata = jsonObject.getJSONObject("data");
                                     JSONArray message = jdata.getJSONArray("messages");
-                                    arr_chat.clear();
+
                                     for (int i = 0; i < message.length(); i++) {
                                         String _id = message.getJSONObject(i).getString("_id");
                                         String conversationId = message.getJSONObject(i).getString("conversationId");
@@ -1035,10 +1041,11 @@ public class adapter_myactivity extends BaseAdapter {
 
                             }
                         } catch (Exception e) {
-                            progressDialog.dismiss();
+                            //progressDialog.dismiss();
+                            Log.e("Error","get list chat");
 
                         } catch (Throwable t) {
-                            progressDialog.dismiss();
+                          //  progressDialog.dismiss();
 
                         }
                         return null;
@@ -1046,7 +1053,7 @@ public class adapter_myactivity extends BaseAdapter {
 
                     @Override
                     protected void onPostExecute(String result) {
-                        progressDialog.dismiss();
+                        probar.setVisibility(View.GONE);
                         try {
                             if (arr_chat.size() > 0) {
                               //  Toast.makeText(activity,arr_chat.size()+"",Toast.LENGTH_SHORT).show();
@@ -1071,7 +1078,8 @@ public class adapter_myactivity extends BaseAdapter {
 
                 }
                 class Get_Conversations extends AsyncTask<String, String, String> {
-                    ProgressDialog progressDialog;
+                   // ProgressDialog progressDialog;
+
                     String _id;
                     String type;
                     String groupId;
@@ -1080,8 +1088,9 @@ public class adapter_myactivity extends BaseAdapter {
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
-                        progressDialog = ProgressDialog.show(activity, "",
-                                "", true);
+//                        progressDialog = ProgressDialog.show(activity, "",
+//                                "", true);
+                        probar.setVisibility(View.VISIBLE);
                     }
                     @Override
                     protected String doInBackground(String... args) {
@@ -1101,7 +1110,7 @@ public class adapter_myactivity extends BaseAdapter {
                                     TAG_STATUS = jsonObject.getString("status");
                                     TAG_MESSAGE = jsonObject.getString("message");
                                     JSONArray jarr = jsonObject.getJSONArray("data");
-                                    Log.e("jarr",jarr.toString());
+                                   // Log.e("TAG_CONVERSATION group",jarr.toString());
                                     for (int i = 0; i < jarr.length(); i++) {
                                         _id = jarr.getJSONObject(i).getString("_id");
                                         type = jarr.getJSONObject(i).getString("type");
@@ -1122,22 +1131,21 @@ public class adapter_myactivity extends BaseAdapter {
 
                             }
                         } catch (Exception e) {
-                            progressDialog.dismiss();
 
+                            Log.e("Error","get conversation");
                         } catch (Throwable t) {
-                            progressDialog.dismiss();
 
                         }
                         return null;
                     }
                     @Override
                     protected void onPostExecute(String result) {
-                        progressDialog.dismiss();
+                        probar.setVisibility(View.GONE);
                         try {
                             if (TAG_STATUS.equals("success")) {
-
+                                Log.e("TAG_CONVERSATION",TAG_CONVERSATION);
                                 if (TAG_CONVERSATION.length() > 0) {
-
+                                    activity.mSocket.emit("join",TAG_CONVERSATION);
                                     new Load_ListChat().execute();
                                 }
 
@@ -1189,6 +1197,8 @@ public class adapter_myactivity extends BaseAdapter {
                             view2.setVisibility(View.GONE);
                             view3.setVisibility(View.GONE);
                             view4.setVisibility(View.GONE);
+                            arr_chat.clear();
+                            adapter_ch.notifyDataSetChanged();
                             click = false;
 
                         }
@@ -1399,12 +1409,15 @@ public class adapter_myactivity extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         TAG_CONTENT_CHAT = ed_input_chat_view4.getText().toString();
-                        if (TAG_CONTENT_CHAT.length() == 0) {
-                            Toast.makeText(activity, "Please input content", Toast.LENGTH_SHORT).show();
-                        } else {
+//                        if (TAG_CONTENT_CHAT.length() == 0) {
+//                            Toast.makeText(activity, "Please input content", Toast.LENGTH_SHORT).show();
+//                        } else {
+//
+//
+//
+//                        }
+                        if(TAG_CONTENT_CHAT.length() > 0){
                             new Chat_Group().execute();
-
-
                         }
                     }
                 });
@@ -1507,6 +1520,7 @@ public class adapter_myactivity extends BaseAdapter {
             String displayName;
             String age;                   //
             String imageUrl;                   //
+            String rank;                   //
             String hasRequest;
 
             @Override
@@ -1572,6 +1586,7 @@ public class adapter_myactivity extends BaseAdapter {
                                 lastName = jo.getString("lastName");
                                 dob = jo.getString("dob");
                                 displayName = jo.getString("displayName");
+                                rank = jo.getString("rank");
                                 age = jo.getString("age");
                                 if(jo.isNull("imageUrl")){
                                     imageUrl= jo.getString("imageUrl");
@@ -1605,6 +1620,7 @@ public class adapter_myactivity extends BaseAdapter {
                 progressDialog1.dismiss();
                 try {
                     if (TAG_STATUS.equals("success")) {
+                        dialog_activity_request(imageUrl,firstName,age,gender,plan,ageFrom,ageTo,gender_,rank,activityTypeColor,activityTypeName,displayName);
 //                        view1.setVisibility(View.GONE);
 //                        view2.setVisibility(View.VISIBLE);
 //                        view2.setBackgroundColor(Color.parseColor(activityTypeColor));
@@ -1683,7 +1699,7 @@ public class adapter_myactivity extends BaseAdapter {
             protected String doInBackground(String... args) {
                 try {
                     HttpClient client = new DefaultHttpClient();
-
+                    arr_user.clear();
                     //JSONObject json = new JSONObject();
 
                     HttpGet post = new HttpGet(HTTP_API.GET_SINGLE_ACTIVITY + "/" + id_group);
@@ -1691,6 +1707,7 @@ public class adapter_myactivity extends BaseAdapter {
                     post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
                     HttpResponse response;
                     response = client.execute(post);
+
                     if (response != null) {
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
@@ -1763,8 +1780,8 @@ public class adapter_myactivity extends BaseAdapter {
                 progressDialog1.dismiss();
                 try {
                     Log.e("group---", arr_user.size()+"");
-                    Log.e("TAG_STATUS---",TAG_STATUS);
-                    if (TAG_STATUS.equals("success")) {
+                 //   Log.e("TAG_STATUS---",TAG_STATUS);
+                    if (arr_user.size()>0) {
 //                        final  LinearLayout view1 = (LinearLayout) conver_view.findViewById(R.id.view1);
 //                        final LinearLayout view2 = (LinearLayout) conver_view.findViewById(R.id.view2);
 //                        final LinearLayout view3 = (LinearLayout) conver_view.findViewById(R.id.view3);
@@ -1881,6 +1898,7 @@ public class adapter_myactivity extends BaseAdapter {
 //                            activity.startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);
 //                        }
 //                    });
+                        dialog_group_request(arr_user,activityTypeColor,id_group,activityTypeName);
 
                     }
                 } catch (Exception e) {
@@ -1896,4 +1914,213 @@ public class adapter_myactivity extends BaseAdapter {
             new Get_Group().execute();
         }
     }
+
+    private static void dialog_activity_request(final String imageUrl,final String firstname,final String old,final String gender,final String place,final String age_f,final String age_to,final String gender_,final String rank,final String color,final String ac_name,final String fullname){
+        //final Dialog dialog = new Dialog(activity);
+        final Dialog dialog = new Dialog(activity);
+        dialog.requestWindowFeature(dialog.getWindow().FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_activity_request);
+
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+       final  LinearLayout view2=(LinearLayout)dialog.findViewById(R.id.view2);
+        final ImageView img_view2=(ImageView)dialog.findViewById(R.id.img_view2);
+        final TextView tv_name_view2=(TextView)dialog.findViewById(R.id.tv_name_view2);
+        final TextView tv_old_view2=(TextView)dialog.findViewById(R.id.tv_old_view2);
+        final TextView tv_rank_view2=(TextView)dialog.findViewById(R.id.tv_rank_view2);
+        final TextView tv_plan_view2=(TextView)dialog.findViewById(R.id.tv_plan_view2);
+        final TextView tv_age_gender_view2=(TextView)dialog.findViewById(R.id.tv_age_gender_view2);
+        final LinearLayout ll_back_view2=(LinearLayout)dialog.findViewById(R.id.ll_back_view2);
+        final LinearLayout ll_prifile_view2=(LinearLayout)dialog.findViewById(R.id.ll_prifile_view2);
+        final LinearLayout ll_chat_view2=(LinearLayout)dialog.findViewById(R.id.ll_chat_view2);
+        final LinearLayout ll_join_view2=(LinearLayout)dialog.findViewById(R.id.ll_join_view2);
+        dialog.show();
+        view2.setBackgroundColor(Color.parseColor(color));
+        ll_back_view2.setBackgroundColor(Color.parseColor(color));
+        ll_prifile_view2.setBackgroundColor(Color.parseColor(color));
+        ll_chat_view2.setBackgroundColor(Color.parseColor(color));
+        ll_join_view2.setBackgroundColor(Color.parseColor(color));
+//        if(imageUrl.length()>4){
+//            String  k =imageUrl.substring(0,3);
+//            if(k.equals("http")){
+//              new lib_image_save_original(activity,imageUrl,img_view2);
+//
+//            }
+//            else{
+//                String ulr =HTTP_API.url_image+imageUrl;
+//                new lib_image_save_original(activity,ulr,img_view2);
+//            }
+//        }
+        tv_name_view2.setText(firstname);
+        tv_old_view2.setText(old+" years old, "+gender);
+        tv_rank_view2.setText(rank+"%"+"\nRANK");
+        tv_plan_view2.setText(place);
+        tv_age_gender_view2.setText(place);
+    tv_age_gender_view2.setText("Demography:" + " Ages " + age_f + " to " + age_to + " " + gender_);
+
+
+        ll_back_view2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        ll_prifile_view2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                                            Intent in = new Intent(activity, Activity_Other_Activity.class);
+                            in.putExtra("ac_name",ac_name);
+                            in.putExtra("color",color);
+                            in.putExtra("name",fullname);
+                            in.putExtra("age",old);
+                            in.putExtra("gender",gender);
+                            in.putExtra("imageUrl",imageUrl);
+                            in.putExtra("rank",rank);
+                            activity.startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);
+            }
+        });
+        ll_chat_view2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(activity, "You need sent request to this user! ", Toast.LENGTH_SHORT).show();
+            }
+        });
+        ll_join_view2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(activity, "You need sent request to this user! ", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    private static void dialog_group_request(final  ArrayList<item_user_group>arr,final String color,final String id_group,final String ac_name){
+        final Dialog dialog = new Dialog(activity);
+        dialog.requestWindowFeature(dialog.getWindow().FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_group_request);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+    final LinearLayout view3=(LinearLayout)dialog.findViewById(R.id.view3);
+    final LinearLayout ll_back_view3=(LinearLayout)dialog.findViewById(R.id.ll_back_view3);
+    final LinearLayout ll_member_view3=(LinearLayout)dialog.findViewById(R.id.ll_member_view3);
+    final LinearLayout ll_join_view3=(LinearLayout)dialog.findViewById(R.id.ll_join_view3);
+    final LinearLayout ll_chat_view3=(LinearLayout)dialog.findViewById(R.id.ll_chat_view3);
+    final ImageView img1_view3=(ImageView)dialog.findViewById(R.id.img1_view3);
+    final ImageView img2_view3=(ImageView)dialog.findViewById(R.id.img2_view3);
+    final LinearLayout ll_user2_view3=(LinearLayout)dialog.findViewById(R.id.ll_user2_view3);
+    final TextView tv_name1_view3=(TextView)dialog.findViewById(R.id.tv_name1_view3);
+    final TextView tv_name2_view3=(TextView)dialog.findViewById(R.id.tv_name2_view3);
+    final TextView tv_old1_view3=(TextView)dialog.findViewById(R.id.tv_old1_view3);
+    final TextView tv_old2_view3=(TextView)dialog.findViewById(R.id.tv_old2_view3);
+    final TextView tv_plan_view3=(TextView)dialog.findViewById(R.id.tv_plan_view3);
+    final TextView tv_rank_view3=(TextView)dialog.findViewById(R.id.tv_rank_view3);
+        tv_rank_view3.setText("0%"+"\nRANK");
+                    view3.setBackgroundColor(Color.parseColor(color));
+                        ll_member_view3.setBackgroundColor(Color.parseColor(color));
+            ll_back_view3.setBackgroundColor(Color.parseColor(color));
+                        ll_join_view3.setBackgroundColor(Color.parseColor(color));
+                        ll_chat_view3.setBackgroundColor(Color.parseColor(color));
+                        tv_plan_view3.setText("");
+                                if (arr.size() >= 2) {
+                            tv_name1_view3.setText(arr.get(0).lastName);
+                            tv_name2_view3.setText(arr.get(1).lastName);
+                            tv_old1_view3.setText(arr.get(0).age + " years old, " + arr.get(0).gender);
+                            tv_old2_view3.setText(arr.get(1).age + " years old, " + arr.get(1).gender);
+                            ll_user2_view3.setVisibility(View.VISIBLE);
+                            //img1_view3
+                            String urlImage1 =arr.get(0).imageUrl;
+
+                            String urlImage2 =arr.get(1).imageUrl;
+
+                            if(urlImage1.length()>0){
+//                                        new lib_image_save_original(activity,urlImage1,img1_view3);
+                                String check = urlImage1.substring(0,3);
+                                if(check.equals("http")){
+                                    new lib_image_save_original(activity,urlImage1,img1_view3);
+
+                                }
+                                else{
+                                    urlImage1=HTTP_API.url_image+urlImage1;
+                                    new lib_image_save_original(activity,urlImage1,img1_view3);
+
+                                }
+                            }
+                            if(urlImage2.length()>0){
+//                                        new lib_image_save_original(activity,urlImage2,img2_view3);
+                                String check = urlImage2.substring(0,3);
+                                if(check.equals("http")){
+                                    new lib_image_save_original(activity,urlImage2,img2_view3);
+
+                                }
+                                else{
+                                    urlImage2=HTTP_API.url_image+urlImage2;
+                                    new lib_image_save_original(activity,urlImage2,img2_view3);
+
+                                }
+                            }
+
+                        } else {
+                            tv_name1_view3.setText(arr.get(0).lastName);
+                            tv_old1_view3.setText(arr.get(0).age + " years old, " + arr.get(0).gender);
+                            ll_user2_view3.setVisibility(View.INVISIBLE);
+
+                            String urlImage1 =arr.get(0).imageUrl;
+                            if(urlImage1.length()>0){
+                                // new lib_image_save_original(activity,urlImage1,img1_view3);
+                                String check = urlImage1.substring(0,3);
+                                if(check.equals("http")){
+                                    new lib_image_save_original(activity,urlImage1,img1_view3);
+
+                                }
+                                else{
+                                    urlImage1=HTTP_API.url_image+urlImage1;
+                                    new lib_image_save_original(activity,urlImage1,img1_view3);
+
+                                }
+                            }
+                        }
+
+        ll_member_view3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                        Activity_Other_Group.TAG_ID =id_group;
+                        Intent in = new Intent(activity,Activity_Other_Group.class);
+
+                        in.putExtra("ac_name",ac_name);
+                        in.putExtra("color",color);
+                        activity.startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);
+
+            }
+        });
+        ll_chat_view3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(activity, "You need sent request to Group", Toast.LENGTH_SHORT).show();
+            }
+        });
+        ll_join_view3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(activity, "You need sent request to Group", Toast.LENGTH_SHORT).show();
+            }
+        });
+        ll_back_view3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+                    }
+
+
+
+
+
+
+
+
 }

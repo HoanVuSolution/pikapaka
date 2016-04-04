@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:id="@+id/view3"
+        android:layout_width="fill_parent"
+        android:layout_height="360dp"
+        android:orientation="vertical"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/background2"
+        android:visibility="visible"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="295dp"
+            android:orientation="vertical"
+            android:weightSum="2"
+            >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                >
+                <LinearLayout
+                    android:layout_width="130dp"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical"
+                    >
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/background_3"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        >
+                        <ImageView
+                            android:id="@+id/img1_view3"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/male"
+                            />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_name1_view3"
+                        android:layout_width="fill_parent"
+                        android:text="Mike"
+                        android:textColor="@color/text4"
+                        android:textSize="18sp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_horizontal"
+                        android:layout_height="wrap_content" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical"
+                    android:layout_marginRight="5dp"
+                    >
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:layout_height="40dp">
+                        <TextView
+                            android:id="@+id/tv_old1_view3"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:text="34 years old,Man (5 km away)"
+                            android:gravity="center|center_vertical"
+                            android:textSize="16sp"
+                            android:textStyle="italic"
+                            android:textColor="@color/text4"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:background="@color/background4"
+                            android:layout_marginRight="10dp"
+                            >
+
+                            <TextView
+                                android:id="@+id/tv_rank_view3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_marginTop="3dp"
+                                android:text="86%\nRANK"
+                                android:textSize="15sp"
+                                android:background="@color/background0"
+                                />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+                    <TextView
+                        android:id="@+id/tv_old2_view3"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="27 years old, Women (3 km away)"
+                        android:gravity="center|center_vertical"
+                        android:textSize="16sp"
+                        android:textStyle="italic"
+                        android:textColor="@color/text4"
+                        />
+                    <TextView
+                        android:id="@+id/tv_plan_view3"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="We want to have an amature 2x2 basketball game outside."
+                        android:gravity="center_vertical"
+                        android:textSize="16sp"
+                        android:textStyle="italic"
+                        android:textColor="@color/text4"
+                        android:layout_marginTop="10dp"
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                >
+                <LinearLayout
+                    android:id="@+id/ll_user2_view3"
+                    android:layout_width="130dp"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical"
+                    >
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/background_3"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        >
+                        <ImageView
+                            android:id="@+id/img2_view3"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/female"
+                            />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_name2_view3"
+                        android:layout_width="fill_parent"
+                        android:text="Daniel"
+                        android:textColor="@color/text4"
+                        android:textSize="18sp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_horizontal"
+                        android:layout_height="wrap_content" />
+
+
+                </LinearLayout>
+                <!--<LinearLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="fill_parent"-->
+                <!--android:orientation="vertical"-->
+                <!--android:layout_marginRight="5dp"-->
+                <!--android:visibility="gone"-->
+                <!--&gt;-->
+                <!--<TextView-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Activity Preferences"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:textSize="16sp"-->
+                <!--android:textColor="@color/text5"-->
+                <!--android:lineSpacingExtra="3dp"-->
+                <!--/>-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/tv_age_gender_view3"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Demography: Ages 25 to 35, any  gander."-->
+                <!--android:layout_marginTop="3dp"-->
+                <!--android:textSize="16sp"-->
+                <!--android:textColor="@color/text5"-->
+                <!--android:lineSpacingExtra="3dp"-->
+                <!--/>-->
+                <!--<TextView-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Level: Amatures to professionals."-->
+                <!--android:layout_marginTop="3dp"-->
+                <!--android:textSize="16sp"-->
+                <!--android:textColor="@color/text5"-->
+                <!--android:lineSpacingExtra="3dp"-->
+                <!--/>-->
+                <!--<TextView-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Venue: Open court."-->
+                <!--android:layout_marginTop="3dp"-->
+                <!--android:textSize="16sp"-->
+                <!--android:textColor="@color/text5"-->
+                <!--android:lineSpacingExtra="3dp"-->
+                <!--/>-->
+
+                <!--</LinearLayout>-->
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:background="@color/background0"
+
+            >
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                >
+                <LinearLayout
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="@color/background4"
+                    >
+                    <LinearLayout
+                        android:id="@+id/ll_back_view3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/background2"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:text="&lt;  BACK"
+                            android:textColor="@color/text4"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            android:gravity="center"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="@color/background4"
+                    android:layout_marginLeft="5dp"
+                    >
+                    <LinearLayout
+                        android:id="@+id/ll_member_view3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/background2"
+                        android:orientation="horizontal"
+                        >
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/users_group"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="20dp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:text="MEMBERS"
+                            android:textColor="@color/text4"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="24dp"
+
+                            android:layout_marginRight="20dp"
+                            android:gravity="center"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="@color/background4"
+                    android:layout_marginLeft="5dp"
+                    >
+                    <LinearLayout
+                        android:id="@+id/ll_join_view3"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/background2"
+                        android:orientation="horizontal"
+                        >
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_tick"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="20dp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:text="JOIN PARTNER"
+                            android:textColor="@color/text4"
+                            android:textSize="14sp"
+                            android:layout_marginRight="25dp"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="20dp"
+
+                            android:gravity="center"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/background4"
+                    android:layout_marginLeft="5dp"
+                    >
+                    <LinearLayout
+                        android:id="@+id/ll_chat_view3"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/background2"
+                        android:orientation="horizontal"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_chat"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="20dp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:text="CHAT"
+                            android:textColor="@color/text4"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="20dp"
+
+                            android:layout_marginRight="5dp"
+                            android:gravity="center"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

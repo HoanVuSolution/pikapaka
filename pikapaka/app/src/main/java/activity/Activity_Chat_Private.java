@@ -163,29 +163,21 @@ public class Activity_Chat_Private extends AppCompatActivity implements
             String groupId;
             String users;
             String mutedUsers;
-
-
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-
                 progressDialog = ProgressDialog.show(activity, "",
                         "", true);
             }
-
             @Override
             protected String doInBackground(String... args) {
                 try {
                     HttpClient client = new DefaultHttpClient();
-
                     JSONObject json = new JSONObject();
-
                    HttpGet post = new HttpGet(HTTP_API.CHAT_GET_CONVERSATION_BYUSER+TAG_ID_RECEIVER+"/" + TAG_ID_GROUP);
                     //HttpGet post = new HttpGet(HTTP_API.CHAT_GET_CONVERSATION + TAG_ID_RECEIVER);
                     post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
                     post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
-
-
                     HttpResponse response;
                     response = client.execute(post);
                     arr_chat.clear();
@@ -193,36 +185,38 @@ public class Activity_Chat_Private extends AppCompatActivity implements
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                        //Log.e("conversation by user",msg);
+                        Log.e("conversation by user",msg);
                             JSONObject jsonObject = new JSONObject(msg);
                             TAG_STATUS = jsonObject.getString("status");
                             TAG_MESSAGE = jsonObject.getString("message");
 
                             JSONObject jarr = jsonObject.getJSONObject("data");
+                            if(jarr!=null){
+                                for (int i = 0; i < jarr.length(); i++) {
+                                    JSONArray jmessage = jarr.getJSONArray("messages");
 
-                            for (int i = 0; i < jarr.length(); i++) {
-
-                                JSONArray jmessage = jarr.getJSONArray("messages");
-
-                                String _id = jmessage.getJSONObject(i).getString("_id");
-                                String conversationId = jmessage.getJSONObject(i).getString("conversationId");
-                                JSONObject fromUser = jmessage.getJSONObject(i).getJSONObject("fromUser");
-                                String id_user = fromUser.getString("_id");
-                                String firstName = fromUser.getString("firstName");
-                                String gender = fromUser.getString("gender");
-                                String lastName = fromUser.getString("lastName");
-                                String imageUrl="";
-                                try {
-                                    imageUrl = fromUser.getString("imageUrl");
-                                }catch (JSONException e){
-                                    imageUrl="";
-                                }
-                                mSocket.emit("join",conversationId);
-                                TAG_CONVERSATION=conversationId;
+                                    String _id = jmessage.getJSONObject(i).getString("_id");
+                                    String conversationId = jmessage.getJSONObject(i).getString("conversationId");
+                                    JSONObject fromUser = jmessage.getJSONObject(i).getJSONObject("fromUser");
+                                    String id_user = fromUser.getString("_id");
+                                    String firstName = fromUser.getString("firstName");
+                                    String gender = fromUser.getString("gender");
+                                    String lastName = fromUser.getString("lastName");
+                                    String imageUrl="";
+                                    try {
+                                        imageUrl = fromUser.getString("imageUrl");
+                                    }catch (JSONException e){
+                                        imageUrl="";
+                                    }
+                                    mSocket.emit("join",conversationId);
+                                    TAG_CONVERSATION=conversationId;
 //                                String content = jmessage.getJSONObject(i).getString("content");
 //                                item_chat item = new item_chat(_id, conversationId,id_user, firstName, gender, lastName,imageUrl, content);
 //                                arr_chat.add(item);
+                                }
                             }
+
+
 
                         }
 
@@ -251,6 +245,7 @@ public class Activity_Chat_Private extends AppCompatActivity implements
 //                    if(arr_chat.size()>0){
 //                        adapter_ch.notifyDataSetChanged();
 //                    }
+                    Log.e("TAG_CON private",TAG_CONVERSATION);
                     if(TAG_CONVERSATION.length()>0){
                         Load_ListChat();
                     }
@@ -366,7 +361,6 @@ public class Activity_Chat_Private extends AppCompatActivity implements
         }
         new Load_ListChat().execute();
     }
-
     private void send_msg(final String content){
         class Chat_Private extends AsyncTask<String, String, String> {            @Override
             protected void onPreExecute() {
@@ -393,7 +387,7 @@ public class Activity_Chat_Private extends AppCompatActivity implements
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                          //  Log.e("send-- CHAT", msg);
+                       Log.e("send-- CHAT", msg);
                             JSONObject jsonObject = new JSONObject(msg);
                             TAG_STATUS = jsonObject.getString("status");
                             TAG_MESSAGE = jsonObject.getString("message");
@@ -424,12 +418,14 @@ public class Activity_Chat_Private extends AppCompatActivity implements
             protected void onPostExecute(String result) {
                // progressDialog.dismiss();
                 try {
+
 //                    Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
                     if(TAG_CONVERSATION.length()>0){
-
-                        if(arr_chat.size()==0){
-                            mSocket.emit("join",TAG_CONVERSATION);
-                        }
+                        Log.e("TAG_CONVERSATION",TAG_CONVERSATION);
+                        mSocket.emit("join",TAG_CONVERSATION);
+//                        if(arr_chat.size()==0){
+//
+//                        }
                     }
 
                } catch (Exception e) {

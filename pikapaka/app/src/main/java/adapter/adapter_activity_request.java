@@ -3,7 +3,6 @@ package adapter;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,14 +30,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import activity.Activity_MyActivity;
-import activity.Activity_Other_Activity;
-import activity.Activity_Other_Group;
 import api.HTTP_API;
 import hoanvusolution.pikapaka.R;
 import image.lib_image_save_original;
 import internet.CheckWifi3G;
 import item.item_search_activity;
-import util.Activity_Result;
 
 /**
  * Created by MrThanhPhong on 3/15/2016.
@@ -132,24 +128,24 @@ public class adapter_activity_request extends BaseAdapter {
                         // adapter_myactivity.o
 
                            // adapter_myactivity.get_single(arItem.get(pos)._id);
+                           // String color = arItem.get(pos).activityTypeColor;
+//                            String ac_name = arItem.get(pos).activityName;
+//                            String name = arItem.get(pos).displayName;
+//                            String age = arItem.get(pos).age;
+//                            String gender = arItem.get(pos).gender_;
+//                            String imageUrl = arItem.get(pos).imageUrl;
+//                            String rank = arItem.get(pos).rank;
 
-                            String color = arItem.get(pos).activityTypeColor;
-                            String ac_name = arItem.get(pos).activityName;
-                            String name = arItem.get(pos).displayName;
-                            String age = arItem.get(pos).age;
-                            String gender = arItem.get(pos).gender_;
-                            String imageUrl = arItem.get(pos).imageUrl;
-                            String rank = arItem.get(pos).rank;
-                            Intent in = new Intent(activity, Activity_Other_Activity.class);
-                            in.putExtra("ac_name",ac_name);
-                            in.putExtra("color",color);
-                            in.putExtra("name",name);
-                            in.putExtra("age",age);
-                            in.putExtra("gender",gender);
-                            in.putExtra("imageUrl",imageUrl);
-                            in.putExtra("rank",rank);
-                            activity.startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);
-
+//                            Intent in = new Intent(activity, Activity_Other_Activity.class);
+//                            in.putExtra("ac_name",ac_name);
+//                            in.putExtra("color",color);
+//                            in.putExtra("name",name);
+//                            in.putExtra("age",age);
+//                            in.putExtra("gender",gender);
+//                            in.putExtra("imageUrl",imageUrl);
+//                            in.putExtra("rank",rank);
+//                            activity.startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);
+                            adapter_myactivity.get_single(arItem.get(pos)._id);
 
 
                     }
@@ -209,29 +205,28 @@ public class adapter_activity_request extends BaseAdapter {
                                }
                            }
 
-                           img_profile.setOnClickListener(new View.OnClickListener() {
-                               @Override
-                               public void onClick(View v) {
-                                 //  Toast.makeText(activity,arItem.get(pos).type,Toast.LENGTH_LONG).show();
-                                  // adapter_myactivity.o
 
-
-                                       Activity_Other_Group.TAG_ID =arItem.get(pos)._id;
-                                       Intent in = new Intent(activity,Activity_Other_Group.class);
-                                            String color = arItem.get(pos).activityTypeColor;
-                                            String ac_name = arItem.get(pos).activityName;
-                                            in.putExtra("ac_name",ac_name);
-                                            in.putExtra("color",color);
-                                    activity.startActivityForResult(in,Activity_Result.REQUEST_CODE_ACT);
-                                     //  adapter_myactivity.get_group(arItem.get(pos)._id);
-
-
-                               }
-                           });
 
                        }catch (JSONException e){
                            e.getStackTrace();
                        }
+                img_profile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        Activity_Other_Group.TAG_ID =arItem.get(pos)._id;
+//                        Intent in = new Intent(activity,Activity_Other_Group.class);
+//                        String color = arItem.get(pos).activityTypeColor;
+//                        String ac_name = arItem.get(pos).activityName;
+//                        in.putExtra("ac_name",ac_name);
+//                        in.putExtra("color",color);
+//                        activity.startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);
+//                                   Toast.makeText(activity, ""+arItem.get(pos)._id, Toast.LENGTH_SHORT).show();
+//
+                        adapter_myactivity.get_group(arItem.get(pos)._id);
+
+
+                    }
+                });
             }
 
 

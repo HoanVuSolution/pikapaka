@@ -47,9 +47,6 @@ import json.JSONParser;
 import loading.lib_dialog;
 import loading.lib_loading;
 
-/**
- * Created by MrThanhPhong on 2/17/2016.
- */
 public class Activity_Register extends AppCompatActivity {
 
     private AppCompatActivity activity;

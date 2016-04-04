@@ -778,7 +778,7 @@ public class Activity_Profile extends AppCompatActivity{
                 try {
                     if(TAG_STATUS.equals("success")){
                         tv_name.setText(TAG_DISPLAYNAME.toUpperCase());
-                        tv_old.setText(age_user+"  years old "+TAG_GENDER);
+                        tv_old.setText(age_user+"  years old, "+TAG_GENDER);
                         tv_share.setText(TAG_SHARECONTACT);
                         tv_max.setText(TAG_MAXNUMOF);
                         tv_min.setText(TAG_MINNUMOF);

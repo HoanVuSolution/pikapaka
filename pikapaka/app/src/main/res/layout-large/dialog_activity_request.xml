@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:id="@+id/view2"
+        android:layout_width="fill_parent"
+        android:layout_height="350dp"
+        android:orientation="vertical"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_margin="5dp"
+        android:background="@color/background2"
+        android:visibility="visible"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="285dp"
+            android:orientation="horizontal"
+            >
+            <LinearLayout
+                android:layout_width="130dp"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/background_3"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    >
+                    <ImageView
+                        android:id="@+id/img_view2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/male"
+                        />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_name_view2"
+                    android:layout_width="fill_parent"
+                    android:text="Johnathan"
+                    android:textColor="@color/text4"
+                    android:textSize="18sp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:text="5 Miles away"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/text3"
+                    android:gravity="center_horizontal"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+
+                >
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:gravity="center_vertical"
+                    android:layout_height="50dp">
+                    <TextView
+                        android:id="@+id/tv_old_view2"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:text="34 years old,man"
+                        android:gravity="center|center_vertical"
+                        android:textSize="16sp"
+                        android:textStyle="italic"
+                        android:textColor="@color/text4"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@color/background4"
+                        >
+
+                        <TextView
+                            android:id="@+id/tv_rank_view2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_marginTop="3dp"
+                            android:text="86%\nRANK"
+                            android:textSize="15sp"
+                            android:background="@color/background0"
+                            />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_plan_view2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="I'm looking for a quick, open court, 2x2 game. Amature player myself. Looking for same level of player."
+                    android:textSize="16sp"
+                    android:textColor="@color/text4"
+                    android:lineSpacingExtra="3dp"
+                    />
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Activity Preferences"
+                    android:layout_marginTop="20dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/text5"
+                    android:lineSpacingExtra="3dp"
+                    />
+
+
+                <TextView
+                    android:id="@+id/tv_age_gender_view2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Demography: Ages 25 to 35, any  gander."
+                    android:layout_marginTop="5dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/text5"
+                    android:lineSpacingExtra="3dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_level_view2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Level: Amatures to professionals."
+                    android:layout_marginTop="5dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/text5"
+                    android:lineSpacingExtra="3dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_venue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Venue: Open court."
+                    android:layout_marginTop="5dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/text5"
+                    android:lineSpacingExtra="3dp"
+                    />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:background="@color/background0"
+
+            >
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                >
+                <LinearLayout
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="@color/background4"
+                    >
+                    <LinearLayout
+                        android:id="@+id/ll_back_view2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/background2"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:text="&lt;  BACK"
+                            android:textColor="@color/text4"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            android:gravity="center"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="@color/background4"
+                    android:layout_marginLeft="5dp"
+                    >
+                    <LinearLayout
+                        android:id="@+id/ll_prifile_view2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/background2"
+                        android:orientation="horizontal"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_profile1"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="23dp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:text="PROFILE"
+                            android:textColor="@color/text4"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="25dp"
+
+                            android:layout_marginRight="25dp"
+                            android:gravity="center"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="@color/background4"
+                    android:layout_marginLeft="5dp"
+                    >
+                    <LinearLayout
+                        android:id="@+id/ll_chat_view2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/background2"
+                        android:orientation="horizontal"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_chat"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="25dp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:text="CHAT"
+                            android:textColor="@color/text4"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="25dp"
+
+                            android:layout_marginRight="25dp"
+                            android:gravity="center"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/background4"
+                    android:layout_marginLeft="5dp"
+                    >
+                    <LinearLayout
+                        android:id="@+id/ll_join_view2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/background2"
+                        android:orientation="horizontal"
+                        >
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_tick"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="15dp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:text="JOIN PARTNER"
+                            android:textColor="@color/text4"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="15dp"
+
+
+                            android:gravity="center"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

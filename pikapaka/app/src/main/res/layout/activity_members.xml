@@ -45,6 +45,13 @@
             android:textSize="20sp" />
     </RelativeLayout>
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh1"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+      >
 
     <ListView
         android:id="@+id/list_members"
@@ -54,7 +61,7 @@
         android:layout_margin="7dp"
         tools:listitem="@layout/listview_widget_members"
         >
-
     </ListView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

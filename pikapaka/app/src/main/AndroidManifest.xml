@@ -156,7 +156,8 @@
         </activity>
         <activity
             android:name="activity.Activity_Chat_Private"
-            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:theme="@style/AppTheme.NoActionBar"
             >
         </activity>

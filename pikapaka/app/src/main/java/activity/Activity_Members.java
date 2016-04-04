@@ -3,6 +3,7 @@ package activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -31,7 +32,7 @@ import item.item_user_group;
 /**
  * Created by MrThanhPhong on 3/18/2016.
  */
-public class Activity_Members extends AppCompatActivity {
+public class Activity_Members extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
     private AppCompatActivity activity;
     public  static String TAG_ID="";
     private  String TAG_STATUS="";
@@ -40,7 +41,8 @@ public class Activity_Members extends AppCompatActivity {
     private RelativeLayout ll_back;
     private ListView list_members;
     public ArrayList<item_user_group> arr_user = new ArrayList<item_user_group>();
-
+    private SwipeRefreshLayout mSwipeRefreshLayout = null;
+    private adapter_members adapter=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,13 +56,18 @@ public class Activity_Members extends AppCompatActivity {
 
     private void init()throws Exception{;
         get_resource();
-        get_members();
+        callRefresh();
         onClick();
     }
     private  void get_resource()throws Exception{
         activity=this;
         ll_back =(RelativeLayout)findViewById(R.id.ll_back);
         list_members=(ListView)findViewById(R.id.list_members);
+        mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefresh1);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        adapter = new adapter_members(activity,arr_user);
+        list_members.setAdapter(adapter);
+        mSwipeRefreshLayout.setColorSchemeColors(R.color.colorPrimary,R.color.colorPrimaryDark,R.color.colorAccent);
     }
     private void onClick(){
         ll_back.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +76,44 @@ public class Activity_Members extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void callRefresh() {
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+                try {
+                    get_members();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    @Override
+    public void onRefresh() {
+        if(arr_user==null){
+            try {
+                get_members();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            loadRefreshComplete();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        arr_user.clear();
+        adapter.notifyDataSetChanged();
+    }
+
+    private void loadRefreshComplete() {
+        mSwipeRefreshLayout.setRefreshing(false);
     }
     private void get_members()throws Exception    {
         class Get_Group extends AsyncTask<String, String, String> {
@@ -84,8 +129,8 @@ public class Activity_Members extends AppCompatActivity {
             protected void onPreExecute() {
                 super.onPreExecute();
 
-                progressDialog = ProgressDialog.show(activity, "",
-                        "", true);
+//                progressDialog = ProgressDialog.show(activity, "",
+//                        "", true);
             }
 
             @Override
@@ -104,7 +149,7 @@ public class Activity_Members extends AppCompatActivity {
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                          //  Log.e("group - cate", msg);
+                            //  Log.e("group - cate", msg);
                             JSONObject jsonObject = new JSONObject(msg);
                             TAG_STATUS = jsonObject.getString("status");
                             TAG_MESSAGE = jsonObject.getString("message");
@@ -118,7 +163,7 @@ public class Activity_Members extends AppCompatActivity {
                                 JSONArray jarr = data.getJSONArray("users");
                                 for (int i = 0; i < jarr.length(); i++) {
                                     String id = jarr.getJSONObject(i).getString("_id");
-                                   // JSONObject profile = jarr.getJSONObject(i).getJSONObject("profile");
+                                    // JSONObject profile = jarr.getJSONObject(i).getJSONObject("profile");
 
                                     String firstName =  jarr.getJSONObject(i).getString("firstName");
 
@@ -133,13 +178,12 @@ public class Activity_Members extends AppCompatActivity {
                                     String age =  jarr.getJSONObject(i).getString("age");
                                     String rank =  jarr.getJSONObject(i).getString("rank");
 
-
-                                    String imageUrl="";
+                                   String imageUrl="";
                                     try {
                                         imageUrl = jarr.getJSONObject(i).getString("imageUrl");
                                     }catch(JSONException e){
                                         imageUrl="";
-                                       // Log.e("Error,---","TAG_IMAGE_URL");
+                                        // Log.e("Error,---","TAG_IMAGE_URL");
                                         e.getStackTrace();
                                     }
 
@@ -169,11 +213,13 @@ public class Activity_Members extends AppCompatActivity {
                     }
                 } catch (Exception e) {
                     Log.e("Error :","get members");
-                    progressDialog.dismiss();
+//                    progressDialog.dismiss();
+                    loadRefreshComplete();
 
                 } catch (Throwable t) {
                     Log.e("Error1 :","get members");
-                    progressDialog.dismiss();
+//                    progressDialog.dismiss();
+                    loadRefreshComplete();
 
                 }
                 return null;
@@ -181,13 +227,16 @@ public class Activity_Members extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(String result) {
-                progressDialog.dismiss();
+//                progressDialog.dismiss();
+                loadRefreshComplete();
                 try {
-                   // Log.e("group---", arr_user.size()+"");
+                    // Log.e("group---", arr_user.size()+"");
                     if (arr_user.size()>0) {
-                        adapter_members adapter = new adapter_members(activity,arr_user);
+//                        adapter_members adapter = new adapter_members(activity,arr_user);
+//
+//                        list_members.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
 
-                        list_members.setAdapter(adapter);
                     } else {
                         Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
                     }
@@ -208,6 +257,9 @@ public class Activity_Members extends AppCompatActivity {
         }
         if(CheckWifi3G.isConnected(activity)){
             new Get_Group().execute();
+        }
+        else {
+            loadRefreshComplete();
         }
     }
 }
