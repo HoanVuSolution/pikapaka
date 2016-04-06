@@ -199,10 +199,8 @@ public class Activity_Login extends AppCompatActivity {
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(dialog.getWindow().FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_forgot_pass);
-
         dialog.show();
         final EditText ed_email = (EditText) dialog.findViewById(R.id.ed_email);
-
         ed_email.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 
         final TextView tv_back = (TextView) dialog.findViewById(R.id.tv_back);
@@ -227,7 +225,8 @@ public class Activity_Login extends AppCompatActivity {
                     ed_email.setError("Incorrect Email");
                     ed_email.requestFocus();
                 } else {
-                    Toast.makeText(Activity_Login.this, "Processing....", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(Activity_Login.this, "Processing....", Toast.LENGTH_SHORT).show();
+                    forgotPassword(email);
                     dialog.dismiss();
                 }
             }
@@ -465,5 +464,95 @@ private void storeRegistrationId(Context context, String regId) {
             }
         }
         return super.dispatchTouchEvent( event );
+    }
+
+    private void forgotPassword(final String email){
+
+        class Log_In extends AsyncTask<String, String, String> {
+            String status="";
+            String message="";
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressDialog = lib_loading.f_init(activity);
+            }
+
+            @Override
+            protected String doInBackground(String... args) {
+                try {
+
+
+                    HttpClient client = new DefaultHttpClient();
+                    HttpResponse response;
+                    JSONObject json = new JSONObject();
+                    HttpPost post = new HttpPost(HTTP_API.FORGOT_PASSWORD);
+                    json.put("email", email);
+                    StringEntity se = new StringEntity(json.toString());
+                    se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                    post.setEntity(se);
+                    response = client.execute(post);
+
+                    if (response != null) {
+                        HttpEntity resEntity = response.getEntity();
+                        if (resEntity != null) {
+                            String msg = EntityUtils.toString(resEntity);
+                            //  Log.i("msg-- cate", msg);
+                            JSONObject jsonObject = new JSONObject(msg);
+                            status = jsonObject.getString("status");
+                            message = jsonObject.getString("message");
+
+
+                        }
+
+                        if (resEntity != null) {
+                            resEntity.consumeContent();
+                        }
+
+                        client.getConnectionManager().shutdown();
+
+                    }
+
+                } catch (Exception e) {
+                    progressDialog.dismiss();
+                    Log.e("Error", "Error");
+
+                } catch (Throwable t) {
+                    progressDialog.dismiss();
+                    Log.e("Error1", "Error1");
+
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                progressDialog.dismiss();
+                try {
+
+                    if (status.equals("success")) {
+
+                        new lib_dialog().f_dialog_msg(activity, "Please check your email!");
+                    } else {
+                        Toast.makeText(Activity_Login.this, message, Toast.LENGTH_SHORT).show();
+
+                    }
+
+
+                } catch (Exception e) {
+
+                } catch (Throwable t) {
+
+                }
+
+            }
+
+        }
+
+        if (CheckWifi3G.isConnected(activity)) {
+            new Log_In().execute();
+        } else {
+            new lib_dialog().f_dialog_msg(activity, "Can't connect Internet");
+
+        }
     }
 }

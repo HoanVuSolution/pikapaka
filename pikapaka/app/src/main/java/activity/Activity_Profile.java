@@ -68,9 +68,7 @@ import multipart.AndroidMultiPartEntity;
 public class Activity_Profile extends AppCompatActivity{
     private String TAG_STATUS="";
     private String TAG_MESSAGE="";
-
     private String TAG_IMAGE_URL="";
-
     private String TAG_USERID="";
     private String TAG_TOKEN="";
     private String TAG_FIRSTNAME="";
@@ -90,15 +88,11 @@ public class Activity_Profile extends AppCompatActivity{
     private String TAG_DISTANCE="";
     private String TAG_TYPE_DISTANCE="";
     private String TAG_EXPRIEDHOURS="";
-
-
     private AppCompatActivity activity;
-
     private LinearLayout ll_back;
     private LinearLayout ll_save;
     private LinearLayout ll_share;
     private TextView tv_share;
-
     private LinearLayout ll_max;
     private TextView tv_max;
     private LinearLayout ll_min;
@@ -111,13 +105,10 @@ public class Activity_Profile extends AppCompatActivity{
     private TextView tv_type_dis;
     private LinearLayout ll_experss;
     private TextView tv_hours;
-
     private LinearLayout age1;
     private TextView tv_minage;
     private LinearLayout age2;
     private TextView tv_maxage;
-
-
     private int Age_User;
 
     private List<String> list_age = new ArrayList<String>();
@@ -138,6 +129,8 @@ public class Activity_Profile extends AppCompatActivity{
     private boolean img_avata=false;
     private String path_avatar="";
     private TextView tv_count_friend,tv_count_mail;
+    //-----------
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

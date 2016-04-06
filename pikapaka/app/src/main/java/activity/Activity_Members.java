@@ -149,7 +149,7 @@ public class Activity_Members extends AppCompatActivity implements SwipeRefreshL
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                            //  Log.e("group - cate", msg);
+                        // Log.e("member - cate", msg);
                             JSONObject jsonObject = new JSONObject(msg);
                             TAG_STATUS = jsonObject.getString("status");
                             TAG_MESSAGE = jsonObject.getString("message");

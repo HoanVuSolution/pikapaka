@@ -48,65 +48,73 @@
         </RelativeLayout>
     </LinearLayout>
 
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1"
         android:layout_marginTop="10dp"
-        android:layout_height="match_parent">
-
-        <ListView
-            android:id="@+id/list_chat"
+        >
+        <RelativeLayout
             android:layout_width="match_parent"
+
             android:layout_height="match_parent"
-            android:layout_marginBottom="56dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:scrollbars="none"
-            android:divider="@color/background1"
-            tools:listitem="@layout/layout_receiver"></ListView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_alignParentBottom="true"
-            android:gravity="bottom"
-          >
+            android:layout_weight="1">
+            <ListView
+                android:id="@+id/list_chat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="56dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:scrollbars="none"
+                android:divider="@color/background1"
+                tools:listitem="@layout/layout_receiver"></ListView>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:background="#F3F3F3"
+                android:layout_height="55dp"
+                android:layout_alignParentBottom="true"
                 android:gravity="bottom"
-                android:orientation="horizontal"
-
                 >
-
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="54dp"
+                    android:background="#F3F3F3"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    >
 
-                    <EditText
-                        android:id="@+id/ed_content"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="60dp"
-                        android:paddingLeft="8dp"
-                        android:textSize="16sp" />
+                        android:layout_height="match_parent">
 
-                    <Button
-                        android:id="@+id/bt_send"
-                        android:layout_width="60dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:text=">>"
-                        android:textSize="17sp" />
-                </RelativeLayout>
+                        <EditText
+                            android:id="@+id/ed_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="60dp"
+                            android:paddingLeft="8dp"
+                            android:textSize="16sp" />
+
+                        <Button
+                            android:id="@+id/bt_send"
+                            android:layout_width="60dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:text=">>"
+                            android:textSize="17sp" />
+                    </RelativeLayout>
 
 
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
-    </RelativeLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
 
 
 </LinearLayout>

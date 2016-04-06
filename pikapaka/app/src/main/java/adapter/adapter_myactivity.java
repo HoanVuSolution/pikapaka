@@ -587,18 +587,14 @@ public class adapter_myactivity extends BaseAdapter {
                 class Get_Group extends AsyncTask<String, String, String> {
                     // view3
                     ArrayList<item_user_group> arr_user = new ArrayList<item_user_group>();
-
                     String _id;
                     String activityType;
                     String activityTypeName;
                     String activityTypeColor;
                     String active;
-
-
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
-
                         progressDialog1 = ProgressDialog.show(activity, "",
                                 "", true);
                     }
@@ -609,7 +605,6 @@ public class adapter_myactivity extends BaseAdapter {
                             HttpClient client = new DefaultHttpClient();
 
                             //JSONObject json = new JSONObject();
-
                             HttpGet post = new HttpGet(HTTP_API.GET_SINGLE_ACTIVITY + "/" + TAG_ID);
                             post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
                             post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
@@ -621,7 +616,7 @@ public class adapter_myactivity extends BaseAdapter {
                                 HttpEntity resEntity = response.getEntity();
                                 if (resEntity != null) {
                                     String msg = EntityUtils.toString(resEntity);
-                                    Log.e("group - cate", msg);
+                                    //Log.e("group - cate", msg);
                                     JSONObject jsonObject = new JSONObject(msg);
                                     TAG_STATUS = jsonObject.getString("status");
                                     TAG_MESSAGE = jsonObject.getString("message");
@@ -889,9 +884,11 @@ public class adapter_myactivity extends BaseAdapter {
                 }
 
                 class Chat_Group extends AsyncTask<String, String, String> {
-
+                    String id_sender="";
+                    String sender="";
+                    String content_="";
+                    String  imageUrl="";
                     //ProgressDialog progressDialog;
-
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
@@ -909,16 +906,13 @@ public class adapter_myactivity extends BaseAdapter {
                             HttpPost post = new HttpPost(HTTP_API.CHAT_GROUP);
                             post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
                             post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
-
                             json.put("toGroup", TAG_ID);
                             json.put("content", TAG_CONTENT_CHAT);
                             StringEntity se = new StringEntity(json.toString());
                             se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
                             post.setEntity(se);
-
                             HttpResponse response;
                             response = client.execute(post);
-
                             if (response != null) {
                                 HttpEntity resEntity = response.getEntity();
                                 if (resEntity != null) {
@@ -930,6 +924,19 @@ public class adapter_myactivity extends BaseAdapter {
                                     JSONObject jdata = jsonObject.getJSONObject("data");
                                     JSONObject jlastmsg = jdata.getJSONObject("lastMessage");
                                     TAG_CONVERSATION =jlastmsg.getString("conversationId");
+                                    JSONObject jformU=jlastmsg.getJSONObject("fromUser");
+                                    if(!jformU.isNull("_id")){
+                                        id_sender=jformU.getString("_id");
+                                    }
+                                    if(!jformU.isNull("firstName")){
+                                        sender=jformU.getString("firstName");
+                                    }
+                                    if(!jformU.isNull("imageUrl")){
+                                        imageUrl=jformU.getString("imageUrl");
+                                    }
+                                    if(!jlastmsg.isNull("content")){
+                                        content_=jlastmsg.getString("content");
+                                    }
                                 }
 
                                 if (resEntity != null) {
@@ -957,6 +964,12 @@ public class adapter_myactivity extends BaseAdapter {
                             if (TAG_STATUS.equals("success")) {
                                 TAG_CONTENT_CHAT = "";
                                 ed_input_chat_view4.setText("");
+                                if(arr_chat.size()==0){
+                                    arr_chat.add(new item_chat(id_sender,TAG_CONVERSATION,"id_user",sender,"gender",imageUrl,"lastName",content_));
+                                  //  adapter_ch.notifyDataSetChanged();
+                                    adapter_ch = new adapater_chat(activity,arr_chat);
+                                    list_chat_view4.setAdapter(adapter_ch);
+                                }
                                 activity.mSocket.emit("join",TAG_CONVERSATION);
                             } else {
                                 Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
@@ -972,12 +985,10 @@ public class adapter_myactivity extends BaseAdapter {
 
                 }
 
-
+               // TAG_ID--: FzTBNenN9AdKmuQDv
+              //  TAG_CONVERSATION: 7cY97D2LLrQEsdirA
                 class Load_ListChat extends AsyncTask<String, String, String> {
-
                    // ProgressDialog progressDialog;
-
-
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
@@ -1003,7 +1014,7 @@ public class adapter_myactivity extends BaseAdapter {
                                 HttpEntity resEntity = response.getEntity();
                                 if (resEntity != null) {
                                     String msg = EntityUtils.toString(resEntity);
-                                   /// Log.e("msg-- listchat", msg);
+                                 Log.e("msg-- listchat", msg);
                                     JSONObject jsonObject = new JSONObject(msg);
                                     TAG_STATUS = jsonObject.getString("status");
                                     TAG_MESSAGE = jsonObject.getString("message");
@@ -1012,20 +1023,38 @@ public class adapter_myactivity extends BaseAdapter {
                                     JSONArray message = jdata.getJSONArray("messages");
 
                                     for (int i = 0; i < message.length(); i++) {
-                                        String _id = message.getJSONObject(i).getString("_id");
-                                        String conversationId = message.getJSONObject(i).getString("conversationId");
+                                        String _id = "";
+                                        if(!message.getJSONObject(i).isNull("_id")){
+                                            _id=message.getJSONObject(i).getString("_id");
+                                        }
+                                        String conversationId ="";
+                                        if(!message.getJSONObject(i).isNull("_id")){
+                                            conversationId=message.getJSONObject(i).getString("conversationId");
+                                        }
                                         JSONObject fromUser = message.getJSONObject(i).getJSONObject("fromUser");
-                                        String id_user = fromUser.getString("_id");
-                                       // JSONObject profile = fromUser.getJSONObject("profile");
-                                        String firstName = fromUser.getString("firstName");
-                                        String gender = fromUser.getString("gender");
-                                        String lastName = fromUser.getString("lastName");
-                                        String content = message.getJSONObject(i).getString("content");
+                                        String id_user="";
+                                        if(!fromUser.isNull("_id")){
+                                            id_user = fromUser.getString("_id");
+                                        }
+                                        String firstName="";
+                                        if(!fromUser.isNull("firstName")){
+                                            firstName = fromUser.getString("firstName");
+                                        }
+                                        String gender ="";
+                                        if(!fromUser.isNull("gender")){
+                                            gender = fromUser.getString("gender");
+                                        }
+                                        String lastName = "";
+                                        if(!fromUser.isNull("lastName")){
+                                            lastName = fromUser.getString("lastName");
+                                        }
                                         String imageUrl="";
-                                        try {
+                                        if(!fromUser.isNull("imageUrl")){
                                             imageUrl = fromUser.getString("imageUrl");
-                                        }catch (JSONException e){
-                                            imageUrl="";
+                                        }
+                                        String content = "";
+                                        if(!message.getJSONObject(i).isNull("content")){
+                                            content=message.getJSONObject(i).getString("content");
                                         }
                                         item_chat item = new item_chat(_id, conversationId,id_user, firstName, gender, lastName,imageUrl, content);
                                         arr_chat.add(item);
@@ -1050,7 +1079,6 @@ public class adapter_myactivity extends BaseAdapter {
                         }
                         return null;
                     }
-
                     @Override
                     protected void onPostExecute(String result) {
                         probar.setVisibility(View.GONE);
@@ -1078,13 +1106,9 @@ public class adapter_myactivity extends BaseAdapter {
 
                 }
                 class Get_Conversations extends AsyncTask<String, String, String> {
-                   // ProgressDialog progressDialog;
+                    // ProgressDialog progressDialog;
 
-                    String _id;
-                    String type;
-                    String groupId;
-                    String users;
-                    String mutedUsers;
+
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
@@ -1110,16 +1134,28 @@ public class adapter_myactivity extends BaseAdapter {
                                     TAG_STATUS = jsonObject.getString("status");
                                     TAG_MESSAGE = jsonObject.getString("message");
                                     JSONArray jarr = jsonObject.getJSONArray("data");
-                                   // Log.e("TAG_CONVERSATION group",jarr.toString());
-                                    for (int i = 0; i < jarr.length(); i++) {
-                                        _id = jarr.getJSONObject(i).getString("_id");
-                                        type = jarr.getJSONObject(i).getString("type");
-                                        groupId = jarr.getJSONObject(i).getString("groupId");
-                                        users = "";
-                                        mutedUsers = "";
-                                        JSONObject last_msg = jarr.getJSONObject(i).getJSONObject("lastMessage");
-                                        TAG_CONVERSATION = last_msg.getString("conversationId");
+                                 Log.e("TAG_CONVERSATION group",jarr.toString());
+                                    String type ="";
+                                    if(jarr.length()>0){
+                                        for (int i = 0; i < jarr.length(); i++) {
+
+                                            if(!jarr.getJSONObject(i).isNull("type")){
+                                                type = jarr.getJSONObject(i).getString("type");
+                                                if(type.equals("group")){
+                                                    TAG_CONVERSATION=jarr.getJSONObject(i).getString("_id");
+                                                }
+                                            }
+
+//                                        _id = jarr.getJSONObject(i).getString("_id");
+//
+//                                        groupId = jarr.getJSONObject(i).getString("groupId");
+//                                        users = "";
+//                                        mutedUsers = "";
+//                                        JSONObject last_msg = jarr.getJSONObject(i).getJSONObject("lastMessage");
+//                                        TAG_CONVERSATION = last_msg.getString("conversationId");
+                                        }
                                     }
+
 
                                 }
 

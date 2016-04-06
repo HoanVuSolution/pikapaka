@@ -81,8 +81,6 @@ public class MainActivity extends AppCompatActivity {
 
                 //Check to see which item was being clicked and perform appropriate action
                 switch (menuItem.getItemId()){
-
-
                     //Replacing the main content with ContentFragment Which is our Inbox View;
                     case R.id.inbox:
                        // Toast.makeText(getApplicationContext(),"Inbox Selected",Toast.LENGTH_SHORT).show();
@@ -255,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
                     post.addHeader("X-User-Id", TAG_USERID);
                     post.addHeader("X-Auth-Token", TAG_AUTH_TOKEN);
 
-                    Log.i("URL--------", post.getAllHeaders().toString());
+                    //Log.i("URL--------", post.getAllHeaders().toString());
                     response = client.execute(post);
                     if (response != null) {
 
@@ -466,6 +464,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent in = new Intent(MainActivity.this, Activity_Profile.class);
                 startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);
+
             }
         });
     }

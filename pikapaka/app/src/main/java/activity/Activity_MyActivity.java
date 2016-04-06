@@ -151,6 +151,8 @@ public Socket mSocket;
                 "ID_user", "");
         TAG_TOKEN = sha_Token.getString(
                 "auth_token", "");
+        Log.e("TAG_USERID-",TAG_USERID);
+        Log.e("TAG_TOKEN-",TAG_TOKEN);
         get_myactivity();
     }
 public void get_myactivity()throws Exception{
@@ -318,15 +320,34 @@ public void call(final Object... args) {
             String imageUrl=null;
             String content=null;
             try {
-                _id =data.getString("_id");
-                conversationId =data.getString("conversationId");
-                content =data.getString("content");
+                if(!data.isNull("_id")){
+                    _id =data.getString("_id");
+                }
+                if(!data.isNull("_id")){
+                    conversationId =data.getString("conversationId");
+                }
+                if(!data.isNull("content")){
+                    content =data.getString("content");
+                }
                 JSONObject from = data.getJSONObject("fromUser");
-                id_user =from.getString("_id");
-                firstName=from.getString("firstName");
-                gender=from.getString("gender");
-                lastName=from.getString("lastName");
-                imageUrl=from.getString("imageUrl");
+                if(from!=null){
+
+                    if(!from.isNull("_id")){
+                        id_user =from.getString("_id");
+                    }
+                    if(!from.isNull("firstName")){
+                        firstName=from.getString("firstName");
+                    }
+                    if(!from.isNull("gender")){
+                        gender=from.getString("gender");
+                    }
+                    if(!from.isNull("lastName")){
+                        lastName=from.getString("lastName");
+                    }
+                    if(!from.isNull("imageUrl")){
+                        imageUrl=from.getString("imageUrl");
+                    }
+                }
             }catch (JSONException e){
                 e.getStackTrace();
             }
