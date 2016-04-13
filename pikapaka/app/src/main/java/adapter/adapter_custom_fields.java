@@ -1,5 +1,6 @@
 package adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,7 +15,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import activity.Activity_YourActivity;
 import hoanvusolution.pikapaka.R;
 import item.item_custom_fields;
 import item.item_selection_custom;
@@ -26,11 +26,12 @@ public class adapter_custom_fields extends BaseAdapter {
     private LayoutInflater mInflater;
     private ArrayList<item_custom_fields> arItem;
     private ArrayList<item_selection_custom> arItem_se;
-    private Activity_YourActivity activity;
+   // private Activity_YourActivity activity;
+  private Activity activity;
 
 
     private TextView tv_text2;
-    public adapter_custom_fields(Activity_YourActivity activity,
+    public adapter_custom_fields(Activity activity,
                                  ArrayList<item_custom_fields> arItem, ArrayList<item_selection_custom> arItem_se) {
         mInflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);

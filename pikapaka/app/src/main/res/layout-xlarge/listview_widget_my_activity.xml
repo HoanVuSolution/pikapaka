@@ -907,7 +907,7 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:layout_marginTop="3dp"
-                                    android:text="86%\nRANK"
+                                    android:text="0%\nRANK"
                                     android:textSize="17sp"
                                     android:background="@color/background0"
                                     />

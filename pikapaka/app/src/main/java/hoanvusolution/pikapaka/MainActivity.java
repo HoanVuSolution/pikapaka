@@ -12,10 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.apache.http.HttpEntity;
@@ -27,25 +28,29 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 import activity.Activity_Login;
-import activity.Activity_MyActivity;
-import activity.Activity_Profile;
 import api.HTTP_API;
+import fragment.Fragment_MyActivity;
+import fragment.Fragment_Profile;
+import fragment.Fragment_YourActivity;
 import fragment.Home_Fragment;
 import image.lib_image_save_original;
 import internet.CheckWifi3G;
 import shared_prefs.Commit_Sha;
-import util.Activity_Result;
 import util.dataString;
 
 public class MainActivity extends AppCompatActivity {
     private String TAG_STATUS;
     private String TAG_IMAGE_URL="";
 
-    private Toolbar toolbar;
+    private  Toolbar toolbar;
     private NavigationView navigationView;
-    private DrawerLayout drawerLayout;
+    private DrawerLayout mDrawer;
+    private static TextView tv_name_toolbar;
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private static AppCompatActivity activity;
+    private static RelativeLayout rl_frends,rl_mail;
+    private static TextView tv_count_f,tv_count_msg;
 
     // profile
     public static boolean get_profile = false;
@@ -53,13 +58,19 @@ public class MainActivity extends AppCompatActivity {
     ImageView profile_image;
     TextView first_name;
     TextView email;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
-
+        activity =this;
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        tv_name_toolbar=(TextView)findViewById(R.id.tv_name_toolbar) ;
         setSupportActionBar(toolbar);
         //Initializing NavigationView
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -77,24 +88,47 @@ public class MainActivity extends AppCompatActivity {
                 else menuItem.setChecked(true);
 
                 //Closing drawer on item click
-                drawerLayout.closeDrawers();
+                mDrawer.closeDrawers();
 
                 //Check to see which item was being clicked and perform appropriate action
                 switch (menuItem.getItemId()){
                     //Replacing the main content with ContentFragment Which is our Inbox View;
                     case R.id.inbox:
                        // Toast.makeText(getApplicationContext(),"Inbox Selected",Toast.LENGTH_SHORT).show();
-                        Home_Fragment fragment = new Home_Fragment();
+                       Home_Fragment fragment = new Home_Fragment();
                         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.frame,fragment);
+                        fragmentTransaction.replace(R.id.content_main_frame_layout_container,fragment);
                         fragmentTransaction.commit();
+                        tv_name_toolbar.setText("WHAT WOULD YOU LIKE TO DO?");
+                        tv_name_toolbar.setTextSize(14);
+                        rl_frends.setVisibility(View.GONE);
+
+                        return true;
+                    case R.id.profile:
+                        // Toast.makeText(getApplicationContext(),"Inbox Selected",Toast.LENGTH_SHORT).show();
+                        Fragment_Profile fragment_pro = new Fragment_Profile();
+                        android.support.v4.app.FragmentTransaction fragmentTransaction_pro = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction_pro.replace(R.id.content_main_frame_layout_container,fragment_pro);
+                        fragmentTransaction_pro.commit();
+                        tv_name_toolbar.setText("PROFILE");
+                        tv_name_toolbar.setTextSize(18);
+                        rl_frends.setVisibility(View.VISIBLE);
+
                         return true;
 
-                    // For rest of the options we just show a toast on click
+
 
                     case R.id.my_activity:
-                        Intent in = new Intent(MainActivity.this, Activity_MyActivity.class);
-                        startActivity(in);
+//                        Intent in = new Intent(MainActivity.this, Activity_MyActivity.class);
+//                        startActivity(in);
+                        Fragment_MyActivity fragment_my = new Fragment_MyActivity();
+                        android.support.v4.app.FragmentTransaction fragmentTransaction_my = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction_my.replace(R.id.content_main_frame_layout_container,fragment_my);
+                        fragmentTransaction_my.commit();
+                        tv_name_toolbar.setText("MY ACTIVITIES");
+                        tv_name_toolbar.setTextSize(18);
+                        rl_frends.setVisibility(View.VISIBLE);
+
                         return true;
 
                     case R.id.logout:
@@ -113,12 +147,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Initializing Drawer Layout and ActionBarToggle
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer);
 
-      //  actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
-       // actionBarDrawerToggle.setHomeAsUpIndicator(R.drawable.ic_menuoption);
 
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.openDrawer, R.string.closeDrawer){
+
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this,mDrawer,toolbar,R.string.openDrawer, R.string.closeDrawer){
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -134,8 +167,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        //Setting the actionbarToggle to drawer layout
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+        mDrawer.setDrawerListener(actionBarDrawerToggle);
 
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
@@ -148,10 +181,17 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.openDrawer(Gravity.LEFT);
+                mDrawer.openDrawer(Gravity.LEFT);
             }
         });
 
+        rl_frends =(RelativeLayout) findViewById(R.id.rl_frends);
+        rl_mail =(RelativeLayout) findViewById(R.id.rl_mail);
+        tv_count_f =(TextView) findViewById(R.id.tv_count_f);
+        tv_count_msg =(TextView) findViewById(R.id.tv_count_msg);
+        tv_count_f.setVisibility(View.GONE);
+        tv_count_msg.setVisibility(View.GONE);
+        rl_frends.setVisibility(View.GONE);
         ////
         view_profile();
         try {
@@ -159,10 +199,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Notyfication();
+       // Notyfication();
         Home_Fragment fragment = new Home_Fragment();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame, fragment);
+        fragmentTransaction.replace(R.id.content_main_frame_layout_container, fragment);
         fragmentTransaction.commit();
 
 
@@ -190,25 +230,7 @@ public class MainActivity extends AppCompatActivity {
        // get_profile = false;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
 
 
@@ -228,10 +250,10 @@ public class MainActivity extends AppCompatActivity {
         Get_Profile(MainActivity.this,TAG_USERID,TAG_TOKEN);
 
     }
-    private void Notyfication(){
-        TextView tv_noty_mail=(TextView)findViewById(R.id.tv_noty_mail);
-        tv_noty_mail.setVisibility(View.GONE);
-    }
+//    private void Notyfication(){
+//        TextView tv_noty_mail=(TextView)findViewById(R.id.tv_noty_mail);
+//        tv_noty_mail.setVisibility(View.GONE);
+//    }
 
 
     public void Get_Profile(final Context context, final String TAG_USERID, final String TAG_AUTH_TOKEN)throws Exception {
@@ -261,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                           // Log.e("msg--", msg);
+                       //   Log.e("msg--", msg);
 
                             JSONObject jsonObject = new JSONObject(msg);
                             TAG_STATUS = jsonObject.getString("status");
@@ -459,14 +481,6 @@ public class MainActivity extends AppCompatActivity {
         first_name.setText(dataString.TAG_FIRSTNAME);
         email.setText(dataString.TAG_EMAIL);
 
-                profile_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(MainActivity.this, Activity_Profile.class);
-                startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);
-
-            }
-        });
     }
 
     @Override
@@ -476,6 +490,38 @@ public class MainActivity extends AppCompatActivity {
         a.addCategory(Intent.CATEGORY_HOME);
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
+    }
+
+    public static void drawMenu(int type){
+        if (type == 1) {
+            Home_Fragment fragment = new Home_Fragment();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.content_main_frame_layout_container,fragment);
+            fragmentTransaction.commit();
+            tv_name_toolbar.setText("WHAT WOULD YOU LIKE TO DO?");
+            tv_name_toolbar.setTextSize(14);
+            rl_frends.setVisibility(View.GONE);
+        }
+        else if(type == 2){
+            Fragment_YourActivity fragment2 = new Fragment_YourActivity();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.content_main_frame_layout_container,fragment2);
+            fragmentTransaction.commit();
+            tv_name_toolbar.setText("YOUR ACTIVITY");
+            tv_name_toolbar.setTextSize(18);
+            rl_frends.setVisibility(View.VISIBLE);
+
+        }
+        else if(type == 3){
+            Fragment_MyActivity fragment3 = new Fragment_MyActivity();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.content_main_frame_layout_container,fragment3);
+            fragmentTransaction.commit();
+            tv_name_toolbar.setText("MY ACTIVITIES");
+            tv_name_toolbar.setTextSize(18);
+            rl_frends.setVisibility(View.VISIBLE);
+
+        }
     }
 }
 

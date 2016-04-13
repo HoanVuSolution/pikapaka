@@ -1,5 +1,6 @@
 package activity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -54,7 +54,7 @@ import loginsocial.Login_Twitter;
 import shared_prefs.Commit_Sha;
 import util.Activity_Result;
 
-public class Activity_Login extends AppCompatActivity {
+public class Activity_Login extends Activity {
 
     public static String TAG_EMAIL = "";
     public static String TAG_PASSWORD = "";
@@ -64,8 +64,7 @@ public class Activity_Login extends AppCompatActivity {
     private String TAG_USERID = "";
     private String TAG_AUTH_TOKEN = "";
     private ProgressDialog progressDialog;
-
-    private AppCompatActivity activity;
+    private Activity activity;
     private ImageView img_facebook, img_switter, img_googleplus;
 
     private RelativeLayout rl_register, rl_login;

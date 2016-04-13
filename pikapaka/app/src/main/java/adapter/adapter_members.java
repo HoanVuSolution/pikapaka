@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import activity.Activity_Chat_Private;
 import activity.Activity_Members;
-import activity.Activity_MyActivity;
+import fragment.Fragment_MyActivity;
 import hoanvusolution.pikapaka.R;
 import image.lib_image_save_original;
 import item.item_user_group;
@@ -75,7 +75,7 @@ public class adapter_members extends BaseAdapter {
                 tv_gender.setText(arItem.get(pos).gender);
                 tv_old.setText(arItem.get(pos).age+" year old");
             String my_id = arItem.get(pos)._id;
-            if(my_id.equals(Activity_MyActivity.TAG_USERID)){
+            if(my_id.equals(Fragment_MyActivity.TAG_USERID)){
                 ic_chat.setVisibility(View.GONE);
             }
 

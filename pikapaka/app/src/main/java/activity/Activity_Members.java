@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import adapter.adapter_members;
 import api.HTTP_API;
+import fragment.Fragment_MyActivity;
 import hoanvusolution.pikapaka.R;
 import internet.CheckWifi3G;
 import item.item_user_group;
@@ -139,8 +140,8 @@ public class Activity_Members extends AppCompatActivity implements SwipeRefreshL
                     HttpClient client = new DefaultHttpClient();
 
                     HttpGet post = new HttpGet(HTTP_API.GET_SINGLE_ACTIVITY + "/" + TAG_ID);
-                    post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
-                    post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+                    post.addHeader("X-User-Id", Fragment_MyActivity.TAG_USERID);
+                    post.addHeader("X-Auth-Token", Fragment_MyActivity.TAG_TOKEN);
 
                     HttpResponse response;
                     response = client.execute(post);

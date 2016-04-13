@@ -76,7 +76,7 @@
                         android:layout_width="31dp"
                         android:layout_height="31dp"
                         android:layout_marginLeft="13dp"
-                        android:src="@drawable/ic_avata1" />
+                        android:src="@drawable/ic_avata2" />
 
                     <TextView
                         android:id="@+id/tv_noty_users"

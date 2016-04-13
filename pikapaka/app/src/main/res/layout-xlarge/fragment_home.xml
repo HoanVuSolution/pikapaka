@@ -76,7 +76,7 @@
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:layout_marginLeft="13dp"
-                        android:src="@drawable/ic_avata1" />
+                        android:src="@drawable/ic_avata2" />
 
                     <TextView
                         android:id="@+id/tv_noty_users"
@@ -89,7 +89,6 @@
                         android:typeface="serif"
                         android:gravity="center"
                         android:textColor="@color/text5"
-
 
                         />
 

@@ -24,9 +24,6 @@ import loading.lib_dialog;
 import loading.lib_loading;
 import util.dataString;
 
-/**
- * Created by MrThanhPhong on 3/6/2016.
- */
 public class Activity_Flash_Screen extends Activity {
     private ProgressDialog progressDialog;
 
@@ -38,7 +35,6 @@ public class Activity_Flash_Screen extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_flash_screen);
 
         try {

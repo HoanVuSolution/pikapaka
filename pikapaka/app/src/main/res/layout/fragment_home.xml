@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background8"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    >
 
     <!--<ScrollView-->
     <!--android:layout_width="fill_parent"-->
@@ -15,12 +15,13 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
+
         android:weightSum="1">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.57"
+            android:layout_weight="0.55"
             android:orientation="horizontal">
 
             <RelativeLayout
@@ -36,8 +37,8 @@
                 <!--/>-->
                 <lib_wheelmenu.WheelMenu
                 android:id="@+id/wheelMenu"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                     android:focusable="true"
@@ -74,7 +75,7 @@
                         android:layout_width="27dp"
                         android:layout_height="27dp"
                         android:layout_marginLeft="13dp"
-                        android:src="@drawable/ic_avata1" />
+                        android:src="@drawable/ic_avata2" />
 
                     <TextView
                         android:id="@+id/tv_noty_users"
@@ -98,7 +99,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.43"
+            android:layout_weight="0.45"
             android:orientation="vertical"
             android:weightSum="1">
 
@@ -115,7 +116,7 @@
                     android:text="YOU HAVE 4 ACTIVITIES JUST WAITING TO HAPPEN"
                     android:textColor="@color/text3"
                     android:typeface="serif"
-                    android:textSize="14dip" />
+                    android:textSize="13dip" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -232,4 +233,4 @@
     <!--</ScrollView>-->
 
 
-</LinearLayout>
+</RelativeLayout>

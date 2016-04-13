@@ -825,7 +825,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:background="@color/background2"
-            android:visibility="gone"
+            android:visibility="visible"
             >
 
             <LinearLayout

@@ -7,76 +7,10 @@
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_height="match_parent"
+    <include
+        layout="@layout/tool_bar"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        >
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/abc_action_bar_default_height_material"
-            android:background="@color/background8"
-            >
-            <include
-                android:id="@+id/toolbar"
-                layout="@layout/tool_bar"
-                />
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:typeface="serif"
-                    android:text="WHAT WOULD YOU LIKE TO DO?"
-                    android:textColor="@color/text3" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp">
-
-
-                    <ImageView
-                        android:id="@+id/ic_mail"
-                        android:layout_width="27dp"
-                        android:layout_height="27dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="13dp"
-                        android:src="@drawable/ic_email" />
-
-                    <TextView
-                        android:id="@+id/tv_noty_mail"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="@drawable/bg_notyfi"
-                        android:gravity="center"
-                        android:text="4"
-                        android:textColor="@color/text5"
-                        android:typeface="serif"
-
-                        />
-
-                </RelativeLayout>
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <FrameLayout
-            android:id="@+id/frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </FrameLayout>
-
-    </LinearLayout>
+        android:layout_height="match_parent" />
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_view"
@@ -85,6 +19,6 @@
         android:layout_gravity="start"
         app:menu="@menu/drawer"
         />
-    <!--< app:headerLayout="@layout/header">-->
+
 </android.support.v4.widget.DrawerLayout>
 

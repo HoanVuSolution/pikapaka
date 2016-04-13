@@ -34,6 +34,7 @@ import java.util.ArrayList;
 
 import adapter.adapter_chat_pri;
 import api.HTTP_API;
+import fragment.Fragment_MyActivity;
 import hoanvusolution.pikapaka.R;
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -176,8 +177,8 @@ public class Activity_Chat_Private extends AppCompatActivity implements
                     JSONObject json = new JSONObject();
                    HttpGet post = new HttpGet(HTTP_API.CHAT_GET_CONVERSATION_BYUSER+TAG_ID_RECEIVER+"/" + TAG_ID_GROUP);
                     //HttpGet post = new HttpGet(HTTP_API.CHAT_GET_CONVERSATION + TAG_ID_RECEIVER);
-                    post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
-                    post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+                    post.addHeader("X-User-Id", Fragment_MyActivity.TAG_USERID);
+                    post.addHeader("X-Auth-Token", Fragment_MyActivity.TAG_TOKEN);
                     HttpResponse response;
                     response = client.execute(post);
                     arr_chat.clear();

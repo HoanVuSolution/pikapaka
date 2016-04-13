@@ -1,4 +1,4 @@
-package activity;
+package fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,8 +14,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -55,6 +56,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import api.HTTP_API;
+import hoanvusolution.pikapaka.MainActivity;
 import hoanvusolution.pikapaka.R;
 import image.lib_image_save_original;
 import internet.CheckWifi3G;
@@ -63,9 +65,10 @@ import loading.lib_loading;
 import multipart.AndroidMultiPartEntity;
 
 /**
- * Created by MrThanhPhong on 2/19/2016.
+ * Created by MrThanhPhong on 4/11/2016.
  */
-public class Activity_Profile extends AppCompatActivity{
+public class Fragment_Profile extends Fragment {
+    View v;
     private String TAG_STATUS="";
     private String TAG_MESSAGE="";
     private String TAG_IMAGE_URL="";
@@ -86,9 +89,10 @@ public class Activity_Profile extends AppCompatActivity{
     private String TAG_AGETO="";
     private String TAG_GENDER_PARTNER="";
     private String TAG_DISTANCE="";
+    private String TAG_UNIT="";
     private String TAG_TYPE_DISTANCE="";
     private String TAG_EXPRIEDHOURS="";
-    private AppCompatActivity activity;
+
     private LinearLayout ll_back;
     private LinearLayout ll_save;
     private LinearLayout ll_share;
@@ -129,78 +133,76 @@ public class Activity_Profile extends AppCompatActivity{
     private boolean img_avata=false;
     private String path_avatar="";
     private TextView tv_count_friend,tv_count_mail;
-    //-----------
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        v = inflater.inflate(R.layout.fragment_proflie, container, false);
+
         try {
             init();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
 
+        return v;
+    }
     private void init()throws Exception{
         get_resource();
         get_shapreference();
         OnClick();
-
     }
+    private  void get_resource(){
+        ll_back =(LinearLayout)v.findViewById(R.id.ll_back);
 
-    private void get_resource()throws Exception{
-        activity=this;
-        ll_back=(LinearLayout)findViewById(R.id.ll_back);
-        ll_save=(LinearLayout)findViewById(R.id.ll_save);
-        tv_name=(TextView)findViewById(R.id.tv_name);
-        tv_old=(TextView)findViewById(R.id.tv_old);
+        ll_save=(LinearLayout)v.findViewById(R.id.ll_save);
+        tv_name=(TextView)v.findViewById(R.id.tv_name);
+        tv_old=(TextView)v.findViewById(R.id.tv_old);
 
         tv_name.setText("");
         tv_old.setText("");
-        tv_count_friend=(TextView)findViewById(R.id.tv_count_friend);
-        tv_count_mail=(TextView)findViewById(R.id.tv_count_mail);
-        tv_count_mail.setVisibility(View.GONE);
-        tv_count_friend.setVisibility(View.GONE);
+//        tv_count_friend=(TextView)v.findViewById(R.id.tv_count_friend);
+//        tv_count_mail=(TextView)v.findViewById(R.id.tv_count_mail);
+//        tv_count_mail.setVisibility(View.GONE);
+//        tv_count_friend.setVisibility(View.GONE);
 
         //------
 
-        ll_share=(LinearLayout)findViewById(R.id.ll_share);
-        tv_share=(TextView)findViewById(R.id.tv_share);
+        ll_share=(LinearLayout)v.findViewById(R.id.ll_share);
+        tv_share=(TextView)v.findViewById(R.id.tv_share);
         tv_share.setText("");
-        ll_max=(LinearLayout)findViewById(R.id.ll_max);
-        tv_max=(TextView)findViewById(R.id.tv_max);
+        ll_max=(LinearLayout)v.findViewById(R.id.ll_max);
+        tv_max=(TextView)v.findViewById(R.id.tv_max);
         tv_max.setText("4");
-        ll_min=(LinearLayout)findViewById(R.id.ll_min);
-        tv_min=(TextView)findViewById(R.id.tv_min);
+        ll_min=(LinearLayout)v.findViewById(R.id.ll_min);
+        tv_min=(TextView)v.findViewById(R.id.tv_min);
         tv_min.setText("2");
-        ll_par_gender=(LinearLayout)findViewById(R.id.ll_par_gender);
-        tv_part_gender=(TextView)findViewById(R.id.tv_part_gender);
+        ll_par_gender=(LinearLayout)v.findViewById(R.id.ll_par_gender);
+        tv_part_gender=(TextView)v.findViewById(R.id.tv_part_gender);
         tv_part_gender.setText("");
-        ll_distance=(LinearLayout)findViewById(R.id.ll_distance);
-        ll_type_distance=(LinearLayout)findViewById(R.id.ll_type_distance);
-        tv_km=(TextView)findViewById(R.id.tv_km);
-        tv_type_dis=(TextView)findViewById(R.id.tv_type_dis);
+        ll_distance=(LinearLayout)v.findViewById(R.id.ll_distance);
+        ll_type_distance=(LinearLayout)v.findViewById(R.id.ll_type_distance);
+        tv_km=(TextView)v.findViewById(R.id.tv_km);
+        tv_type_dis=(TextView)v.findViewById(R.id.tv_type_dis);
         tv_km.setText("");
-        ll_experss=(LinearLayout)findViewById(R.id.ll_experss);
-        tv_hours=(TextView)findViewById(R.id.tv_hours);
+        ll_experss=(LinearLayout)v.findViewById(R.id.ll_experss);
+        tv_hours=(TextView)v.findViewById(R.id.tv_hours);
         tv_hours.setText("");
-        age1=(LinearLayout)findViewById(R.id.age1);
-        tv_minage=(TextView)findViewById(R.id.tv_minage);
+        age1=(LinearLayout)v.findViewById(R.id.age1);
+        tv_minage=(TextView)v.findViewById(R.id.tv_minage);
         tv_minage.setText("");
-        age2=(LinearLayout)findViewById(R.id.age2);
-        tv_maxage=(TextView)findViewById(R.id.tv_maxage);
+        age2=(LinearLayout)v.findViewById(R.id.age2);
+        tv_maxage=(TextView)v.findViewById(R.id.tv_maxage);
         tv_maxage.setText("");
 
-        img_profile=(ImageView)findViewById(R.id.img_profile);
-        bt_comfirm=(Button)findViewById(R.id.bt_comfirm);
+        img_profile=(ImageView)v.findViewById(R.id.img_profile);
+        bt_comfirm=(Button)v.findViewById(R.id.bt_comfirm);
+
     }
     private void OnClick()throws Exception{
         ll_back.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                finish();
+              MainActivity.drawMenu(1);
             }
         });
 
@@ -218,7 +220,7 @@ public class Activity_Profile extends AppCompatActivity{
                 String[] item = new String[]{"Never", "Phone", "Email", "Both"};
                 // String[] item = new String[] { getString(R.string.male), getString(R.string.female) };
 
-                new AlertDialog.Builder(activity).setTitle("Your contacts")
+                new AlertDialog.Builder(getActivity()).setTitle("Your contacts")
                         .setItems(item, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                                 int which) {
@@ -255,7 +257,7 @@ public class Activity_Profile extends AppCompatActivity{
                     String[] item = new String[]{"2", "3", "4", "5", "10", "20"};
                     // String[] item = new String[] { getString(R.string.male), getString(R.string.female) };
 
-                    new AlertDialog.Builder(activity).setTitle("Maximal")
+                    new AlertDialog.Builder(getActivity()).setTitle("Maximal")
                             .setItems(item, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,
                                                     int which) {
@@ -291,7 +293,7 @@ public class Activity_Profile extends AppCompatActivity{
                                     int min = Integer.parseInt(tv_min.getText().toString());
 
                                     if (max < min) {
-                                        Toast.makeText(activity, "Max participants > Min participants", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), "Max participants > Min participants", Toast.LENGTH_SHORT).show();
                                     }
                                     dialog.dismiss();
                                 }
@@ -306,7 +308,7 @@ public class Activity_Profile extends AppCompatActivity{
                     String[] item = new String[]{"2", "3", "4", "5", "10", "20"};
                     // String[] item = new String[] { getString(R.string.male), getString(R.string.female) };
 
-                    new AlertDialog.Builder(activity).setTitle("Minimal")
+                    new AlertDialog.Builder(getActivity()).setTitle("Minimal")
                             .setItems(item, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,
                                                     int which) {
@@ -343,7 +345,7 @@ public class Activity_Profile extends AppCompatActivity{
                                     int min = Integer.parseInt(tv_min.getText().toString());
 
                                     if (max < min) {
-                                        Toast.makeText(activity, "Max participants > Min participants", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), "Max participants > Min participants", Toast.LENGTH_SHORT).show();
                                     }
                                     dialog.dismiss();
                                 }
@@ -395,7 +397,7 @@ public class Activity_Profile extends AppCompatActivity{
                     String[] item = new String[]{"Man", "Woman", "Anything goes"};
                     // String[] item = new String[] { getString(R.string.male), getString(R.string.female) };
 
-                    new AlertDialog.Builder(activity).setTitle("Partnet gender")
+                    new AlertDialog.Builder(getActivity()).setTitle("Partnet gender")
                             .setItems(item, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,
                                                     int which) {
@@ -427,7 +429,7 @@ public class Activity_Profile extends AppCompatActivity{
                 String[] item = new String[]{"10", "20", "30", "40", "50", "60", "70", "80", "90", "100"};
                 // String[] item = new String[] { getString(R.string.male), getString(R.string.female) };
 
-                new AlertDialog.Builder(activity).setTitle("Distance")
+                new AlertDialog.Builder(getActivity()).setTitle("Distance")
                         .setItems(item, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                                 int which) {
@@ -485,20 +487,20 @@ public class Activity_Profile extends AppCompatActivity{
         ll_type_distance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] item = new String[]{"kilometers", "miles"};
+                String[] item = new String[]{"Kilometers", "Miles"};
                 // String[] item = new String[] { getString(R.string.male), getString(R.string.female) };
 
-                new AlertDialog.Builder(activity).setTitle("Unit")
+                new AlertDialog.Builder(getActivity()).setTitle("Unit")
                         .setItems(item, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                                 int which) {
                                 switch (which) {
                                     case 0:
-                                        tv_type_dis.setText("kilometers");
+                                        tv_type_dis.setText("Kilometers");
                                         ///gend_ = 1;
                                         break;
                                     case 1:
-                                        tv_type_dis.setText("miles");
+                                        tv_type_dis.setText("Miles");
                                         // gend_ = 1;
                                         break;
 
@@ -516,50 +518,50 @@ public class Activity_Profile extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-                    String[] item = new String[]{"30 Minutes", "1 Hour", "2 Hours", "4 Hours", "12 Hours", "1 Week", "2 Weeks"};
+                String[] item = new String[]{"30 Minutes", "1 Hour", "2 Hours", "4 Hours", "12 Hours", "1 Week", "2 Weeks"};
 
-                    new AlertDialog.Builder(activity).setTitle("Activity expires?")
-                            .setItems(item, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    switch (which) {
-                                        case 0:
-                                            tv_hours.setText("30 Minutes");
-                                            hours = 0.5;
+                new AlertDialog.Builder(getActivity()).setTitle("Activity expires?")
+                        .setItems(item, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                                switch (which) {
+                                    case 0:
+                                        tv_hours.setText("30 Minutes");
+                                        hours = 0.5;
 
-                                            break;
-                                        case 1:
-                                            tv_hours.setText("1 Hour");
-                                            hours = 1;
+                                        break;
+                                    case 1:
+                                        tv_hours.setText("1 Hour");
+                                        hours = 1;
 
-                                            break;
-                                        case 2:
-                                            tv_hours.setText("2 Hours");
-                                            hours = 2;
-                                            break;
-                                        case 3:
-                                            tv_hours.setText("4 Hours");
-                                            hours = 4;
-                                            break;
-                                        case 4:
-                                            tv_hours.setText("12 Hours");
-                                            hours = 12;
-                                            break;
-                                        case 5:
-                                            tv_hours.setText("1 Week");
-                                            hours = 168;
-                                            break;
-                                        case 6:
-                                            tv_hours.setText("2 Weeks");
-                                            hours = 336;
-                                            break;
+                                        break;
+                                    case 2:
+                                        tv_hours.setText("2 Hours");
+                                        hours = 2;
+                                        break;
+                                    case 3:
+                                        tv_hours.setText("4 Hours");
+                                        hours = 4;
+                                        break;
+                                    case 4:
+                                        tv_hours.setText("12 Hours");
+                                        hours = 12;
+                                        break;
+                                    case 5:
+                                        tv_hours.setText("1 Week");
+                                        hours = 168;
+                                        break;
+                                    case 6:
+                                        tv_hours.setText("2 Weeks");
+                                        hours = 336;
+                                        break;
 
-                                    }
-
-
-                                    dialog.dismiss();
                                 }
-                            }).show();
+
+
+                                dialog.dismiss();
+                            }
+                        }).show();
 
             }
         });
@@ -576,20 +578,19 @@ public class Activity_Profile extends AppCompatActivity{
                 TAG_EXPRIEDHOURS = hours + "";
                 TAG_TYPE_DISTANCE = tv_type_dis.getText().toString();
 
-                if (tv_type_dis.getText().toString().equals("kilometers")) {
+                if (tv_type_dis.getText().toString().equals("Kilometers")) {
                     TAG_DISTANCE = tv_km.getText().toString();
                 } else {
                     float km = Float.parseFloat(tv_km.getText().toString());
                     double miles = km / 1.6;
                     TAG_DISTANCE = miles + "";
-                 //   Log.e("TAG_DISTANCE", TAG_DISTANCE);
+                    //   Log.e("TAG_DISTANCE", TAG_DISTANCE);
                 }
 
                 int max = Integer.parseInt(tv_max.getText().toString());
                 int min = Integer.parseInt(tv_min.getText().toString());
-
                 if (max < min) {
-                    Toast.makeText(activity, "Max participants > Min participants", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Max participants > Min participants", Toast.LENGTH_SHORT).show();
                 } else {
                     try {
                         Save_Change();
@@ -611,24 +612,23 @@ public class Activity_Profile extends AppCompatActivity{
             }
         });
     }
-
     private void  dialog(){
         final AlertDialog.Builder Select = new AlertDialog.Builder(
-                activity);
+                getActivity());
         Select.setTitle("Age");
 
-        final ListView List_age = new ListView(activity);
+        final ListView List_age = new ListView(getActivity());
         ViewGroup.LayoutParams dialogTxt_idLayoutParams = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         List_age.setLayoutParams(dialogTxt_idLayoutParams);
 
         ArrayAdapter adapter_region = adapter_region = new ArrayAdapter(
-                activity, R.layout.item_list, list_age);
+                getActivity(), R.layout.item_list, list_age);
         adapter_region
                 .setDropDownViewResource(R.layout.item_list);
         List_age.setAdapter(adapter_region);
 
-        LinearLayout layout = new LinearLayout(activity);
+        LinearLayout layout = new LinearLayout(getActivity());
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.addView(List_age);
 
@@ -660,8 +660,8 @@ public class Activity_Profile extends AppCompatActivity{
         SharedPreferences sha_IDuser;
         SharedPreferences sha_Token;
 
-        sha_IDuser = activity.getSharedPreferences("ID_user", 0);
-        sha_Token = activity.getSharedPreferences("auth_token", 0);
+        sha_IDuser = getActivity().getSharedPreferences("ID_user", 0);
+        sha_Token = getActivity().getSharedPreferences("auth_token", 0);
 
         TAG_USERID = sha_IDuser.getString(
                 "ID_user", "");
@@ -677,7 +677,7 @@ public class Activity_Profile extends AppCompatActivity{
             }
         }
         else{
-         //   Log.i("Token +UserID = ", "NULL");
+            //   Log.i("Token +UserID = ", "NULL");
         }
 
 
@@ -689,13 +689,13 @@ public class Activity_Profile extends AppCompatActivity{
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                progressDialog = lib_loading.f_init(activity);
+                progressDialog = lib_loading.f_init(getActivity());
             }
 
             @Override
             protected String doInBackground(String... args) {
                 try {
-                   // Looper.prepare(); //For Preparing Message Pool for the child Thread
+                    // Looper.prepare(); //For Preparing Message Pool for the child Thread
                     HttpClient client = new DefaultHttpClient();
                     // HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); //Timeout Limit
                     HttpResponse response;
@@ -710,12 +710,12 @@ public class Activity_Profile extends AppCompatActivity{
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                         //   Log.i("msg-- cate", msg);
+                            //   Log.i("msg-- cate", msg);
 
                             JSONObject jsonObject = new JSONObject(msg);
                             TAG_STATUS = jsonObject.getString("status");
                             TAG_MESSAGE=jsonObject.getString("message");
-                          JSONObject data =jsonObject.getJSONObject("data");
+                            JSONObject data =jsonObject.getJSONObject("data");
                             TAG_FIRSTNAME =data.getString("firstName");
                             TAG_LASTNAME =data.getString("lastName");
                             TAG_DOB =data.getString("dob");
@@ -724,7 +724,7 @@ public class Activity_Profile extends AppCompatActivity{
                             TAG_DISPLAYNAME =data.getString("displayName");
                             TAG_GENDER =data.getString("gender");
                             //TAG_USERNAME =data.getString("username");
-                           // TAG_SUMMARY =data.getString("summary");
+                            // TAG_SUMMARY =data.getString("summary");
                             TAG_SHARECONTACT =data.getString("shareContact");
 
                             JSONObject activityPreferences =data.getJSONObject("activityPreferences");
@@ -778,39 +778,39 @@ public class Activity_Profile extends AppCompatActivity{
                         tv_minage.setText(TAG_AGEFROM);
                         tv_maxage.setText(TAG_AGETO);
                         tv_part_gender.setText(TAG_GENDER_PARTNER);
-                       // tv_km.setText(TAG_DISTANCE);
+                        // tv_km.setText(TAG_DISTANCE);
                         double distan =Double.parseDouble(TAG_DISTANCE);
-                       // Log.e("distan", distan + "");
+                        // Log.e("distan", distan + "");
                         if(distan%2==0){
                             tv_km.setText(TAG_DISTANCE);
-                            tv_type_dis.setText("kilometers");
+                            tv_type_dis.setText("Kilometers");
                         }
                         else{
                             distan*=1.6;
                             int mile =(int)distan;
-                          //  Log.e("distan--", "miles");
+                            //  Log.e("distan--", "miles");
                             tv_km.setText(mile + "");
-                            tv_type_dis.setText("miles");
+                            tv_type_dis.setText("Miles");
                         }
                         tv_hours.setText(TAG_EXPRIEDHOURS);
                         TAG_MESSAGE="";
 
-                      //  Log.e("TAG_IMAGE_URL,---",TAG_IMAGE_URL);
+                        //  Log.e("TAG_IMAGE_URL,---",TAG_IMAGE_URL);
                         if(TAG_IMAGE_URL.length()>4){
                             String check = TAG_IMAGE_URL.substring(0,3);
                             if(check.equals("http")){
-                                new lib_image_save_original(activity,TAG_IMAGE_URL,img_profile);
+                                new lib_image_save_original(getActivity(),TAG_IMAGE_URL,img_profile);
 
                             }
                             else{
                                 TAG_IMAGE_URL=HTTP_API.url_image+TAG_IMAGE_URL;
-                                new lib_image_save_original(activity,TAG_IMAGE_URL,img_profile);
+                                new lib_image_save_original(getActivity(),TAG_IMAGE_URL,img_profile);
 
                             }
                         }
                     }
                     else{
-                        Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), TAG_MESSAGE, Toast.LENGTH_SHORT).show();
                         TAG_MESSAGE="";
                     }
 
@@ -824,130 +824,134 @@ public class Activity_Profile extends AppCompatActivity{
 
         }
 
-        if (CheckWifi3G.isConnected(activity)) {
+        if (CheckWifi3G.isConnected(getActivity())) {
 
             new Loading().execute();
         }
         else{
-            new lib_dialog().f_dialog_msg(activity, "Error Connect Internet!");
+            new lib_dialog().f_dialog_msg(getActivity(), "Error Connect Internet!");
         }
     }
 
 
-private void Save_Change(){
-   // Log.i("msg-- cate", "cate");
-    class Update extends AsyncTask<String, String, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = lib_loading.f_init(activity);
-        }
+    private void Save_Change(){
+        // Log.i("msg-- cate", "cate");
+        class Update extends AsyncTask<String, String, String> {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressDialog = lib_loading.f_init(getActivity());
+            }
 
-        @Override
-        protected String doInBackground(String... args) {
-            try {
-                HttpClient client = new DefaultHttpClient();
-                HttpResponse response;
-                JSONObject json = new JSONObject();
-                HttpPut post = new HttpPut(HTTP_API.UPDATE_PROFILE);
+            @Override
+            protected String doInBackground(String... args) {
+                try {
+                    HttpClient client = new DefaultHttpClient();
+                    HttpResponse response;
+                    JSONObject json = new JSONObject();
+                    HttpPut post = new HttpPut(HTTP_API.UPDATE_PROFILE);
+                    Log.e("TAG_USERID",TAG_USERID);
+                    Log.e("TAG_TOKEN",TAG_TOKEN);
+                    Log.e("TAG_DOB",TAG_DOB);
 
-                post.addHeader("X-User-Id", TAG_USERID);
-                post.addHeader("X-Auth-Token", TAG_TOKEN);
-                json.put("firstName", TAG_FIRSTNAME);
-                json.put("lastName", TAG_LASTNAME);
-                json.put("gender",TAG_GENDER);
-                json.put("dob",TAG_DOB);
-                json.put("displayName",TAG_DISPLAYNAME);
-                json.put("shareContact",TAG_SHARECONTACT);
-                JSONObject Preferences = new JSONObject();
-                Preferences.put("minNumOfParticipants",TAG_MINNUMOF);
-                Preferences.put("maxNumOfParticipants",TAG_MAXNUMOF);
-                Preferences.put("ageFrom",TAG_AGEFROM);
-                Preferences.put("ageTo",TAG_AGETO);
-                Preferences.put("gender",TAG_GENDER_PARTNER);
-                Preferences.put("distance", TAG_DISTANCE);
-                Preferences.put("expiredHours", TAG_EXPRIEDHOURS);
-                json.put("activityPreferences", Preferences);
+                    post.addHeader("X-User-Id", TAG_USERID);
+                    post.addHeader("X-Auth-Token", TAG_TOKEN);
+                    json.put("firstName", TAG_FIRSTNAME);
+                    json.put("lastName", TAG_LASTNAME);
+                    json.put("gender",TAG_GENDER);
+                    json.put("dob",TAG_DOB);
+                    json.put("displayName",TAG_DISPLAYNAME);
+                    json.put("shareContact",TAG_SHARECONTACT);
+                    JSONObject Preferences = new JSONObject();
+                    Preferences.put("minNumOfParticipants",TAG_MINNUMOF);
+                    Preferences.put("maxNumOfParticipants",TAG_MAXNUMOF);
+                    Preferences.put("ageFrom",TAG_AGEFROM);
+                    Preferences.put("ageTo",TAG_AGETO);
+                    Preferences.put("gender",TAG_GENDER_PARTNER);
+                    Preferences.put("distance", TAG_DISTANCE);
+                    Preferences.put("unit", TAG_TYPE_DISTANCE);
+                    Preferences.put("expiredHours", TAG_EXPRIEDHOURS);
+                    json.put("activityPreferences", Preferences);
 
-                StringEntity se = new StringEntity( json.toString());
-                se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                    StringEntity se = new StringEntity( json.toString());
+                    se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
 
-                post.setEntity(se);
-                response = client.execute(post);
+                    post.setEntity(se);
+                    response = client.execute(post);
 
-                if (response != null) {
-                    HttpEntity resEntity = response.getEntity();
-                    if (resEntity != null) {
-                        String msg = EntityUtils.toString(resEntity);
-                     //   Log.i("msg-- cate", msg);
+                    if (response != null) {
+                        HttpEntity resEntity = response.getEntity();
+                        if (resEntity != null) {
+                            String msg = EntityUtils.toString(resEntity);
+                            //   Log.i("msg-- cate", msg);
 
-                        JSONObject jsonObject = new JSONObject(msg);
-                        TAG_STATUS = jsonObject.getString("status");
-                        TAG_MESSAGE=jsonObject.getString("message");
+                            JSONObject jsonObject = new JSONObject(msg);
+                            TAG_STATUS = jsonObject.getString("status");
+                            TAG_MESSAGE=jsonObject.getString("message");
+
+                        }
+
+                        if (resEntity != null) {
+                            resEntity.consumeContent();
+                        }
+
+                        client.getConnectionManager().shutdown();
+
+                    }
+                } catch (Exception e) {
+                    progressDialog.dismiss();
+                    Log.e("Error", "Error");
+
+
+                } catch (Throwable t) {
+                    progressDialog.dismiss();
+                    Log.e("Error1", "Error1");
+
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                progressDialog.dismiss();
+                try {
+                    if(TAG_STATUS.equals("success")){
+                        Toast.makeText(getActivity(), TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(getActivity(), TAG_MESSAGE, Toast.LENGTH_SHORT).show();
 
                     }
 
-                    if (resEntity != null) {
-                        resEntity.consumeContent();
-                    }
+                } catch (Exception e) {
 
-                    client.getConnectionManager().shutdown();
+                } catch (Throwable t) {
 
                 }
-            } catch (Exception e) {
-                progressDialog.dismiss();
-                Log.e("Error", "Error");
-
-
-            } catch (Throwable t) {
-                progressDialog.dismiss();
-                Log.e("Error1", "Error1");
-
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            progressDialog.dismiss();
-            try {
-                if(TAG_STATUS.equals("success")){
-                    Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
-
-                }
-
-            } catch (Exception e) {
-
-            } catch (Throwable t) {
 
             }
 
         }
 
+        if (CheckWifi3G.isConnected(getActivity())) {
+            new Update().execute();
+        }
+        else{
+            new lib_dialog().f_dialog_msg(getActivity(), "Error Connect Internet!");
+        }
     }
-
-    if (CheckWifi3G.isConnected(activity)) {
-        new Update().execute();
-    }
-    else{
-        new lib_dialog().f_dialog_msg(activity, "Error Connect Internet!");
-    }
-}
 
 
     private void dialog1()throws Exception{
-        final Dialog dialog = new Dialog(activity);
+        final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(dialog.getWindow().FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_comfirm);
 
 
-       final EditText ed_phome=(EditText)dialog.findViewById(R.id.ed_phome);
-       final TextView tv_cancel=(TextView)dialog.findViewById(R.id.tv_cancel);
-       final TextView tv_ok=(TextView)dialog.findViewById(R.id.tv_ok);
-         ic_img =(ImageView)dialog.findViewById(R.id.ic_img);
+        final EditText ed_phome=(EditText)dialog.findViewById(R.id.ed_phome);
+        final TextView tv_cancel=(TextView)dialog.findViewById(R.id.tv_cancel);
+        final TextView tv_ok=(TextView)dialog.findViewById(R.id.tv_ok);
+        ic_img =(ImageView)dialog.findViewById(R.id.ic_img);
 
         ic_img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -967,14 +971,14 @@ private void Save_Change(){
             public void onClick(View v) {
 
                 TAG_PHONE=ed_phome.getText().toString();
-               // uploadProfilePhoto(TAG_PHONE, TAG_FILE);
-              //  doFileUpload();
+                // uploadProfilePhoto(TAG_PHONE, TAG_FILE);
+                //  doFileUpload();
                 //uploadProfilePhoto(TAG_PHONE, TAG_FILE);
                 if(TAG_PHONE.length()==0){
-                    Toast.makeText(Activity_Profile.this, "Input your phone number!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Input your phone number!", Toast.LENGTH_SHORT).show();
                 }
                 else if(file_path.length()==0){
-                    Toast.makeText(Activity_Profile.this, "please select the picture!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "please select the picture!", Toast.LENGTH_SHORT).show();
 
                 }
                 else{
@@ -991,24 +995,25 @@ private void Save_Change(){
 
         dialog.show();
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (resultCode == Activity_Profile.RESULT_OK) {
+
+        @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == getActivity().RESULT_OK) {
             if (requestCode == SELECT_FILE)
                 onSelectFromGalleryResult(data);
             else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
         }
     }
-
     //----------------------------------
     private void selectImage() {
         final CharSequence[] items = { "Camera", "Gallery",
                 "Cancel" };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(
-                activity);
+                getActivity());
         builder.setTitle("Select");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
@@ -1082,9 +1087,9 @@ private void Save_Change(){
 
         if(img_avata==true){
             path_avatar =imagepath;
-              img_profile.setImageBitmap(bitmap);
+            img_profile.setImageBitmap(bitmap);
             //update_avatar(path_avatar);
-           //upload_(path_avatar);
+            //upload_(path_avatar);
             File file = new File(path_avatar);
             Upload1(file);
             //uploadProfilePhoto(file);
@@ -1102,14 +1107,11 @@ private void Save_Change(){
     }
     public String getPath(Uri uri) {
         String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
         return cursor.getString(column_index);
     }
-
-
-
     private void upload_identity(final String phoneNumber, final String file_){
 
         class UploadFileToServer extends AsyncTask<Void, Integer, String> {
@@ -1120,7 +1122,7 @@ private void Save_Change(){
             protected void onPreExecute() {
 
 
-                progressDialog = lib_loading.f_init(activity);
+                progressDialog = lib_loading.f_init(getActivity());
             }
 
             @Override
@@ -1183,7 +1185,7 @@ private void Save_Change(){
                     if (statusCode == 200) {
                         // Server response
                         responseString = EntityUtils.toString(r_entity);
-                      //  String msg =EntityUtils.toString(r_entity);
+                        //  String msg =EntityUtils.toString(r_entity);
                         JSONObject jsonObject = new JSONObject(responseString);
                         STATUS=jsonObject.getString("status");
                         MESSAGE=jsonObject.getString("message");
@@ -1216,34 +1218,28 @@ private void Save_Change(){
 
             @Override
             protected void onPostExecute(String result) {
-              //  Log.e("---", "Response from server: " + result);
+                //  Log.e("---", "Response from server: " + result);
                 progressDialog.dismiss();
                 // showing the server response in an alert dialog
                 // showAlert(result);
 
-                Toast.makeText(Activity_Profile.this, MESSAGE, Toast.LENGTH_SHORT).show();
-              //  Log.e("STATUS---------------",STATUS);
+                Toast.makeText(getActivity(), MESSAGE, Toast.LENGTH_SHORT).show();
+                //  Log.e("STATUS---------------",STATUS);
                 file_path="";
                 super.onPostExecute(result);
 
             }
 
         }
-        if(CheckWifi3G.isConnected(activity)){
+        if(CheckWifi3G.isConnected(getActivity())){
             new UploadFileToServer().execute();
         }
         else{
-            Toast.makeText(Activity_Profile.this, "Error: Check Connect internet!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Error: Check Connect internet!", Toast.LENGTH_SHORT).show();
         }
 
     }
-
-
-
-
     //------------------
-
-
     private void Upload1(final File file){
         class Loading extends AsyncTask<String, String, String> {
             String mess = "";
@@ -1251,7 +1247,7 @@ private void Save_Change(){
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                progressDialog = lib_loading.f_init(activity);
+                progressDialog = lib_loading.f_init(getActivity());
             }
 
             @Override
@@ -1271,7 +1267,7 @@ private void Save_Change(){
                         HttpEntity resEntity = response.getEntity();
                         if (resEntity != null) {
                             String msg = EntityUtils.toString(resEntity);
-                        //   Log.e("msg-- respost-------", msg);
+                            //   Log.e("msg-- respost-------", msg);
                             JSONObject json = new JSONObject(msg);
                             mess = json.getString("message");
                             status = json.getString("status");
@@ -1300,7 +1296,7 @@ private void Save_Change(){
             protected void onPostExecute(String result) {
                 progressDialog.dismiss();
                 try {
-                    Toast.makeText(Activity_Profile.this, status+" : "+mess, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), status+" : "+mess, Toast.LENGTH_SHORT).show();
 
 
                 } catch (Exception e) {
@@ -1313,12 +1309,12 @@ private void Save_Change(){
 
         }
 
-        if (CheckWifi3G.isConnected(activity)) {
+        if (CheckWifi3G.isConnected(getActivity())) {
 
             new Loading().execute();
         }
         else{
-            new lib_dialog().f_dialog_msg(activity, "Error Connect Internet!");
+            new lib_dialog().f_dialog_msg(getActivity(), "Error Connect Internet!");
         }
     }
 }

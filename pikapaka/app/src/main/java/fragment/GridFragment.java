@@ -1,7 +1,6 @@
 package fragment;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
-import activity.Activity_YourActivity;
+import hoanvusolution.pikapaka.MainActivity;
 import hoanvusolution.pikapaka.R;
 
 public class GridFragment extends Fragment{
@@ -65,10 +64,13 @@ public class GridFragment extends Fragment{
 	}
 	
 	public void onGridItemClick(GridView g, View v, int pos, long id) {
-		Activity_YourActivity.TAG_ID = gridItems[pos].ac_type._id;
-		Activity_YourActivity.TAG_COLOR = gridItems[pos].ac_type.color;
-		Intent in = new Intent(getActivity(), Activity_YourActivity.class);
-		startActivityForResult(in, 100);
+//		Activity_YourActivity.TAG_ID = gridItems[pos].ac_type._id;
+//		Activity_YourActivity.TAG_COLOR = gridItems[pos].ac_type.color;
+//		Intent in = new Intent(getActivity(), Activity_YourActivity.class);
+//		startActivityForResult(in, 100);
+		Fragment_YourActivity.TAG_ID=gridItems[pos].ac_type._id;
+		Fragment_YourActivity.TAG_COLOR=gridItems[pos].ac_type.color;
+		MainActivity.drawMenu(2);
 
 	}
 }

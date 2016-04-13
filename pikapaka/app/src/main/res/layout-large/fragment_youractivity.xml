@@ -1,0 +1,811 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/background8"
+    android:id="@+id/rl_"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"
+                android:background="#999999" />
+
+            <LinearLayout
+                android:id="@+id/ll_bg"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background2"
+
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:typeface="serif"
+                    android:text="GRAB A DRINK"
+                    android:textColor="@color/text3"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_desciption"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="5dp"
+                    android:text="This is the activity for people who wants to go, grab a drink and have fun,and looking for a partner."
+                    android:textColor="@color/text3"
+                    android:typeface="serif"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bacground_while_border"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/ed_plan"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#FFFFFF"
+                        android:hint="Share your plans... \n(for instance:I would like to go grab a drink and relax, maybe the beach area)"
+                        android:padding="10dp"
+                        android:typeface="serif"
+                        android:maxLength="400"
+                        android:textSize="18sp"
+                        android:singleLine="true"
+                        android:textStyle="italic" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_custom"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
+                    >
+                    <ListView
+                        android:id="@+id/list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        >
+                    </ListView>
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/background4"/>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="bottom"
+            android:layout_gravity="bottom"
+
+            >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="70dp"
+                android:gravity="bottom"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="bottom"
+                    android:layout_gravity="bottom"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:background="@color/background4"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:layout_gravity="bottom"
+
+                        >
+
+                        <TextView
+                            android:id="@+id/tv_change"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:background="@color/background5"
+                            android:gravity="bottom"
+                            android:layout_gravity="bottom"
+                            android:padding="10dp"
+                            android:typeface="serif"
+                            android:text="CHANGE DEFAULTS"
+                            android:textColor="#FFFFFF"
+                            android:textSize="17sp" />
+                    </LinearLayout>
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fillViewport="true">
+
+
+
+                        <LinearLayout
+                            android:id="@+id/ll_show"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginBottom="16dp"
+                            android:orientation="vertical">
+
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_marginRight="20dp">
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    android:gravity="center_vertical"
+                                    android:text="Max.number of participants:"
+                                    android:textColor="@color/text4"
+                                    android:textSize="15sp"
+                                    android:typeface="serif"
+                                    />
+
+                                <LinearLayout
+                                    android:id="@+id/ll_max"
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:layout_alignParentRight="true"
+                                    android:background="@drawable/bacground_while_border"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/tv_max"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_marginLeft="10dp"
+                                        android:gravity="center_vertical"
+                                        android:text="4"
+                                        android:textColor="@color/text4"
+                                        android:textSize="15sp"
+                                        android:typeface="serif"
+                                        />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="fill_parent"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginRight="2dp"
+                                        android:background="#cdcdcd" />
+
+                                    <ImageView
+                                        android:layout_width="15dp"
+                                        android:layout_height="20dp"
+                                        android:layout_margin="2dp"
+                                        android:src="@drawable/ic_arrowdown" />
+                                </LinearLayout>
+
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginTop="16dp">
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    android:gravity="center_vertical"
+                                    android:text="Min.number of participants:"
+                                    android:textColor="@color/text4"
+                                    android:textSize="15sp"
+                                    android:typeface="serif"
+                                    />
+
+                                <LinearLayout
+                                    android:id="@+id/ll_min"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignParentRight="true"
+                                    android:background="@drawable/bacground_while_border"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/tv_min"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_marginLeft="10dp"
+                                        android:gravity="center_vertical"
+                                        android:text="2"
+                                        android:textColor="@color/text4"
+                                        android:textSize="15sp"
+                                        android:typeface="serif"
+                                        />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="fill_parent"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginRight="2dp"
+                                        android:background="#cdcdcd" />
+
+                                    <ImageView
+                                        android:layout_width="15dp"
+                                        android:layout_height="20dp"
+                                        android:layout_margin="2dp"
+                                        android:src="@drawable/ic_arrowdown" />
+                                </LinearLayout>
+
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginTop="20dp">
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    android:gravity="center_vertical"
+                                    android:text="Age between"
+                                    android:textColor="@color/text4"
+                                    android:textSize="15sp"
+                                    android:typeface="serif"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignParentRight="true"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:id="@+id/age1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentRight="true"
+                                        android:background="@drawable/bacground_while_border"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+
+                                            android:id="@+id/tv_minage"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="fill_parent"
+                                            android:layout_marginLeft="10dp"
+                                            android:gravity="center_vertical"
+                                            android:text="25"
+                                            android:textColor="@color/text4"
+                                            android:textSize="15sp"
+                                            android:typeface="serif"
+                                            />
+
+                                        <View
+                                            android:layout_width="1dp"
+                                            android:layout_height="fill_parent"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginRight="2dp"
+                                            android:background="#cdcdcd" />
+
+                                        <ImageView
+                                            android:layout_width="15dp"
+                                            android:layout_height="20dp"
+                                            android:layout_margin="2dp"
+                                            android:src="@drawable/ic_arrowdown" />
+                                    </LinearLayout>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:gravity="center"
+                                        android:typeface="serif"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/text4"
+                                        android:text="and" />
+
+                                    <LinearLayout
+                                        android:id="@+id/age2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentRight="true"
+                                        android:background="@drawable/bacground_while_border"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:id="@+id/tv_maxage"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="fill_parent"
+                                            android:layout_marginLeft="10dp"
+                                            android:gravity="center_vertical"
+                                            android:text="37"
+                                            android:textColor="@color/text4"
+                                            android:textSize="15sp"
+                                            android:typeface="serif"
+                                            />
+
+                                        <View
+                                            android:layout_width="1dp"
+                                            android:layout_height="fill_parent"
+                                            android:layout_marginLeft="10dp"
+                                            android:background="#cdcdcd" />
+
+                                        <ImageView
+                                            android:layout_width="15dp"
+                                            android:layout_height="20dp"
+                                            android:layout_margin="2dp"
+                                            android:src="@drawable/ic_arrowdown" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginTop="20dp">
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    android:gravity="center_vertical"
+                                    android:text="Partner gender"
+                                    android:textColor="@color/text4"
+                                    android:textSize="15sp"
+                                    android:typeface="serif"
+                                    />
+
+                                <LinearLayout
+                                    android:id="@+id/ll_par_gender"
+                                    android:layout_width="150dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignParentRight="true"
+                                    android:background="@drawable/bacground_while_border"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/tv_part_gender"
+                                        android:layout_width="105dp"
+                                        android:layout_height="fill_parent"
+                                        android:layout_marginLeft="10dp"
+
+                                        android:gravity="center_vertical"
+                                        android:text="Anything goes"
+                                        android:textColor="@color/text4"
+                                        android:textSize="15sp"
+                                        android:typeface="serif"
+                                        />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="fill_parent"
+                                        android:layout_marginLeft="10dp"
+                                        android:background="#cdcdcd" />
+
+                                    <ImageView
+                                        android:layout_width="15dp"
+                                        android:layout_height="20dp"
+                                        android:layout_gravity="center"
+                                        android:layout_margin="2dp"
+                                        android:layout_marginRight="2dp"
+                                        android:src="@drawable/ic_arrowdown" />
+                                </LinearLayout>
+
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginTop="12dp">
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    android:gravity="center_vertical"
+                                    android:text="Distance"
+                                    android:textColor="@color/text4"
+                                    android:textSize="15sp"
+                                    android:typeface="serif"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    android:layout_alignParentRight="true"
+                                    android:gravity="center_vertical"
+                                    >
+                                    <LinearLayout
+                                        android:id="@+id/ll_distance"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:background="@drawable/bacground_while_border"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:id="@+id/tv_km"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="fill_parent"
+                                            android:layout_marginLeft="10dp"
+                                            android:gravity="center_vertical"
+                                            android:text="10"
+                                            android:textColor="@color/text4"
+                                            android:textSize="15sp"
+                                            android:typeface="serif"
+                                            />
+
+                                        <View
+                                            android:layout_width="1dp"
+                                            android:layout_height="fill_parent"
+                                            android:layout_marginLeft="10dp"
+                                            android:background="#cdcdcd" />
+
+                                        <ImageView
+                                            android:layout_width="15dp"
+                                            android:layout_height="20dp"
+                                            android:layout_margin="2dp"
+                                            android:src="@drawable/ic_arrowdown" />
+                                    </LinearLayout>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="unit"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:textColor="@color/text3"
+                                        android:gravity="center_vertical"
+                                        android:textSize="15sp"
+                                        />
+                                    <LinearLayout
+                                        android:id="@+id/ll_type_distance"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/bacground_while_border"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:id="@+id/tv_type_dis"
+                                            android:layout_width="70dp"
+                                            android:layout_height="fill_parent"
+                                            android:layout_marginLeft="10dp"
+                                            android:gravity="center_vertical"
+                                            android:text="kilometers"
+                                            android:textColor="@color/text4"
+                                            android:textSize="15sp"
+                                            android:typeface="serif"
+                                            />
+
+                                        <View
+                                            android:layout_width="1dp"
+                                            android:layout_height="fill_parent"
+                                            android:layout_marginLeft="10dp"
+                                            android:background="#cdcdcd" />
+
+                                        <ImageView
+                                            android:layout_width="15dp"
+                                            android:layout_height="20dp"
+                                            android:layout_margin="2dp"
+                                            android:src="@drawable/ic_arrowdown" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginTop="20dp">
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    android:gravity="center_vertical"
+                                    android:text="Activity Expires in "
+                                    android:textColor="@color/text4"
+                                    android:textSize="15sp"
+                                    android:typeface="serif"
+                                    />
+
+                                <LinearLayout
+                                    android:id="@+id/ll_experss"
+                                    android:layout_width="150dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignParentRight="true"
+                                    android:background="@drawable/bacground_while_border"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/tv_hours"
+
+                                        android:layout_width="100dp"
+                                        android:layout_height="fill_parent"
+                                        android:layout_marginLeft="10dp"
+                                        android:gravity="center_vertical"
+                                        android:text="Tow hours"
+                                        android:typeface="serif"
+                                        android:textColor="@color/text4"
+                                        android:textSize="15sp"
+
+                                        />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="fill_parent"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginRight="2dp"
+                                        android:background="#cdcdcd" />
+
+                                    <ImageView
+                                        android:layout_width="15dp"
+                                        android:layout_height="20dp"
+                                        android:layout_margin="2dp"
+                                        android:src="@drawable/ic_arrowdown" />
+                                </LinearLayout>
+
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginTop="20dp">
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    android:gravity="center_vertical"
+                                    android:text="Meet with confirmed users only "
+                                    android:textColor="@color/text4"
+                                    android:textSize="15sp"
+                                    android:typeface="serif"
+                                    />
+
+                                <LinearLayout
+                                    android:id="@+id/ll_"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignParentRight="true"
+
+                                    android:orientation="horizontal">
+
+                                    <CheckBox
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:gravity="center_vertical"
+                                        android:checked="true"
+                                        />
+                                </LinearLayout>
+
+
+                            </RelativeLayout>
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginBottom="20dp"
+                                android:layout_marginTop="20dp">
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    android:gravity="center_vertical"
+                                    android:text="Publish to social media "
+                                    android:textColor="@color/text4"
+                                    android:textSize="15sp"
+                                    android:typeface="serif"
+                                    />
+
+                                <LinearLayout
+                                    android:id="@+id/ll_publish"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignParentRight="true"
+
+                                    android:orientation="horizontal">
+
+                                    <CheckBox
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:gravity="center_vertical"
+                                        android:checked="false"
+                                        />
+                                </LinearLayout>
+
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+                    </ScrollView>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="70dp"
+                android:layout_alignParentBottom="true"
+
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#999999" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="60dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:id="@+id/ll_back"
+                                android:layout_width="wrap_content"
+                                android:layout_height="fill_parent"
+                                android:layout_marginLeft="10dp"
+                                android:background="#999999"
+                                android:gravity="bottom"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="57dp"
+                                    android:background="#333333"
+                                    android:gravity="center"
+                                    android:padding="10dp"
+                                    android:text="&lt; Back"
+                                    android:textColor="#FFFFFF"
+                                    android:textSize="20sp"
+                                    android:typeface="serif"
+                                    />
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+
+                            android:gravity="right">
+
+                            <LinearLayout
+                                android:id="@+id/ll_findparnter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="fill_parent"
+                                android:layout_gravity="right"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:background="#999999"
+
+                                android:gravity="bottom"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="57dp"
+                                    android:background="#99cc00"
+                                    android:gravity="center"
+                                    android:padding="10dp"
+                                    android:text="Find a partner >"
+                                    android:textColor="#FFFFFF"
+                                    android:textSize="20sp"
+                                    android:typeface="serif"
+                                    />
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

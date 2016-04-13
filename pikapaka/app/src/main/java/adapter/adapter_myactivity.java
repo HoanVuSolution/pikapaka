@@ -39,11 +39,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import activity.Activity_Members;
-import activity.Activity_MyActivity;
 import activity.Activity_Other_Activity;
 import activity.Activity_Other_Group;
 import activity.Activity_Rank_Report;
 import api.HTTP_API;
+import fragment.Fragment_MyActivity;
 import hoanvusolution.pikapaka.R;
 import image.lib_image_save_original;
 import internet.CheckWifi3G;
@@ -58,7 +58,8 @@ public class adapter_myactivity extends BaseAdapter {
     private String TAG_MESSAGE = "";
     private LayoutInflater mInflater;
     private ArrayList<item_my_activity> arItem;
-    public   static  Activity_MyActivity activity;
+   // public   static  Activity_MyActivity activity;
+    public   static Fragment_MyActivity activity;
     //View vi;
     private ProgressDialog progressDialog1;
     private boolean click = false;
@@ -92,10 +93,9 @@ public class adapter_myactivity extends BaseAdapter {
     //-------------------------
     //public static LinearLayout view1, view2, view3, view4;
     //public static View convertView;
-    public adapter_myactivity(Activity_MyActivity activity,
+    public adapter_myactivity(Fragment_MyActivity activity,
                               ArrayList<item_my_activity> arItem) {
-        mInflater = (LayoutInflater) activity
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater = (LayoutInflater)activity.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         this.arItem = arItem;
         this.activity = activity;
@@ -134,7 +134,7 @@ public class adapter_myactivity extends BaseAdapter {
                 String activityTypeIcon =arItem.get(pos).activityTypeIcon;
                 if(activityTypeIcon.length()>0){
                     activityTypeIcon=HTTP_API.url_image+activityTypeIcon;
-                    new lib_image_save_original(activity,activityTypeIcon,img_cate);
+                    new lib_image_save_original(activity.getActivity(),activityTypeIcon,img_cate);
                 }
                 //--------
             final LinearLayout view1, view2, view3, view4;
@@ -197,7 +197,7 @@ public class adapter_myactivity extends BaseAdapter {
                 probar.setVisibility(View.GONE);
                 // VIEW 5
                 // view4 item
-                adapter_ch = new adapater_chat(activity, arr_chat);
+                adapter_ch = new adapater_chat(activity.getActivity(), arr_chat);
                 list_chat_view4.setAdapter(adapter_ch);
                         list_chat_view4.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
                 list_chat_view4.setStackFromBottom(true);
@@ -210,7 +210,7 @@ public class adapter_myactivity extends BaseAdapter {
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
-                        progressDialog1 = ProgressDialog.show(activity, "",
+                        progressDialog1 = ProgressDialog.show(activity.getActivity(), "",
                                 "", true);
                     }
 
@@ -221,11 +221,11 @@ public class adapter_myactivity extends BaseAdapter {
                             arr_search.clear();
                             JSONObject json = new JSONObject();
                             HttpPost post = new HttpPost(HTTP_API.SEARCH_ACTIVITY + "/" + TAG_ID);
-                            post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
-                            post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+                            post.addHeader("X-User-Id", Fragment_MyActivity.TAG_USERID);
+                            post.addHeader("X-Auth-Token", Fragment_MyActivity.TAG_TOKEN);
                             JSONObject jlocation = new JSONObject();
-                            jlocation.put("lat",Activity_MyActivity.TAG_LATITUDE);
-                            jlocation.put("lng",Activity_MyActivity.TAG_LONGITUDE);
+                            jlocation.put("lat",Fragment_MyActivity.TAG_LATITUDE);
+                            jlocation.put("lng",Fragment_MyActivity.TAG_LONGITUDE);
                             json.put("location",jlocation);
                             HttpResponse response;
                             StringEntity se = new StringEntity( json.toString());
@@ -393,12 +393,12 @@ public class adapter_myactivity extends BaseAdapter {
                                 view1.setVisibility(View.VISIBLE);
                             view1.setBackgroundColor(Color.parseColor(arr_search.get(0).activityTypeColor.toString()));
                              // load_slider();
-                            
-                                adapter_activity_request adapter = new adapter_activity_request(activity,arr_search);
+
+                                adapter_activity_request adapter = new adapter_activity_request(activity.getActivity(),arr_search);
                                 mHlvCustomList_.setAdapter(adapter);
 
                             }
-                            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity.getActivity(), message, Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
                             Log.e("gridFragments---","Error");
                         } catch (Throwable t) {
@@ -444,7 +444,7 @@ public class adapter_myactivity extends BaseAdapter {
                     protected void onPreExecute() {
                         super.onPreExecute();
                         // progressDialog = lib_loading.f_init(activity);
-                        progressDialog1 = ProgressDialog.show(activity, "",
+                        progressDialog1 = ProgressDialog.show(activity.getActivity(), "",
                                 "", true);
                     }
 
@@ -456,8 +456,8 @@ public class adapter_myactivity extends BaseAdapter {
                             JSONObject json = new JSONObject();
 
                             HttpGet post = new HttpGet(HTTP_API.GET_SINGLE_ACTIVITY + "/" + TAG_ID_SINGLE);
-                            post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
-                            post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+                            post.addHeader("X-User-Id", Fragment_MyActivity.TAG_USERID);
+                            post.addHeader("X-Auth-Token", Fragment_MyActivity.TAG_TOKEN);
 
                             JSONObject jlocation = new JSONObject();
 
@@ -558,19 +558,19 @@ public class adapter_myactivity extends BaseAdapter {
 //                                        new lib_image_save_original(activity,imageUrl,img_view2);
                                         String check = imageUrl.substring(0,3);
                                         if(check.equals("http")){
-                                            new lib_image_save_original(activity,imageUrl,img_view2);
+                                            new lib_image_save_original(activity.getActivity(),imageUrl,img_view2);
 
                                         }
                                         else{
                                             imageUrl=HTTP_API.url_image+imageUrl;
-                                            new lib_image_save_original(activity,imageUrl,img_view2);
+                                            new lib_image_save_original(activity.getActivity(),imageUrl,img_view2);
 
                                         }
                                     }
 
 
                             } else {
-                                Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity.getActivity(), TAG_MESSAGE, Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -595,7 +595,7 @@ public class adapter_myactivity extends BaseAdapter {
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
-                        progressDialog1 = ProgressDialog.show(activity, "",
+                        progressDialog1 = ProgressDialog.show(activity.getActivity(), "",
                                 "", true);
                     }
 
@@ -606,8 +606,8 @@ public class adapter_myactivity extends BaseAdapter {
 
                             //JSONObject json = new JSONObject();
                             HttpGet post = new HttpGet(HTTP_API.GET_SINGLE_ACTIVITY + "/" + TAG_ID);
-                            post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
-                            post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+                            post.addHeader("X-User-Id", Fragment_MyActivity.TAG_USERID);
+                            post.addHeader("X-Auth-Token", Fragment_MyActivity.TAG_TOKEN);
 
                             HttpResponse response;
                             response = client.execute(post);
@@ -703,12 +703,12 @@ public class adapter_myactivity extends BaseAdapter {
 //                                        new lib_image_save_original(activity,urlImage1,img1_view3);
                                         String check = urlImage1.substring(0,3);
                                         if(check.equals("http")){
-                                            new lib_image_save_original(activity,urlImage1,img1_view3);
+                                            new lib_image_save_original(activity.getActivity(),urlImage1,img1_view3);
 
                                         }
                                         else{
                                             urlImage1=HTTP_API.url_image+urlImage1;
-                                            new lib_image_save_original(activity,urlImage1,img1_view3);
+                                            new lib_image_save_original(activity.getActivity(),urlImage1,img1_view3);
 
                                         }
                                     }
@@ -716,12 +716,12 @@ public class adapter_myactivity extends BaseAdapter {
 //                                        new lib_image_save_original(activity,urlImage2,img2_view3);
                                         String check = urlImage2.substring(0,3);
                                         if(check.equals("http")){
-                                            new lib_image_save_original(activity,urlImage2,img2_view3);
+                                            new lib_image_save_original(activity.getActivity(),urlImage2,img2_view3);
 
                                         }
                                         else{
                                             urlImage2=HTTP_API.url_image+urlImage2;
-                                            new lib_image_save_original(activity,urlImage2,img2_view3);
+                                            new lib_image_save_original(activity.getActivity(),urlImage2,img2_view3);
 
                                         }
                                     }
@@ -736,18 +736,18 @@ public class adapter_myactivity extends BaseAdapter {
                                        // new lib_image_save_original(activity,urlImage1,img1_view3);
                                         String check = urlImage1.substring(0,3);
                                         if(check.equals("http")){
-                                            new lib_image_save_original(activity,urlImage1,img1_view3);
+                                            new lib_image_save_original(activity.getActivity(),urlImage1,img1_view3);
 
                                         }
                                         else{
                                             urlImage1=HTTP_API.url_image+urlImage1;
-                                            new lib_image_save_original(activity,urlImage1,img1_view3);
+                                            new lib_image_save_original(activity.getActivity(),urlImage1,img1_view3);
 
                                         }
                                     }
                                 }
                             } else {
-                                Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity.getActivity(), TAG_MESSAGE, Toast.LENGTH_SHORT).show();
                             }
 
                             img1_view3.setOnClickListener(new View.OnClickListener() {
@@ -759,7 +759,7 @@ public class adapter_myactivity extends BaseAdapter {
                                     String gender =arr_user.get(0).gender;
                                     String imageUrl =arr_user.get(0).imageUrl;
 
-                                    Intent in = new Intent(activity, Activity_Rank_Report.class);
+                                    Intent in = new Intent(activity.getActivity(), Activity_Rank_Report.class);
                                     in.putExtra("id_user",id_user);
                                     in.putExtra("fullname",fullname);
                                     in.putExtra("age",age);
@@ -777,7 +777,7 @@ public class adapter_myactivity extends BaseAdapter {
                                     String gender =arr_user.get(1).gender;
                                     String imageUrl =arr_user.get(1).imageUrl;
 
-                                    Intent in = new Intent(activity, Activity_Rank_Report.class);
+                                    Intent in = new Intent(activity.getActivity(), Activity_Rank_Report.class);
                                     in.putExtra("id_user",id_user);
                                     in.putExtra("fullname",fullname);
                                     in.putExtra("age",age);
@@ -805,7 +805,7 @@ public class adapter_myactivity extends BaseAdapter {
                     protected void onPreExecute() {
                         super.onPreExecute();
                         // progressDialog = lib_loading.f_init(activity);
-                        progressDialog = ProgressDialog.show(activity, "",
+                        progressDialog = ProgressDialog.show(activity.getActivity(), "",
                                 "", true);
                     }
 
@@ -818,11 +818,11 @@ public class adapter_myactivity extends BaseAdapter {
                             JSONObject json = new JSONObject();
 
                             HttpPost post = new HttpPost(HTTP_API.LEAVE_GROUP);
-                            post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
-                            post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+                            post.addHeader("X-User-Id", Fragment_MyActivity.TAG_USERID);
+                            post.addHeader("X-Auth-Token", Fragment_MyActivity.TAG_TOKEN);
 
                             json.put("groupId", TAG_ID);
-                            json.put("userId", Activity_MyActivity.TAG_USERID);
+                            json.put("userId", Fragment_MyActivity.TAG_USERID);
                             StringEntity se = new StringEntity(json.toString());
                             se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
                             post.setEntity(se);
@@ -866,10 +866,10 @@ public class adapter_myactivity extends BaseAdapter {
 //                            Log.e("TAG_MESSAGE---", TAG_MESSAGE);
 
                             if (TAG_STATUS.equals("success")) {
-                                Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity.getActivity(), TAG_MESSAGE, Toast.LENGTH_SHORT).show();
                                 activity.get_myactivity();
                             } else {
-                                Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity.getActivity(), TAG_MESSAGE, Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -904,8 +904,8 @@ public class adapter_myactivity extends BaseAdapter {
                             JSONObject json = new JSONObject();
 
                             HttpPost post = new HttpPost(HTTP_API.CHAT_GROUP);
-                            post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
-                            post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+                            post.addHeader("X-User-Id", Fragment_MyActivity.TAG_USERID);
+                            post.addHeader("X-Auth-Token", Fragment_MyActivity.TAG_TOKEN);
                             json.put("toGroup", TAG_ID);
                             json.put("content", TAG_CONTENT_CHAT);
                             StringEntity se = new StringEntity(json.toString());
@@ -967,12 +967,12 @@ public class adapter_myactivity extends BaseAdapter {
                                 if(arr_chat.size()==0){
                                     arr_chat.add(new item_chat(id_sender,TAG_CONVERSATION,"id_user",sender,"gender",imageUrl,"lastName",content_));
                                   //  adapter_ch.notifyDataSetChanged();
-                                    adapter_ch = new adapater_chat(activity,arr_chat);
+                                    adapter_ch = new adapater_chat(activity.getActivity(),arr_chat);
                                     list_chat_view4.setAdapter(adapter_ch);
                                 }
                                 activity.mSocket.emit("join",TAG_CONVERSATION);
                             } else {
-                                Toast.makeText(activity, TAG_MESSAGE, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity.getActivity(), TAG_MESSAGE, Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (Exception e) {
@@ -1006,8 +1006,8 @@ public class adapter_myactivity extends BaseAdapter {
                             HttpClient client = new DefaultHttpClient();
                             JSONObject json = new JSONObject();
                             HttpGet post = new HttpGet(HTTP_API.CHAT_LOADLIST + TAG_CONVERSATION);
-                            post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
-                            post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+                            post.addHeader("X-User-Id", Fragment_MyActivity.TAG_USERID);
+                            post.addHeader("X-Auth-Token", Fragment_MyActivity.TAG_TOKEN);
                             HttpResponse response;
                             response = client.execute(post);
                             if (response != null) {
@@ -1085,7 +1085,7 @@ public class adapter_myactivity extends BaseAdapter {
                         try {
                             if (arr_chat.size() > 0) {
                               //  Toast.makeText(activity,arr_chat.size()+"",Toast.LENGTH_SHORT).show();
-                                adapter_ch = new adapater_chat(activity, arr_chat);
+                                adapter_ch = new adapater_chat(activity.getActivity(), arr_chat);
                                 list_chat_view4.setAdapter(adapter_ch);
                                 //adapter_ch.notifyDataSetChanged();
 //                                Scroll_Listview();
@@ -1122,8 +1122,8 @@ public class adapter_myactivity extends BaseAdapter {
                             HttpClient client = new DefaultHttpClient();
                             JSONObject json = new JSONObject();
                             HttpGet post = new HttpGet(HTTP_API.CHAT_GET_CONVERSATIONS + TAG_ID);
-                            post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
-                            post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+                            post.addHeader("X-User-Id", Fragment_MyActivity.TAG_USERID);
+                            post.addHeader("X-Auth-Token", Fragment_MyActivity.TAG_TOKEN);
                             HttpResponse response;
                             response = client.execute(post);
                             if (response != null) {
@@ -1209,17 +1209,17 @@ public class adapter_myactivity extends BaseAdapter {
                         TAG_COLER_VIEW_CHAT = arItem.get(pos).activityTypeColor;
                         if (click == false) {
                             if (TAG_TYPE.equals("request")) {
-                                if (CheckWifi3G.isConnected(activity)) {
+                                if (CheckWifi3G.isConnected(activity.getActivity())) {
                                     new Loading().execute();
                                 } else {
-                                    Toast.makeText(activity, "Error Connect Internet!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity.getActivity(), "Error Connect Internet!", Toast.LENGTH_SHORT).show();
                                 }
 
                             } else {
-                                if (CheckWifi3G.isConnected(activity)) {
+                                if (CheckWifi3G.isConnected(activity.getActivity())) {
                                     new Get_Group().execute();
                                 } else {
-                                    Toast.makeText(activity, "Error Connect Internet!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity.getActivity(), "Error Connect Internet!", Toast.LENGTH_SHORT).show();
                                 }
                             }
 
@@ -1433,7 +1433,7 @@ public class adapter_myactivity extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         Activity_Members.TAG_ID =arItem.get(pos)._id;
-                        Intent in = new Intent(activity, Activity_Members.class);
+                        Intent in = new Intent(activity.getActivity(), Activity_Members.class);
                         activity.startActivityForResult(in,Activity_Result.REQUEST_CODE_ACT);
                     }
                 });
@@ -1461,7 +1461,7 @@ public class adapter_myactivity extends BaseAdapter {
                 ll_leave_view4.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        final Dialog dialog = new Dialog(activity);
+                        final Dialog dialog = new Dialog(activity.getActivity());
                         dialog.requestWindowFeature(dialog.getWindow().FEATURE_NO_TITLE);
                         dialog.setContentView(R.layout.dialog_notify_leave);
 
@@ -1472,12 +1472,12 @@ public class adapter_myactivity extends BaseAdapter {
                         tv_yes.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(CheckWifi3G.isConnected(activity)){
+                                if(CheckWifi3G.isConnected(activity.getActivity())){
                                     new Leave_Group().execute();
                                     dialog.dismiss();
                                 }
                                 else{
-                                    Toast.makeText(activity, "Error connect internet!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity.getActivity(), "Error connect internet!", Toast.LENGTH_SHORT).show();
                                 }
 
 
@@ -1503,7 +1503,7 @@ public class adapter_myactivity extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         Activity_Members.TAG_ID =arItem.get(pos)._id;
-                        Intent in = new Intent(activity, Activity_Members.class);
+                        Intent in = new Intent(activity.getActivity(), Activity_Members.class);
                         activity.startActivityForResult(in,Activity_Result.REQUEST_CODE_ACT);
                     }
                 });
@@ -1563,7 +1563,7 @@ public class adapter_myactivity extends BaseAdapter {
             protected void onPreExecute() {
                 super.onPreExecute();
                 // progressDialog = lib_loading.f_init(activity);
-                progressDialog1 = ProgressDialog.show(activity, "",
+                progressDialog1 = ProgressDialog.show(activity.getActivity(), "",
                         "", true);
             }
 
@@ -1576,8 +1576,8 @@ public class adapter_myactivity extends BaseAdapter {
 
                     //HttpGet post = new HttpGet(HTTP_API.GET_SINGLE_ACTIVITY + "/" + TAG_ID_SINGLE);
                     HttpGet post = new HttpGet(HTTP_API.GET_SINGLE_ACTIVITY + "/" + id_single);
-                    post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
-                    post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+                    post.addHeader("X-User-Id", Fragment_MyActivity.TAG_USERID);
+                    post.addHeader("X-Auth-Token", Fragment_MyActivity.TAG_TOKEN);
 
                     JSONObject jlocation = new JSONObject();
 
@@ -1704,7 +1704,7 @@ public class adapter_myactivity extends BaseAdapter {
             }
 
         }
-        if(CheckWifi3G.isConnected(activity)){
+        if(CheckWifi3G.isConnected(activity.getActivity())){
             new Get_Single().execute();
         }
     }
@@ -1727,7 +1727,7 @@ public class adapter_myactivity extends BaseAdapter {
             protected void onPreExecute() {
                 super.onPreExecute();
 
-                progressDialog1 = ProgressDialog.show(activity, "",
+                progressDialog1 = ProgressDialog.show(activity.getActivity(), "",
                         "", true);
             }
 
@@ -1739,8 +1739,8 @@ public class adapter_myactivity extends BaseAdapter {
                     //JSONObject json = new JSONObject();
 
                     HttpGet post = new HttpGet(HTTP_API.GET_SINGLE_ACTIVITY + "/" + id_group);
-                    post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
-                    post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+                    post.addHeader("X-User-Id", Fragment_MyActivity.TAG_USERID);
+                    post.addHeader("X-Auth-Token", Fragment_MyActivity.TAG_TOKEN);
                     HttpResponse response;
                     response = client.execute(post);
 
@@ -1946,14 +1946,14 @@ public class adapter_myactivity extends BaseAdapter {
             }
 
         }
-        if(CheckWifi3G.isConnected(activity)){
+        if(CheckWifi3G.isConnected(activity.getActivity())){
             new Get_Group().execute();
         }
     }
 
     private static void dialog_activity_request(final String imageUrl,final String firstname,final String old,final String gender,final String place,final String age_f,final String age_to,final String gender_,final String rank,final String color,final String ac_name,final String fullname){
         //final Dialog dialog = new Dialog(activity);
-        final Dialog dialog = new Dialog(activity);
+        final Dialog dialog = new Dialog(activity.getActivity());
         dialog.requestWindowFeature(dialog.getWindow().FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_activity_request);
 
@@ -2004,7 +2004,7 @@ public class adapter_myactivity extends BaseAdapter {
         ll_prifile_view2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                                            Intent in = new Intent(activity, Activity_Other_Activity.class);
+                                            Intent in = new Intent(activity.getActivity(), Activity_Other_Activity.class);
                             in.putExtra("ac_name",ac_name);
                             in.putExtra("color",color);
                             in.putExtra("name",fullname);
@@ -2012,26 +2012,26 @@ public class adapter_myactivity extends BaseAdapter {
                             in.putExtra("gender",gender);
                             in.putExtra("imageUrl",imageUrl);
                             in.putExtra("rank",rank);
-                            activity.startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);
+                activity.getActivity().startActivityForResult(in, Activity_Result.REQUEST_CODE_ACT);
             }
         });
         ll_chat_view2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(activity, "You need sent request to this user! ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity.getActivity(), "You need sent request to this user! ", Toast.LENGTH_SHORT).show();
             }
         });
         ll_join_view2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(activity, "You need sent request to this user! ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity.getActivity(), "You need sent request to this user! ", Toast.LENGTH_SHORT).show();
 
             }
         });
     }
 
     private static void dialog_group_request(final  ArrayList<item_user_group>arr,final String color,final String id_group,final String ac_name){
-        final Dialog dialog = new Dialog(activity);
+        final Dialog dialog = new Dialog(activity.getActivity());
         dialog.requestWindowFeature(dialog.getWindow().FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_group_request);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -2072,12 +2072,12 @@ public class adapter_myactivity extends BaseAdapter {
 //                                        new lib_image_save_original(activity,urlImage1,img1_view3);
                                 String check = urlImage1.substring(0,3);
                                 if(check.equals("http")){
-                                    new lib_image_save_original(activity,urlImage1,img1_view3);
+                                    new lib_image_save_original(activity.getActivity(),urlImage1,img1_view3);
 
                                 }
                                 else{
                                     urlImage1=HTTP_API.url_image+urlImage1;
-                                    new lib_image_save_original(activity,urlImage1,img1_view3);
+                                    new lib_image_save_original(activity.getActivity(),urlImage1,img1_view3);
 
                                 }
                             }
@@ -2085,12 +2085,12 @@ public class adapter_myactivity extends BaseAdapter {
 //                                        new lib_image_save_original(activity,urlImage2,img2_view3);
                                 String check = urlImage2.substring(0,3);
                                 if(check.equals("http")){
-                                    new lib_image_save_original(activity,urlImage2,img2_view3);
+                                    new lib_image_save_original(activity.getActivity(),urlImage2,img2_view3);
 
                                 }
                                 else{
                                     urlImage2=HTTP_API.url_image+urlImage2;
-                                    new lib_image_save_original(activity,urlImage2,img2_view3);
+                                    new lib_image_save_original(activity.getActivity(),urlImage2,img2_view3);
 
                                 }
                             }
@@ -2105,12 +2105,12 @@ public class adapter_myactivity extends BaseAdapter {
                                 // new lib_image_save_original(activity,urlImage1,img1_view3);
                                 String check = urlImage1.substring(0,3);
                                 if(check.equals("http")){
-                                    new lib_image_save_original(activity,urlImage1,img1_view3);
+                                    new lib_image_save_original(activity.getActivity(),urlImage1,img1_view3);
 
                                 }
                                 else{
                                     urlImage1=HTTP_API.url_image+urlImage1;
-                                    new lib_image_save_original(activity,urlImage1,img1_view3);
+                                    new lib_image_save_original(activity.getActivity(),urlImage1,img1_view3);
 
                                 }
                             }
@@ -2120,7 +2120,7 @@ public class adapter_myactivity extends BaseAdapter {
             @Override
             public void onClick(View v) {
                         Activity_Other_Group.TAG_ID =id_group;
-                        Intent in = new Intent(activity,Activity_Other_Group.class);
+                        Intent in = new Intent(activity.getActivity(),Activity_Other_Group.class);
 
                         in.putExtra("ac_name",ac_name);
                         in.putExtra("color",color);
@@ -2132,14 +2132,14 @@ public class adapter_myactivity extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(activity, "You need sent request to Group", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity.getActivity(), "You need sent request to Group", Toast.LENGTH_SHORT).show();
             }
         });
         ll_join_view3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(activity, "You need sent request to Group", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity.getActivity(), "You need sent request to Group", Toast.LENGTH_SHORT).show();
             }
         });
         ll_back_view3.setOnClickListener(new View.OnClickListener() {

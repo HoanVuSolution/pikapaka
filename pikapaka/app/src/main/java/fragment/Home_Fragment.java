@@ -1,7 +1,6 @@
 package fragment;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import activity.Activity_YourActivity;
 import adapter.adapter_activity_type;
 import api.HTTP_API;
 import hoanvusolution.pikapaka.R;
@@ -465,21 +462,21 @@ private adapter_activity_type adapter;
 
     private void Item_Onlick() throws Exception {
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-                Activity_YourActivity.TAG_ID = arr_activty_search.get(position)._id;
-
-                Activity_YourActivity.TAG_COLOR = arr_activty_search.get(position).color;
-
-
-                Intent in = new Intent(getActivity(), Activity_YourActivity.class);
-                startActivityForResult(in, 100);
-
-            }
-        });
+//        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//
+//                Activity_YourActivity.TAG_ID = arr_activty_search.get(position)._id;
+//
+//                Activity_YourActivity.TAG_COLOR = arr_activty_search.get(position).color;
+//
+//
+//                Intent in = new Intent(getActivity(), Activity_YourActivity.class);
+//                startActivityForResult(in, 100);
+//
+//            }
+//        });
     }
     private void Get_Favorites() {
         arr_activty_search.clear();

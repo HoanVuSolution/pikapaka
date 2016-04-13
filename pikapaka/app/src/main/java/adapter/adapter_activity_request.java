@@ -29,8 +29,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import activity.Activity_MyActivity;
 import api.HTTP_API;
+import fragment.Fragment_MyActivity;
 import hoanvusolution.pikapaka.R;
 import image.lib_image_save_original;
 import internet.CheckWifi3G;
@@ -257,8 +257,8 @@ public class adapter_activity_request extends BaseAdapter {
                     HttpClient client = new DefaultHttpClient();
                     JSONObject json = new JSONObject();
                     HttpPost post = new HttpPost(HTTP_API.GET_SEND_ACTIVITY);
-                    post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
-                    post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+                    post.addHeader("X-User-Id", Fragment_MyActivity.TAG_USERID);
+                    post.addHeader("X-Auth-Token", Fragment_MyActivity.TAG_TOKEN);
 
                     json.put("fromId", adapter_myactivity.TAG_ID);
                     json.put("toId", id_into);
@@ -342,8 +342,8 @@ public class adapter_activity_request extends BaseAdapter {
                     JSONObject json = new JSONObject();
                     // HttpPost post = new HttpPost(HTTP_API.GET_ACCEPT_ACTIVITY + "/" + TAG_ID_SINGLE);
                     HttpPost post = new HttpPost(HTTP_API.GET_ACCEPT_ACTIVITY);
-                    post.addHeader("X-User-Id", Activity_MyActivity.TAG_USERID);
-                    post.addHeader("X-Auth-Token", Activity_MyActivity.TAG_TOKEN);
+                    post.addHeader("X-User-Id", Fragment_MyActivity.TAG_USERID);
+                    post.addHeader("X-Auth-Token", Fragment_MyActivity.TAG_TOKEN);
                     json.put("fromId", adapter_myactivity.TAG_ID);
                     json.put("toId", id_into);
                     StringEntity se = new StringEntity(json.toString());

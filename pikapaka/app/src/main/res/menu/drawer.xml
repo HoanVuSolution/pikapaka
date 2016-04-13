@@ -10,6 +10,11 @@
             android:title="@string/home" />
 
         <item
+            android:id="@+id/profile"
+            android:checked="false"
+            android:icon="@drawable/ic_profile_edit"
+            android:title="@string/profile" />
+        <item
             android:id="@+id/my_activity"
             android:checked="false"
             android:icon="@drawable/ic_activity"
